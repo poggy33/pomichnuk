@@ -1,0 +1,78 @@
+"use client";
+import Link from "next/link";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+export default function Navbar() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const logout = async () => {
+    try {
+      await axios.get("/api/users/logout");
+      toast.success("Logout success");
+      router.push("/");
+      setIsLoggedIn(false)
+    } catch (error: any) {
+      console.log(error.message);
+      toast.error(error.message);
+    }
+  };
+
+  const getUserDetails = async () => {
+    const res = await axios.get("/api/users/currentuser");
+    console.log(res)
+    if (res.data.message==="User found") {
+      setIsLoggedIn(true);
+      console.log(res.data.data._id);
+    } else {
+      setIsLoggedIn(false);
+  
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails();
+    // router.refresh()
+  }), [logout];
+
+  const redirectProfile = () => {
+    router.push("/profile");
+    router.refresh();
+  };
+
+  return (
+    <div className="flex bg-yellow-200 h-16 justify-between items-center pl-10">
+      <div>
+        <Link className="hover:text-cyan-600" href={"/"}>
+          Pomichnuk
+        </Link>
+      </div>
+      <div className="flex pr-10">
+        <button
+          onClick={redirectProfile}
+          className="ml-10 border bg-slate-300 hover:bg-slate-400 rounded-lg px-2 py-1"
+        >
+          Надати
+        </button>
+
+       {isLoggedIn ?  <button
+          onClick={logout}
+          className="ml-10 w-20 border bg-slate-300 hover:bg-slate-400 rounded-lg px-2 py-1"
+        >
+          Вийти
+        </button> :
+        <button
+          onClick={()=>router.push("/login")}
+          className="ml-10 w-20 border bg-slate-300 hover:bg-slate-400 rounded-lg px-2 py-1"
+        >
+          Вхід
+        </button>
+}
+       
+      </div>
+    </div>
+  );
+}
