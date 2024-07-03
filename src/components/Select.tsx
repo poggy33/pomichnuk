@@ -17,17 +17,17 @@ export default function Select() {
   const [region, setRegion] = useState("");
   const [city, setCity] = useState("");
   const [cities, setCities] = useState<Cities>();
-  // const [category, setCategory] = useState<Categories>();
   const [category, setCategory] = useState("");
+  const [serviceType, setServiceType] = useState("");
   // console.log(region);
   // console.log(city);
   // console.log(cities);
   // console.log(regions);
   // console.log(category);
   return (
-    <div className="flex">
+    <div className="flex flex-col">
       <select
-        className="p-2 w-80 bg-gray-50 rounded-md"
+        className="p-4 w-80 bg-gray-50 rounded-md mb-4"
         onChange={(e) => {
           setCity("");
           setRegion(e.target.value);
@@ -48,7 +48,7 @@ export default function Select() {
         ))}
       </select>
       <select
-        className="p-2 w-60 ml-5 bg-gray-50 rounded-md"
+        className="p-4 w-80 bg-gray-50 rounded-md mb-4"
         onChange={(e) => {
           setCity(e.target.value);
         }}
@@ -63,7 +63,7 @@ export default function Select() {
         ))}
       </select>
       <select
-        className="p-2 w-60 ml-5 bg-gray-50 rounded-md"
+        className="p-4 w-80 bg-gray-50 rounded-md mb-4"
         onChange={(e) => {
           setCategory(e.target.value);
         }}
@@ -76,6 +76,23 @@ export default function Select() {
             {item.name}
           </option>
         ))}
+      </select>
+      <select
+        className="p-4 w-80 bg-gray-50 rounded-md"
+        onChange={(e) => {
+          setServiceType(e.target.value);
+        }}
+      >
+        {serviceType === "" && (
+          <option className="text-slate-500">Виберіть послугу</option>
+        )}
+
+        <option key="Пропоную роботу" value="Пропоную роботу">
+          Пропоную роботу
+        </option>
+        <option key="Надаю послугу" value="Надаю послугу">
+          Надаю послугу
+        </option>
       </select>
     </div>
   );
