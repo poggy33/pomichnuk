@@ -14,7 +14,7 @@ export default function Navbar() {
       await axios.get("/api/users/logout");
       toast.success("Logout success");
       router.push("/");
-      setIsLoggedIn(false)
+      setIsLoggedIn(false);
     } catch (error: any) {
       console.log(error.message);
       toast.error(error.message);
@@ -23,20 +23,20 @@ export default function Navbar() {
 
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/currentuser");
-    console.log(res)
-    if (res.data.message==="User found") {
+    console.log(res);
+    if (res.data.message === "User found") {
       setIsLoggedIn(true);
       console.log(res.data.data._id);
     } else {
       setIsLoggedIn(false);
-  
     }
   };
 
   useEffect(() => {
     getUserDetails();
     // router.refresh()
-  }), [logout];
+  }),
+    [logout];
 
   const redirectProfile = () => {
     router.push("/profile");
@@ -46,32 +46,33 @@ export default function Navbar() {
   return (
     <div className="flex bg-yellow-200 h-16 justify-between items-center pl-10">
       <div>
-        <Link className="hover:text-cyan-600" href={"/"}>
-          Pomichnuk
+        <Link className="bg-indigo-100 hover:bg-indigo-200 rounded-lg p-2" href={"/"}>
+          POMICHNUK
         </Link>
       </div>
       <div className="flex pr-10">
         <button
           onClick={redirectProfile}
-          className="ml-10 border bg-slate-300 hover:bg-slate-400 rounded-lg px-2 py-1"
+          className="border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
         >
-          Надати
+          Надати послугу
         </button>
 
-       {isLoggedIn ?  <button
-          onClick={logout}
-          className="ml-10 w-20 border bg-slate-300 hover:bg-slate-400 rounded-lg px-2 py-1"
-        >
-          Вийти
-        </button> :
-        <button
-          onClick={()=>router.push("/login")}
-          className="ml-10 w-20 border bg-slate-300 hover:bg-slate-400 rounded-lg px-2 py-1"
-        >
-          Вхід
-        </button>
-}
-       
+        {isLoggedIn ? (
+          <button
+            onClick={logout}
+            className="ml-5 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+          >
+            Вийти
+          </button>
+        ) : (
+          <button
+            onClick={() => router.push("/login")}
+            className="ml-5 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+          >
+            Вхід
+          </button>
+        )}
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ export default function Select() {
   return (
     <div className="flex flex-col">
       <select
-        className="p-4 w-80 bg-gray-50 rounded-md mb-4"
+        className="p-3 w-80 bg-gray-50 rounded-md mb-4"
         onChange={(e) => {
           setCity("");
           setRegion(e.target.value);
@@ -48,7 +48,7 @@ export default function Select() {
         ))}
       </select>
       <select
-        className="p-4 w-80 bg-gray-50 rounded-md mb-4"
+        className="p-3 w-80 bg-gray-50 rounded-md mb-4"
         onChange={(e) => {
           setCity(e.target.value);
         }}
@@ -63,7 +63,7 @@ export default function Select() {
         ))}
       </select>
       <select
-        className="p-4 w-80 bg-gray-50 rounded-md mb-4"
+        className="p-3 w-80 bg-gray-50 rounded-md mb-4"
         onChange={(e) => {
           setCategory(e.target.value);
         }}
@@ -78,7 +78,7 @@ export default function Select() {
         ))}
       </select>
       <select
-        className="p-4 w-80 bg-gray-50 rounded-md"
+        className="p-3 w-80 bg-gray-50 rounded-md"
         onChange={(e) => {
           setServiceType(e.target.value);
         }}
