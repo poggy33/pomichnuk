@@ -4,7 +4,7 @@ export default function ProfilePage() {
   return (
     <>
       <div className="flex">
-        <div className="bg-indigo-200 flex flex-col text-center min-h-screen justify-items-center min-w-40 p-4">
+        <div className="bg-indigo-200 flex flex-col text-center min-h-screen justify-items-center w-1/6  p-4">
           <h1>hello</h1>
         </div>
         <div className="flex flex-grow flex-col items-center min-h-screen py-4 bg-indigo-100">
@@ -19,7 +19,7 @@ export default function ProfilePage() {
             id="areaId"
             name="area"
             rows={8}
-            className="resize-none block p-2.5 w-1/2 text-m text-gray-900 bg-white rounded-lg border border-gray-300 f"
+            className="resize-none block p-2.5 w-1/2 min-w-80 text-m text-gray-900 bg-white rounded-lg border border-gray-300 f"
             placeholder="Опишіть коротко Вашу послугу та залиште контакти для зв'язку..."
           ></textarea>
           <button className="border-white rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700">

@@ -44,13 +44,13 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex bg-yellow-200 h-16 justify-between items-center pl-10">
+    <div className="flex bg-yellow-200 h-14 justify-between items-center pl-4">
       <div>
         <Link className="bg-indigo-100 hover:bg-indigo-200 rounded-lg p-2" href={"/"}>
           POMICHNUK
         </Link>
       </div>
-      <div className="flex pr-10">
+      <div className="flex pr-4">
         <button
           onClick={redirectProfile}
           className="border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
@@ -61,14 +61,14 @@ export default function Navbar() {
         {isLoggedIn ? (
           <button
             onClick={logout}
-            className="ml-5 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+            className="ml-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
           >
             Вийти
           </button>
         ) : (
           <button
             onClick={() => router.push("/login")}
-            className="ml-5 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+            className="ml-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
           >
             Вхід
           </button>
