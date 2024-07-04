@@ -23,10 +23,8 @@ export default function Navbar() {
 
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/currentuser");
-    console.log(res);
     if (res.data.message === "User found") {
       setIsLoggedIn(true);
-      console.log(res.data.data._id);
     } else {
       setIsLoggedIn(false);
     }

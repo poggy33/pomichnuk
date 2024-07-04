@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import regions from "@/data/regions";
 import categories from "@/data/categories";
@@ -13,12 +13,45 @@ interface Cities {
 //     categories: Array<{ name: string; }>;
 //   }
 
-export default function Select() {
+// interface SelectProps {
+//   region: string;
+//   city: string;
+//   category: string;
+//   serviceType: string;
+// }
+
+export interface SelectProps {
+  region: string;
+  city: string;
+  category: string;
+  service: string;
+}
+interface ChildComponentProps {
+  onData: (data: SelectProps) => void;
+}
+export default function Select({ onData }: ChildComponentProps) {
   const [region, setRegion] = useState("");
   const [city, setCity] = useState("");
   const [cities, setCities] = useState<Cities>();
   const [category, setCategory] = useState("");
   const [serviceType, setServiceType] = useState("");
+
+  const sendDataToProfilePage = () => {
+    const data: SelectProps = {
+      region: region,
+      city: city,
+      category: category,
+      service: serviceType,
+    };
+    if (typeof onData === "function") {
+      onData(data);
+    }
+  };
+
+  useEffect(() => {
+    sendDataToProfilePage();
+  }, [region, city, category, serviceType]);
+
   // console.log(region);
   // console.log(city);
   // console.log(cities);
@@ -31,6 +64,7 @@ export default function Select() {
         onChange={(e) => {
           setCity("");
           setRegion(e.target.value);
+
           regions.map((item) => {
             if (item.name === e.target.value) {
               setCities(item);
