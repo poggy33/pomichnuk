@@ -69,9 +69,12 @@ export default function Main() {
   }, [dataFromSelect]);
 
   return (
-    <div>
-      <Select onData={handleDataFromSelect} />
-      <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
+      <div className="">
+            <Select onData={handleDataFromSelect} />  
+      </div>
+
+      <div className="flex flex-col justify-center items-center">
         <button
           disabled={buttonDisabled}
           onClick={postData}
@@ -80,19 +83,19 @@ export default function Main() {
           {!buttonDisabled ? "Пошук" : "disabled"}
         </button>
         {posts && (
-          <>
+          <div>
             {posts.map((item: any) => {
               return (
-                <div key={item.city} className="mb-2">
-                  <div className="w-80 bg-slate-300 flex justify-between px-2 text-sm h-6">
+                <div key={item.city} className="w-80">
+                  <div className="flex justify-between bg-slate-300  px-2 text-sm h-6">
                     <span>{item.city}</span>
                     <span>zberegtu</span>
                   </div>
-                  <div className="px-2">{item.text}</div>
+                  <div className="mb-2">{item.text}</div>
                 </div>
               );
             })}
-          </>
+          </div>
         )}
       </div>
     </div>
