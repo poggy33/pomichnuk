@@ -83,7 +83,7 @@ export default function Main() {
           <>
             {posts.map((item: any) => {
               return (
-                <div className="mb-2">
+                <div key={item.city} className="mb-2">
                   <div className="w-80 bg-slate-300 flex justify-between px-2 text-sm h-6">
                     <span>{item.city}</span>
                     <span>zberegtu</span>
