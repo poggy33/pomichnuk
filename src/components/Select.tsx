@@ -43,9 +43,10 @@ export default function Select({ onData }: ChildComponentProps) {
       category: category,
       service: serviceType,
     };
-    if (typeof onData === "function") {
-      onData(data);
-    }
+    // if (typeof onData === "function") {
+    //   onData(data);
+    // }
+    onData(data);
   };
 
   useEffect(() => {

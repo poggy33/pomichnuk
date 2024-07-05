@@ -29,12 +29,12 @@ export default function Navbar() {
       setIsLoggedIn(false);
     }
   };
-
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   useEffect(() => {
     getUserDetails();
     // router.refresh()
-  }),
-    [logout];
+  },[logout]);
+    
 
   const redirectProfile = () => {
     router.push("/profile");
