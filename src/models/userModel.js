@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: [true, "Будь-ласка вкажіть і'мя"],
-        unique: true,
-    },
     email: {
         type: String,
         required: [true, "Будь-ласка вкажіть пошту"],
@@ -15,10 +10,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Будь-ласка вкажіть пароль"],
     },
-    phone: {
-        type: String,
-        required: [true, "Будь-ласка вкажіть телефон"],
-    },
     isVerified: {
         type: Boolean,
         default: false,
@@ -27,6 +18,15 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    date: {
+        type: Date,
+        default: Date.now,
+    }, 
+    rate: {
+        type: String,
+        default: "0",
+    }, 
+
     forgotPasswordToken: String,
     forgotPasswordExpiry: Date,
     verifyToken: String,
