@@ -84,7 +84,7 @@ export default function ProfilePage() {
   return (
     <>
       <div className="flex">
-        <div className="bg-indigo-200 flex flex-col text-center min-h-screen justify-items-center w-1/6  p-4">
+        <div className="bg-indigo-200 max-sm:hidden flex flex-col text-center min-h-screen justify-items-center w-1/6  p-4">
           <h1>hello</h1>
         </div>
         <div className="flex flex-grow flex-col items-center min-h-screen py-4 bg-indigo-100">
@@ -110,9 +110,13 @@ export default function ProfilePage() {
           <button
             onClick={createPost}
             disabled={buttonDisabled}
-            className="border-white w-40 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+            className={
+              buttonDisabled
+                ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
+                : "border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+            }
           >
-            {!buttonDisabled ? "Опублікувати" : "disabled"}
+            Опублікувати
           </button>
         </div>
       </div>

@@ -92,7 +92,12 @@ export default function SignupPage() {
       <button
         disabled={buttonDisabled}
         onClick={onSignup}
-        className="border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+        // className="border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+        className={
+          buttonDisabled
+            ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
+            : "border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+        }
       >
         Зареєструватися
       </button>
