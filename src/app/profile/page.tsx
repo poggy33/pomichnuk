@@ -84,10 +84,10 @@ export default function ProfilePage() {
   return (
     <>
       <div className="flex">
-        <div className="bg-indigo-200 max-sm:hidden flex flex-col text-center min-h-screen justify-items-center w-1/6  p-4">
+        <div className="max-sm:hidden flex flex-col text-center justify-items-center w-1/6  p-4">
           <h1>hello</h1>
         </div>
-        <div className="flex flex-grow flex-col items-center min-h-screen py-4 bg-indigo-100">
+        <div className="flex flex-grow flex-col items-center  py-4">
           <Select onData={handleDataFromSelect} />
           <label
             htmlFor="w3review"

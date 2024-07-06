@@ -43,7 +43,7 @@ export default function LoginPage() {
   }, [user]);
 
   return (
-    <div className="flex flex-col bg-indigo-100 items-center min-h-screen py-2">
+    <div className="flex flex-col items-center py-2">
       <div className="mt-10 mb-5">
         {loading ? (
           <Spinner/>
@@ -73,7 +73,6 @@ export default function LoginPage() {
       <button
       disabled={buttonDisabled}
         onClick={onLogin}
-        // className="border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
         className={
           buttonDisabled
             ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"

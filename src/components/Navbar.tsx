@@ -42,16 +42,16 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex bg-yellow-200 h-14 justify-between items-center pl-4">
+    <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-16 justify-between items-center pl-4">
       <div>
-        <Link className="h-8 max-sm:text-xs bg-indigo-100 hover:bg-indigo-200 rounded-lg p-2" href={"/"}>
+        <Link className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border h-8 max-sm:text-xs rounded-lg p-2" href={"/"}>
           Помічник
         </Link>
       </div>
       <div className="flex pr-4">
         <button
           onClick={redirectProfile}
-          className="max-sm:text-xs border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+          className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border max-sm:text-xs rounded-lg px-2 py-1"
         >
           Надати послугу
         </button>
@@ -59,14 +59,14 @@ export default function Navbar() {
         {isLoggedIn ? (
           <button
             onClick={logout}
-            className="h-8 max-sm:text-xs ml-4 mr-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+            className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 h-8 max-sm:text-xs ml-4 w-20 border rounded-lg px-2 py-1"
           >
             Вийти
           </button>
         ) : (
           <button
             onClick={() => router.push("/login")}
-            className="h-8 max-sm:text-xs ml-4 mr-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+            className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border h-8 max-sm:text-xs ml-4 w-20 rounded-lg px-2 py-1"
           >
             Вхід
           </button>
