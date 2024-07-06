@@ -66,7 +66,7 @@ export default function Navbar() {
         ) : (
           <button
             onClick={() => router.push("/login")}
-            className="ml-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+            className="h-8 max-sm:text-xs ml-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
           >
             Вхід
           </button>
