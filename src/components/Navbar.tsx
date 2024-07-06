@@ -33,7 +33,7 @@ export default function Navbar() {
   useEffect(() => {
     getUserDetails();
     // router.refresh()
-  },[]);
+  },[logout]);
     
 
   const redirectProfile = () => {
@@ -59,14 +59,14 @@ export default function Navbar() {
         {isLoggedIn ? (
           <button
             onClick={logout}
-            className="h-8 max-sm:text-xs ml-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+            className="h-8 max-sm:text-xs ml-4 mr-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
           >
             Вийти
           </button>
         ) : (
           <button
             onClick={() => router.push("/login")}
-            className="h-8 max-sm:text-xs ml-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
+            className="h-8 max-sm:text-xs ml-4 mr-4 w-20 border bg-indigo-100 hover:bg-indigo-200 rounded-lg px-2 py-1"
           >
             Вхід
           </button>
