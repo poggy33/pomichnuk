@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { FcLike } from "react-icons/fc";
+import { FiHeart } from "react-icons/fi";
 
 interface PostProps {
   city: string;
@@ -37,7 +39,10 @@ export default function Main() {
     try {
       setLoading(true);
       if (dataFromSelect) {
-        const response = await axios.post("/api/users/getposts",dataFromSelect);
+        const response = await axios.post(
+          "/api/users/getposts",
+          dataFromSelect
+        );
 
         console.log(response.data.data);
         setPosts(response.data.data);
@@ -71,7 +76,7 @@ export default function Main() {
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="">
-            <Select onData={handleDataFromSelect} />  
+        <Select onData={handleDataFromSelect} />
       </div>
 
       <div className="flex flex-col justify-center items-center">
@@ -90,12 +95,20 @@ export default function Main() {
           <div>
             {posts.map((item: any) => {
               return (
-                <div key={item.city} className="w-80">
-                  <div className="flex justify-between bg-slate-300  px-2 text-sm h-6">
-                    <span>{item.city}</span>
-                    <span>zberegtu</span>
+                <div key={item.city} className="max-sm:w-80 border-2 hover:border-white rounded-md">
+                  <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
+                    <div className="flex justify-between mb-1">
+                      <p>{item.city}</p>
+                      <p className="mt-1"><FiHeart/></p>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-xs">пошта</span>
+                      <span className="text-xs">4.7</span>
+                    </div>
                   </div>
-                  <div className="mb-2">{item.text}</div>
+                  <div className="mt-2 mb-6 text-sm text-gray-800 px-3">
+                    {item.text}
+                  </div>
                 </div>
               );
             })}
