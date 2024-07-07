@@ -13,7 +13,7 @@ export default function Navbar() {
     try {
       await axios.get("/api/users/logout");
       toast.success("Logout success");
-      router.push("/");
+      router.push("/login");
       setIsLoggedIn(false);
     } catch (error: any) {
       console.log(error.message);
@@ -32,7 +32,6 @@ export default function Navbar() {
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   useEffect(() => {
     getUserDetails();
-    // router.refresh()
   }, [logout]);
 
   const redirectProfile = () => {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import Post from "@/models/postModel";
+import Like from "@/models/likeModel";
 import { connect } from "@/dbConfig/dbConfig";
 
 connect();
@@ -8,13 +8,13 @@ connect();
 export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
-    const {city, category, region, service} = reqBody;
-    // console.log(reqBody);
-        const posts = await Post.find({city: city, region: region, category: category, service: service})
-        // console.log(posts)
+    const { whoIsChecked } = reqBody;
+    console.log(reqBody)
+    const likes = await Like.find({whoIsChecked: whoIsChecked})
+    console.log(likes);
         return NextResponse.json({
-        message: "Post found",
-        data: posts,
+        message: "Likes found",
+        data: likes,
     })
     }
  catch (error: any) {

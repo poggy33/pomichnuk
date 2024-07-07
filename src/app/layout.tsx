@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`h-screen bg-gradient-to-b from-gray-100 to-gray-300 ${montserrat.className}`}>
+      <body className={`min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 ${montserrat.className}`}>
         <Navbar />
         {children}
       </body>

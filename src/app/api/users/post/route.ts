@@ -1,7 +1,6 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Post from "@/models/postModel";
 import { NextRequest, NextResponse } from "next/server";
-// import bcryptjs from "bcryptjs";
 
 connect();
 

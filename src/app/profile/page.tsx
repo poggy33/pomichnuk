@@ -57,7 +57,8 @@ export default function ProfilePage() {
       setLoading(true);
       const response = await axios.post("/api/users/post", post);
       console.log("Response success", response.data);
-      setText("")
+      setText("");
+      router.push("/");
     } catch (error: any) {
       console.log(error.message);
       toast.error(error.message);
@@ -106,7 +107,9 @@ export default function ProfilePage() {
             className="resize-none block p-2.5 w-1/2 min-w-80 text-m text-gray-900 bg-white rounded-lg border border-gray-300 f"
             placeholder="Опишіть коротко Вашу послугу (20-300 символів) та залиште контакти для зв'язку..."
           ></textarea>
-          <span className="text-gray-500 mt-1">Залишилося {300-text.length} символів</span>  
+          <span className="text-gray-500 mt-1">
+            Залишилося {300 - text.length} символів
+          </span>
           <button
             onClick={createPost}
             disabled={buttonDisabled}

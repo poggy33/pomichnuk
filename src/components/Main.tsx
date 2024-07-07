@@ -16,24 +16,87 @@ interface PostProps {
 }
 
 export default function Main() {
+  const router = useRouter();
   const [dataFromSelect, setDataFromSelect] = useState<SelectProps | null>(
     null
   );
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [posts, setPosts] = useState<any>();
   const [loading, setLoading] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [likes, setLikes] = useState<any>();
+  const [likesChanged, setLikesChanged] = useState(false);
 
   const handleDataFromSelect = (data: SelectProps) => {
     setDataFromSelect(data);
   };
-  console.log(dataFromSelect);
+
   useEffect(() => {
     if (dataFromSelect) {
-      // console.log("first")
       handleDataFromSelect(dataFromSelect);
     }
   }, [dataFromSelect]);
-  console.log(posts);
+  // console.log(posts);
+
+  //get users details
+  const getUserDetails = async () => {
+    const res = await axios.get("/api/users/currentuser");
+    if (res.data.message === "User found") {
+      console.log(res.data.data);
+      setUserEmail(res.data.data.email);
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+  console.log(userEmail);
+
+
+  //get likes
+  const getLikes = async () => {
+    console.log(userEmail);
+    if (userEmail) {
+      const res = await axios.post("/api/users/getlikes", {
+        whoIsChecked: userEmail,
+      });
+
+      if (res.data.message === "Likes found") {
+        console.log(res.data.data);
+        setLikes(res.data.data);
+      }
+    }
+  };
+
+  // useEffect(() => {
+  //   getLikes();
+  // }, [likesChanged]);
+  // console.log(likes);
+  useEffect(() => {
+    getLikes();
+  }, [likesChanged]);
+
+  const createOrUpdateLike = async (postId: any) => {
+    try {
+      if (postId && userEmail) {
+        const responseUpdateOrCreate = await axios.post(
+          "/api/users/updatelikedpost",
+          {
+            whoIsChecked: userEmail,
+            whatIsCheckedId: postId,
+            isChecked: true,
+          }
+        );
+        console.log("Update or create success");
+      }
+    } catch (error: any) {
+      console.log("Like failed", error.message);
+      toast.error(error.message);
+    } finally {
+      // setLoading(false);
+      setLikesChanged(!likesChanged);
+    }
+  };
 
   const postData = async () => {
     try {
@@ -48,8 +111,6 @@ export default function Main() {
         setPosts(response.data.data);
         console.log("Post success");
       }
-
-      // router.refresh();
     } catch (error: any) {
       console.log("Post failed", error.message);
       toast.error(error.message);
@@ -82,7 +143,10 @@ export default function Main() {
       <div className="flex flex-col justify-center items-center">
         <button
           disabled={buttonDisabled}
-          onClick={postData}
+          onClick={()=>{
+            postData();
+            getLikes()
+          }}
           className={
             buttonDisabled
               ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
@@ -95,20 +159,48 @@ export default function Main() {
           <div>
             {posts.map((item: any) => {
               return (
-                <div key={item.city} className="max-sm:w-80 border-2 hover:border-white rounded-md">
+                <div
+                  key={item._id}
+                  className="max-sm:w-80 border-2 hover:border-white rounded-md"
+                >
                   <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
                     <div className="flex justify-between mb-1">
-                      <p>{item.city}</p>
-                      <p className="mt-1"><FiHeart/></p>
+                      <p className="text-gray-700">{item.city}</p>
+                      <div
+                        onClick={() => createOrUpdateLike(item._id)}
+                        className="mt-1"
+                      >
+                        {likes && (
+                          <div>
+                            {likes.map((like: any) => {
+                              return (
+                                <div>
+                                  {like.whatIsCheckedId === item._id ? (
+                                    <div>
+                                      {like.isChecked ? (
+                                        <FcLike />
+                                      ) : (
+                                        <FiHeart />
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <div></div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-xs">пошта</span>
-                      <span className="text-xs">4.7</span>
+                    <div className="flex justify-between text-gray-800">
+                      <span className="text-xs text-gray-700">
+                        {item.userId}
+                      </span>
+                      <span className="text-xs">{item._id}</span>
                     </div>
                   </div>
-                  <div className="mt-2 mb-6 text-sm text-gray-800 px-3">
-                    {item.text}
-                  </div>
+                  <div className="mt-2 mb-6 text-sm  px-3">{item.text}</div>
                 </div>
               );
             })}
