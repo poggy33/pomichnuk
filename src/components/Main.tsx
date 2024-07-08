@@ -68,10 +68,6 @@ export default function Main() {
     }
   };
 
-  // useEffect(() => {
-  //   getLikes();
-  // }, [likesChanged]);
-  // console.log(likes);
   useEffect(() => {
     getLikes();
   }, [likesChanged]);
@@ -107,9 +103,9 @@ export default function Main() {
           dataFromSelect
         );
 
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setPosts(response.data.data);
-        console.log("Post success");
+        // console.log("Post success");
       }
     } catch (error: any) {
       console.log("Post failed", error.message);
@@ -170,47 +166,22 @@ export default function Main() {
                         onClick={() => createOrUpdateLike(item._id)}
                         className="mt-1"
                       >
-                        {/* {likes && (
-                          <div>
-                            {likes.map((like: any) => {
-                              return (
-                                <div key={like._id}>
-                                  {like.whatIsCheckedId === item._id ? (
-                                    <div>
-                                      {like.isChecked ? (
-                                        <FcLike />
-                                      ) : (
-                                        <FiHeart />
-                                      )}
-                                    </div>
-                                  ) : (
-                                    <div></div>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}{!userEmail && <FiHeart />} */}
-
                         {likes && (
                           <div>
                             {likes.map((like: any) => {
                               const isLike =
                                 like.whatIsCheckedId === item._id &&
                                 like.isChecked;
-
                               return (
                                 <div key={like._id}>
-                                  {isLike && <FcLike className="absolute text-lg " />}
-                                  {/* <FcLike className={count && "hidden"} />
-                                  <FiHeart className={ "flex"} /> */}
+                                  {isLike && (
+                                    <FcLike className="absolute text-lg" />
+                                  )}
                                 </div>
                               );
                             })}
                           </div>
                         )}
-                        {/* {!userEmail && <FiHeart />} */}
-                        {/* {likes.length === 0 && <FiHeart />} */}
                         <FcLikePlaceholder className="text-lg" />
                       </div>
                     </div>

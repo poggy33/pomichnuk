@@ -14,8 +14,12 @@ try {
         if(likedPost) {
 
         if(likedPost.isChecked === true) {
-            await Like.findOneAndUpdate({whoIsChecked: whoIsChecked, whatIsCheckedId: whatIsCheckedId}, {isChecked:false})
-        console.log("updated")
+        //     await Like.findOneAndUpdate({whoIsChecked: whoIsChecked, whatIsCheckedId: whatIsCheckedId}, {isChecked:false})
+        // console.log("updated")
+
+            await Like.findOneAndDelete({whoIsChecked: whoIsChecked, whatIsCheckedId: whatIsCheckedId}, {isChecked:false})
+        console.log("deleted");
+
         } else {
             await Like.findOneAndUpdate({whoIsChecked: whoIsChecked, whatIsCheckedId: whatIsCheckedId}, {isChecked:true}) 
         }
