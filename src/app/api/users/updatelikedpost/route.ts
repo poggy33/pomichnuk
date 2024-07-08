@@ -9,16 +9,12 @@ try {
     const reqBody = await request.json();
     const { whoIsChecked, whatIsCheckedId, isChecked} = reqBody;
         const likedPost = await Like.findOne({whoIsChecked: whoIsChecked, whatIsCheckedId: whatIsCheckedId})
-        console.log(likedPost);
+        // console.log(likedPost);
 
         if(likedPost) {
 
         if(likedPost.isChecked === true) {
-        //     await Like.findOneAndUpdate({whoIsChecked: whoIsChecked, whatIsCheckedId: whatIsCheckedId}, {isChecked:false})
-        // console.log("updated")
-
             await Like.findOneAndDelete({whoIsChecked: whoIsChecked, whatIsCheckedId: whatIsCheckedId}, {isChecked:false})
-        console.log("deleted");
 
         } else {
             await Like.findOneAndUpdate({whoIsChecked: whoIsChecked, whatIsCheckedId: whatIsCheckedId}, {isChecked:true}) 
@@ -28,6 +24,7 @@ try {
         message: "LikedPost updated",
         data: updatedLike,
         })
+        
         } else {
             const newLike = new Like({
                 whoIsChecked, 

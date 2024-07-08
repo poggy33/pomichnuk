@@ -58,7 +58,7 @@ export default function Select({ onData }: ChildComponentProps) {
   return (
     <div className="flex flex-col">
       <select
-        className="p-3 w-80 bg-gray-50 rounded-md mb-5"
+        className="p-3 w-80 md:w-96 bg-gray-50 rounded-md mb-5"
         onChange={(e) => {
           setCity("");
           setRegion(e.target.value);
@@ -80,7 +80,7 @@ export default function Select({ onData }: ChildComponentProps) {
         ))}
       </select>
       <select
-        className="p-3 w-80 bg-gray-50 rounded-md mb-5"
+        className="p-3 w-80 md:w-96 bg-gray-50 rounded-md mb-5"
         onChange={(e) => {
           setCity(e.target.value);
         }}
@@ -95,7 +95,7 @@ export default function Select({ onData }: ChildComponentProps) {
         ))}
       </select>
       <select
-        className="p-3 w-80 bg-gray-50 rounded-md mb-5"
+        className="p-3 w-80 md:w-96 bg-gray-50 rounded-md mb-5"
         onChange={(e) => {
           setCategory(e.target.value);
         }}
@@ -110,7 +110,7 @@ export default function Select({ onData }: ChildComponentProps) {
         ))}
       </select>
       <select
-        className="p-3 w-80 bg-gray-50 rounded-md"
+        className="p-3 w-80 md:w-96 bg-gray-50 rounded-md"
         onChange={(e) => {
           setServiceType(e.target.value);
         }}

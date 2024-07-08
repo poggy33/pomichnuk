@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { FcLike } from "react-icons/fc";
-import { FiHeart } from "react-icons/fi";
 import { FcLikePlaceholder } from "react-icons/fc";
 
 interface PostProps {
@@ -27,6 +26,12 @@ export default function Main() {
   const [userEmail, setUserEmail] = useState("");
   const [likes, setLikes] = useState<any>();
   const [likesChanged, setLikesChanged] = useState(false);
+  const [allPosts, setAllPosts] = useState<any>();
+  const [lastTenPosts, setLastTenPosts] = useState<any>();
+  const [likedPosts, setLikedPosts] = useState<any>();
+  const [isShowedLikedPosts, setIsShowedLikedPosts] = useState(false);
+  const [isShowedDefaultPosts, setIsShowedDefaultPosts] = useState(true);
+  const [isShowedSearchedPosts, setIsShowedSearchedPosts] = useState(false);
 
   const handleDataFromSelect = (data: SelectProps) => {
     setDataFromSelect(data);
@@ -43,24 +48,17 @@ export default function Main() {
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/currentuser");
     if (res.data.message === "User found") {
-      console.log(res.data.data);
       setUserEmail(res.data.data.email);
     }
   };
 
-  useEffect(() => {
-    getUserDetails();
-  }, []);
-  console.log(userEmail);
-
   //get likes
   const getLikes = async () => {
-    console.log(userEmail);
+    // console.log(userEmail);
     if (userEmail) {
       const res = await axios.post("/api/users/getlikes", {
         whoIsChecked: userEmail,
       });
-
       if (res.data.message === "Likes found") {
         console.log(res.data.data);
         setLikes(res.data.data);
@@ -70,7 +68,7 @@ export default function Main() {
 
   useEffect(() => {
     getLikes();
-  }, [likesChanged]);
+  }, [likesChanged, userEmail]);
 
   const createOrUpdateLike = async (postId: any) => {
     try {
@@ -102,7 +100,6 @@ export default function Main() {
           "/api/users/getposts",
           dataFromSelect
         );
-
         // console.log(response.data.data);
         setPosts(response.data.data);
         // console.log("Post success");
@@ -130,74 +127,222 @@ export default function Main() {
     }
   }, [dataFromSelect]);
 
+  const getAllPosts = async () => {
+    const res = await axios.get("/api/users/getallposts");
+    if (res.data.message === "Posts found") {
+      console.log(res.data.data);
+      setAllPosts(res.data.data);
+      const tenPosts = res.data.data.reverse().slice(0, 10);
+      setLastTenPosts(tenPosts);
+    }
+  };
+
+  const getLikedPosts = () => {
+    console.log(likes, allPosts);
+    if (likes) {
+      let arr: any = [];
+      likes.forEach((like: any) => {
+        let fff = allPosts.find(
+          (post: any) => like.whatIsCheckedId === post._id
+        );
+        arr.push(fff);
+        console.log(fff);
+      });
+      setLikedPosts(arr);
+    }
+  };
+
+  useEffect(() => {
+    getAllPosts();
+    getUserDetails();
+    getLikedPosts();
+  }, []);
+
+  console.log(likedPosts);
+
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col justify-center items-center">
       <div className="">
         <Select onData={handleDataFromSelect} />
       </div>
-
       <div className="flex flex-col justify-center items-center">
         <button
           disabled={buttonDisabled}
           onClick={() => {
             postData();
             getLikes();
+            setIsShowedDefaultPosts(false);
+            setIsShowedLikedPosts(false);
+            setIsShowedSearchedPosts(true);
           }}
           className={
             buttonDisabled
-              ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
-              : "border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+              ? "border-2 hover:border-white bg-slate-400  w-52 mb-4 rounded-lg p-3 text-white mt-4"
+              : "border-2 hover:border-white w-52 mb-4 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
           }
         >
           Пошук
         </button>
-        {posts && (
-          <div>
-            {posts.map((item: any) => {
-              return (
-                <div
-                  key={item._id}
-                  className="max-sm:w-80 border-2 hover:border-white rounded-md"
-                >
-                  <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
-                    <div className="flex justify-between mb-1">
-                      <p className="text-gray-700">{item.city}</p>
-                      <div
-                        onClick={() => createOrUpdateLike(item._id)}
-                        className="mt-1"
-                      >
-                        {likes && (
-                          <div>
-                            {likes.map((like: any) => {
-                              const isLike =
-                                like.whatIsCheckedId === item._id &&
-                                like.isChecked;
-                              return (
-                                <div key={like._id}>
-                                  {isLike && (
-                                    <FcLike className="absolute text-lg" />
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                        <FcLikePlaceholder className="text-lg" />
+        <button
+        
+          onClick={() => {
+            getLikes();
+            getLikedPosts();
+            setIsShowedDefaultPosts(false);
+            setIsShowedLikedPosts(true);
+            setIsShowedSearchedPosts(false);
+          }}
+          className= "w-52 mb-6 rounded-lg p-3 text-white bg-gradient-to-r from-yellow-400 to-blue-500 hover:to-blue-700 border-2 hover:border-white"
+        >
+          <p className="flex justify-between"><span>Показати обрані</span><span className="pt-0.5 text-lg"><FcLike/></span></p>
+        </button>
+        <div className="flex flex-col justify-center items-center">
+          {posts && isShowedSearchedPosts && (
+            <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">
+              {posts.map((item: any) => {
+                return (
+                  <div
+                    key={item._id}
+                    className=" border-2 hover:border-white rounded-md"
+                  >
+                    <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
+                      <div className="flex justify-between mb-1">
+                        <p className="text-gray-700">{item.city}</p>
+                        <div
+                          onClick={() => createOrUpdateLike(item._id)}
+                          className="mt-1"
+                        >
+                          {likes && (
+                            <div>
+                              {likes.map((like: any) => {
+                                const isLike =
+                                  like.whatIsCheckedId === item._id &&
+                                  like.isChecked;
+                                return (
+                                  <div key={like._id}>
+                                    {isLike && (
+                                      <FcLike className="absolute text-lg" />
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                          <FcLikePlaceholder className="text-lg" />
+                        </div>
+                      </div>
+                      <div className="flex justify-between text-gray-800">
+                        <span className="text-xs text-gray-700">
+                          {item.userId}
+                        </span>
+                        <span className="text-xs">{item.date.slice(0, 10)}</span>
                       </div>
                     </div>
-                    <div className="flex justify-between text-gray-800">
-                      <span className="text-xs text-gray-700">
-                        {item.userId}
-                      </span>
-                      <span className="text-xs">{item._id}</span>
-                    </div>
+                    <div className="mt-2 mb-6 text-sm  px-3">{item.text}</div>
                   </div>
-                  <div className="mt-2 mb-6 text-sm  px-3">{item.text}</div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                );
+              })}
+            </div>
+          )}
+
+          {allPosts && isShowedDefaultPosts && (
+            <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">
+              {lastTenPosts.map((item: any) => {
+                return (
+                  <div
+                    key={item._id}
+                    className="border-2 hover:border-white rounded-md"
+                  >
+                    <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
+                      <div className="flex justify-between mb-1">
+                        <p className="text-gray-700">{item.city}</p>
+                        <div
+                          onClick={() => createOrUpdateLike(item._id)}
+                          className="mt-1"
+                        >
+                          {likes && (
+                            <div>
+                              {likes.map((like: any) => {
+                                const isLike =
+                                  like.whatIsCheckedId === item._id &&
+                                  like.isChecked;
+                                return (
+                                  <div key={like._id}>
+                                    {isLike && (
+                                      <FcLike className="absolute text-lg" />
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                          <FcLikePlaceholder className="text-lg" />
+                        </div>
+                      </div>
+                      <div className="flex justify-between text-gray-800">
+                        <span className="text-xs text-gray-700">
+                          {item.userId}
+                        </span>
+                        <span className="text-xs">
+                          {item.date.slice(0, 10)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2 mb-6 text-sm  px-3">{item.text}</div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {likedPosts && isShowedLikedPosts && (
+            <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">
+              {likedPosts.map((item: any) => {
+                return (
+                  <div
+                    key={item._id}
+                    className=" border-2 hover:border-white rounded-md"
+                  >
+                    <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
+                      <div className="flex justify-between mb-1">
+                        <p className="text-gray-700">{item.city}</p>
+                        <div
+                          onClick={() => createOrUpdateLike(item._id)}
+                          className="mt-1"
+                        >
+                          {likes && (
+                            <div>
+                              {likes.map((like: any) => {
+                                const isLike =
+                                  like.whatIsCheckedId === item._id &&
+                                  like.isChecked;
+                                return (
+                                  <div key={like._id}>
+                                    {isLike && (
+                                      <FcLike className="absolute text-lg" />
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                          <FcLikePlaceholder className="text-lg" />
+                        </div>
+                      </div>
+                      <div className="flex justify-between text-gray-800">
+                        <span className="text-xs text-gray-700">
+                          {item.userId}
+                        </span>
+                        <span className="text-xs">{item.date.slice(0, 10)}</span>
+                      </div>
+                    </div>
+                    <div className="mt-2 mb-6 text-sm  px-3">{item.text}</div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
