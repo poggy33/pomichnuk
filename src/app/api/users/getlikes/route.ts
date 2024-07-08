@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
     const { whoIsChecked } = reqBody;
-    console.log(reqBody)
     const likes = await Like.find({whoIsChecked: whoIsChecked})
     console.log(likes);
         return NextResponse.json({

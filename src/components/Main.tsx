@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { FcLike } from "react-icons/fc";
 import { FiHeart } from "react-icons/fi";
+import { FcLikePlaceholder } from "react-icons/fc";
 
 interface PostProps {
   city: string;
@@ -51,7 +52,6 @@ export default function Main() {
     getUserDetails();
   }, []);
   console.log(userEmail);
-
 
   //get likes
   const getLikes = async () => {
@@ -143,9 +143,9 @@ export default function Main() {
       <div className="flex flex-col justify-center items-center">
         <button
           disabled={buttonDisabled}
-          onClick={()=>{
+          onClick={() => {
             postData();
-            getLikes()
+            getLikes();
           }}
           className={
             buttonDisabled
@@ -170,11 +170,11 @@ export default function Main() {
                         onClick={() => createOrUpdateLike(item._id)}
                         className="mt-1"
                       >
-                        {likes && (
+                        {/* {likes && (
                           <div>
                             {likes.map((like: any) => {
                               return (
-                                <div>
+                                <div key={like._id}>
                                   {like.whatIsCheckedId === item._id ? (
                                     <div>
                                       {like.isChecked ? (
@@ -190,7 +190,28 @@ export default function Main() {
                               );
                             })}
                           </div>
+                        )}{!userEmail && <FiHeart />} */}
+
+                        {likes && (
+                          <div>
+                            {likes.map((like: any) => {
+                              const isLike =
+                                like.whatIsCheckedId === item._id &&
+                                like.isChecked;
+
+                              return (
+                                <div key={like._id}>
+                                  {isLike && <FcLike className="absolute text-lg " />}
+                                  {/* <FcLike className={count && "hidden"} />
+                                  <FiHeart className={ "flex"} /> */}
+                                </div>
+                              );
+                            })}
+                          </div>
                         )}
+                        {/* {!userEmail && <FiHeart />} */}
+                        {/* {likes.length === 0 && <FiHeart />} */}
+                        <FcLikePlaceholder className="text-lg" />
                       </div>
                     </div>
                     <div className="flex justify-between text-gray-800">
