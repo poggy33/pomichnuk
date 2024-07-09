@@ -44,7 +44,6 @@ export default function Navbar() {
       <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-16 justify-between items-center pl-4">
         <div>
           <Link
-            className=""
             href={"/"}
           >
             <span className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2">Головна</span>
@@ -53,7 +52,6 @@ export default function Navbar() {
         <div className="flex pr-4">
           <button
             onClick={redirectProfile}
-            className=""
           >
             <span className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2">Надати послугу</span>
           </button>
@@ -61,22 +59,20 @@ export default function Navbar() {
           {isLoggedIn ? (
             <button
               onClick={logout}
-              className=""
             >
               <span className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2 ml-4">Вийти</span>
             </button>
           ) : (
             <button
               onClick={() => router.push("/login")}
-              className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2 ml-4"
             >
-              Вхід
+              <span className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2 ml-4">Вхід</span>
             </button>
           )}
         </div>
       </div>
       <div className="flex justify-center mt-4">
-        <h1 className="py-2 px-4 rounded-full text-xl bg-gradient-to-r from-blue-300 via-green-300 to-blue-200 border-2 border-white">ЄДопомога</h1>
+        <h1 className="py-2 px-4 rounded-full text-xl bg-gradient-to-r from-blue-300 via-green-300 to-blue-200 border-2 border-white">ЄПомічник</h1>
       </div>
     </>
   );

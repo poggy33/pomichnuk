@@ -140,15 +140,15 @@ export default function Main() {
   const getLikedPosts = () => {
     console.log(likes, allPosts);
     if (likes) {
-      let arr: any = [];
+      let arrLiked: any = [];
       likes.forEach((like: any) => {
-        let fff = allPosts.find(
+        let liked= allPosts.find(
           (post: any) => like.whatIsCheckedId === post._id
         );
-        arr.push(fff);
-        console.log(fff);
+        arrLiked.push(liked);
+        console.log(liked);
       });
-      setLikedPosts(arr);
+      setLikedPosts(arrLiked);
     }
   };
 
@@ -158,7 +158,7 @@ export default function Main() {
     getLikedPosts();
   }, []);
 
-  console.log(likedPosts);
+  // console.log(likedPosts);
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -194,7 +194,7 @@ export default function Main() {
           }}
           className= "w-52 mb-6 rounded-lg p-3 text-white bg-gradient-to-r from-yellow-400 to-blue-500 hover:to-blue-700 border-2 hover:border-white"
         >
-          <p className="flex justify-between"><span>Показати обрані</span><span className="pt-0.5 text-lg"><FcLike/></span></p>
+          <p className="flex justify-between"><span>Показати обрані</span><span className="pt-0.5 text-lg"><FcLikePlaceholder/></span></p>
         </button>
         <div className="flex flex-col justify-center items-center">
           {posts && isShowedSearchedPosts && (

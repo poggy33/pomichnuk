@@ -30,11 +30,40 @@ interface ChildComponentProps {
   onData: (data: SelectProps) => void;
 }
 export default function Select({ onData }: ChildComponentProps) {
-  const [region, setRegion] = useState("");
-  const [city, setCity] = useState("");
   const [cities, setCities] = useState<Cities>();
-  const [category, setCategory] = useState("");
-  const [serviceType, setServiceType] = useState("");
+  const [region, setRegion] = useState<any>("");
+  const [city, setCity] = useState<any>("");
+  const [category, setCategory] = useState<any>("");
+  const [serviceType, setServiceType] = useState<any>("");
+
+  useEffect(() => {
+    if (localStorage.getItem("region")) {
+      setRegion(localStorage.getItem("region"));
+      regions.map((item) => {
+        if (item.name === localStorage.getItem("region")) {
+          setCities(item);
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("city")) {
+      setCity(localStorage.getItem("city"));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("category")) {
+      setCategory(localStorage.getItem("category"));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("serviceType")) {
+      setServiceType(localStorage.getItem("serviceType"));
+    }
+  }, []);
 
   const sendDataToProfilePage = () => {
     const data: SelectProps = {
@@ -50,19 +79,15 @@ export default function Select({ onData }: ChildComponentProps) {
     sendDataToProfilePage();
   }, [region, city, category, serviceType]);
 
-  // console.log(region);
-  // console.log(city);
-  // console.log(cities);
-  // console.log(regions);
-  // console.log(category);
   return (
     <div className="flex flex-col">
       <select
         className="p-3 w-80 md:w-96 bg-gray-50 rounded-md mb-5"
+        value={region}
         onChange={(e) => {
           setCity("");
           setRegion(e.target.value);
-
+          localStorage.setItem("region", e.target.value);
           regions.map((item) => {
             if (item.name === e.target.value) {
               setCities(item);
@@ -73,6 +98,11 @@ export default function Select({ onData }: ChildComponentProps) {
         {region === "" && (
           <option className="text-slate-500">Виберіть область</option>
         )}
+        {region && (
+          <option key={region} value={region}>
+            {region}
+          </option>
+        )}
         {regions.map((item) => (
           <option key={item.name} value={item.name}>
             {item.name}
@@ -81,12 +111,19 @@ export default function Select({ onData }: ChildComponentProps) {
       </select>
       <select
         className="p-3 w-80 md:w-96 bg-gray-50 rounded-md mb-5"
+        value={city}
         onChange={(e) => {
           setCity(e.target.value);
+          localStorage.setItem("city", e.target.value);
         }}
       >
         {city === "" && (
           <option className="text-slate-500">Виберіть місто</option>
+        )}
+        {city && (
+          <option key={city} value={city}>
+            {city}
+          </option>
         )}
         {cities?.cities?.map((item) => (
           <option key={item.name} value={item.name}>
@@ -96,12 +133,19 @@ export default function Select({ onData }: ChildComponentProps) {
       </select>
       <select
         className="p-3 w-80 md:w-96 bg-gray-50 rounded-md mb-5"
+        value={category}
         onChange={(e) => {
           setCategory(e.target.value);
+          localStorage.setItem("category", e.target.value);
         }}
       >
         {category === "" && (
           <option className="text-slate-500">Виберіть категорію</option>
+        )}
+        {category && (
+          <option key={category} value={category}>
+            {category}
+          </option>
         )}
         {categories?.map((item) => (
           <option key={item.name} value={item.name}>
@@ -111,12 +155,19 @@ export default function Select({ onData }: ChildComponentProps) {
       </select>
       <select
         className="p-3 w-80 md:w-96 bg-gray-50 rounded-md"
+        value={serviceType}
         onChange={(e) => {
           setServiceType(e.target.value);
+          localStorage.setItem("serviceType", e.target.value);
         }}
       >
         {serviceType === "" && (
           <option className="text-slate-500">Виберіть послугу</option>
+        )}
+        {serviceType && (
+          <option key="" value={serviceType}>
+            {serviceType}
+          </option>
         )}
 
         <option key="Пропоную роботу" value="Пропоную роботу">
