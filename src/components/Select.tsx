@@ -79,6 +79,10 @@ export default function Select({ onData }: ChildComponentProps) {
     sendDataToProfilePage();
   }, [region, city, category, serviceType]);
 
+  setTimeout(() => {
+    sendDataToProfilePage();
+  }, 100);
+
   return (
     <div className="flex flex-col">
       <select
