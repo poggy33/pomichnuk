@@ -9,7 +9,8 @@ try {
         success: true,
     });
     console.log(response)
-    response.cookies.set("token", "", {httpOnly: false, expires: new Date(0)});
+    // response.cookies.set("token", "", {httpOnly: false, expires: new Date(0)});
+    response.cookies.set("token", "", {expires: new Date(0)});
     return response;
 } catch (error: any) {
     return NextResponse.json({error: error.message},
