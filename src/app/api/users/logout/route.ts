@@ -8,6 +8,7 @@ try {
         message: "Logout successfull",
         success: true,
     });
+    console.log(response)
     response.cookies.set("token", "", {httpOnly: false, expires: new Date(0)});
     return response;
 } catch (error: any) {
