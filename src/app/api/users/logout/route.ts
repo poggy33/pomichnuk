@@ -8,10 +8,9 @@ try {
         message: "Logout successfull",
         success: true,
     });
-    console.log(response)
+    console.log(response.cookies)
     // response.cookies.set("token", "", {httpOnly: true, expires: new Date(0)});
     response.cookies.set("token", "", );
-    // response.cookies.remove("token");
     return response;
 } catch (error: any) {
     return NextResponse.json({error: error.message},
