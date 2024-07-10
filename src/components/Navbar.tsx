@@ -13,7 +13,7 @@ export default function Navbar() {
     try {
       await axios.get("/api/users/logout");
       toast.success("Logout success");
-      console.log("logout success")
+      console.log("logout success");
       router.push("/login");
       setIsLoggedIn(false);
     } catch (error: any) {

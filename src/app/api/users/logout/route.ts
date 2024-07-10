@@ -10,7 +10,8 @@ try {
     });
     console.log(response.cookies)
     response.cookies.set("token", "", {httpOnly: true, expires: new Date(0)});
-    // response.cookies.set("token", "", );
+    response.headers.set('Cache-Control', 'no-store');
+  
     return response;
 } catch (error: any) {
     return NextResponse.json({error: error.message},
