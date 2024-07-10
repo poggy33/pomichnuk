@@ -10,7 +10,7 @@ try {
     const reqBody = await request.json();
     const { whoIsChecked } = reqBody;
     const likes = await Like.find({whoIsChecked: whoIsChecked})
-    console.log(likes);
+    // console.log(likes);
         return NextResponse.json({
         message: "Likes found",
         data: likes,

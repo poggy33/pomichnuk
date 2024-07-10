@@ -9,12 +9,11 @@ export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
     const {city, category, region, service} = reqBody;
-    // console.log(reqBody);
         const posts = await Post.find({city: city, region: region, category: category, service: service})
-        // console.log(posts)
+        const reversedPosts = posts.reverse();
         return NextResponse.json({
         message: "Post found",
-        data: posts,
+        data: reversedPosts,
     })
     }
  catch (error: any) {
