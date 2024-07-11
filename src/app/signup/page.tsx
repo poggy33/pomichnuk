@@ -40,7 +40,6 @@ export default function SignupPage() {
   }, [user]);
 
   function validatePassword(input: any) {
-    // return /^[a-zA-Z0-9]{6,8}$/.test(input);
     return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,8}$/.test(input);
   }
 

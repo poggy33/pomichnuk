@@ -1,13 +1,14 @@
 "use client";
 import Select from "./Select";
 import { SelectProps } from "./Select";
-import React, { useEffect, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { FcLike } from "react-icons/fc";
 import { FcLikePlaceholder } from "react-icons/fc";
+import SideMenuItem from "./SideMenu";
 
 interface PostProps {
   city: string;
@@ -32,7 +33,8 @@ export default function Main() {
   const [isShowedLikedPosts, setIsShowedLikedPosts] = useState(false);
   const [isShowedDefaultPosts, setIsShowedDefaultPosts] = useState(true);
   const [isShowedSearchedPosts, setIsShowedSearchedPosts] = useState(false);
-
+  // const [showRate, setShowRate] = useState(false);
+  // const [showRateId, setShowRateId] = useState("");
   const handleDataFromSelect = (data: SelectProps) => {
     setDataFromSelect(data);
   };
@@ -142,7 +144,7 @@ export default function Main() {
     if (likes) {
       let arrLiked: any = [];
       likes.forEach((like: any) => {
-        let liked= allPosts.find(
+        let liked = allPosts.find(
           (post: any) => like.whatIsCheckedId === post._id
         );
         arrLiked.push(liked);
@@ -161,8 +163,21 @@ export default function Main() {
 
   // console.log(likedPosts);
 
+  // const getRate = (id: string) => {
+  //   if (userEmail) {
+  //     console.log(id);
+  //     setShowRate(!showRate);
+  //     console.log(showRate);
+  //     setShowRateId(id);
+  //   }
+  // };
+
   return (
     <div className="flex flex-col justify-center items-center">
+       
+      <div className="absolute top-20 left-2 mt-1">
+       <SideMenuItem />
+      </div>
       <div className="">
         <Select onData={handleDataFromSelect} />
       </div>
@@ -185,7 +200,6 @@ export default function Main() {
           Пошук
         </button>
         <button
-        
           onClick={() => {
             getLikes();
             getLikedPosts();
@@ -193,9 +207,14 @@ export default function Main() {
             setIsShowedLikedPosts(true);
             setIsShowedSearchedPosts(false);
           }}
-          className= "w-52 mb-6 rounded-lg p-3 text-white bg-gradient-to-r from-yellow-400 to-blue-500 hover:to-blue-700 border-2 hover:border-white"
+          className="w-52 mb-6 rounded-lg p-3 text-white bg-gradient-to-r from-yellow-400 to-blue-500 hover:to-blue-700 border-2 hover:border-white"
         >
-          <p className="flex justify-between"><span>Показати обрані</span><span className="pt-0.5 text-lg"><FcLike className="opacity-70"/></span></p>
+          <p className="flex justify-between">
+            <span>Показати обрані</span>
+            <span className="pt-0.5 text-lg">
+              <FcLike className="opacity-70" />
+            </span>
+          </p>
         </button>
         <div className="flex flex-col justify-center items-center">
           {posts && isShowedSearchedPosts && (
@@ -203,6 +222,9 @@ export default function Main() {
               {posts.map((item: any) => {
                 return (
                   <div
+                    // onClick={() => {
+                    //   getRate(item._id);
+                    // }}
                     key={item._id}
                     className=" border-2 hover:border-white rounded-md"
                   >
@@ -233,10 +255,16 @@ export default function Main() {
                         </div>
                       </div>
                       <div className="flex justify-between text-gray-800">
-                        <span className="text-xs text-gray-700">
-                          {item.userId}
+                        <span>
+                          <span className="text-xs text-gray-700">
+                            {item.userId}
+                          </span>
+
+                          <span className="ml-2"></span>
                         </span>
-                        <span className="text-xs">{item.date.slice(0, 10)}</span>
+                        <span className="text-xs">
+                          {item.date.slice(0, 10)}
+                        </span>
                       </div>
                     </div>
                     <div className="mt-2 mb-6 text-sm  px-3">{item.text}</div>
@@ -334,7 +362,9 @@ export default function Main() {
                         <span className="text-xs text-gray-700">
                           {item.userId}
                         </span>
-                        <span className="text-xs">{item.date.slice(0, 10)}</span>
+                        <span className="text-xs">
+                          {item.date.slice(0, 10)}
+                        </span>
                       </div>
                     </div>
                     <div className="mt-2 mb-6 text-sm  px-3">{item.text}</div>

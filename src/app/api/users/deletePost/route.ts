@@ -1,0 +1,23 @@
+import { NextRequest, NextResponse } from "next/server";
+import Post from "@/models/postModel";
+import { connect } from "@/dbConfig/dbConfig";
+
+connect();
+
+
+export async function POST(request: NextRequest) {
+try {
+    const reqBody = await request.json();
+    const {_id} = reqBody;
+   
+        const updatedPosts = await Post.findOneAndDelete({_id: _id,})
+        return NextResponse.json({
+        message: "Post deleted",
+        data:updatedPosts,
+    })
+    }
+ catch (error: any) {
+        return NextResponse.json({error: error.message},
+        {status:400})
+    }
+};
