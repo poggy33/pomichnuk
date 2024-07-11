@@ -40,7 +40,8 @@ export default function SignupPage() {
   }, [user]);
 
   function validatePassword(input: any) {
-    return /^[a-zA-Z0-9]{6,8}$/.test(input);
+    // return /^[a-zA-Z0-9]{6,8}$/.test(input);
+    return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,8}$/.test(input);
   }
 
   function validateEmail(input: any) {
@@ -50,59 +51,70 @@ export default function SignupPage() {
   return (
     <div className="flex flex-col items-center py-2">
       <div className="mt-10 mb-5">
-        {loading ? <Spinner /> : <h1 className="text-xl">Реєстрація</h1>}
+        {loading ? (
+          <div className="flex flex-col items-center">
+            <Spinner />
+            <h1 className="text-xl mt-10">Зачекайте будь-ласка...</h1>
+          </div>
+        ) : (
+          <h1 className="text-xl">Вхід</h1>
+        )}
       </div>
       <hr></hr>
-      <input
-        className="w-80 h-12 p-2 border border-gray-300 rounded-lg mb-1 focus:outline-none focus:border-gray-600"
-        id="email"
-        type="email"
-        value={user.email}
-        onChange={(e) => {
-          setIsEmailCorrect(validateEmail(e.target.value));
-          setUser({ ...user, email: e.target.value });
-        }}
-        placeholder="email"
-      />
-      {!isEmailCorrect ? (
-        <span className="text-xs text-red-700">Введіть коректну пошту</span>
-      ) : (
-        <span className="text-xs text-green-800">Пошта коректна</span>
-      )}
+      {!loading && (
+        <div className="flex flex-col items-center">
+          <input
+            className="w-80 h-12 p-2 border border-gray-300 rounded-lg mb-1 focus:outline-none focus:border-gray-600"
+            id="email"
+            type="email"
+            value={user.email}
+            onChange={(e) => {
+              setIsEmailCorrect(validateEmail(e.target.value));
+              setUser({ ...user, email: e.target.value });
+            }}
+            placeholder="email"
+          />
+          {!isEmailCorrect ? (
+            <span className="text-xs text-red-700">Введіть коректну пошту</span>
+          ) : (
+            <span className="text-xs text-green-800">Пошта коректна</span>
+          )}
 
-      <input
-        className="w-80 h-12 p-2 border border-gray-300 rounded-lg mb-1 mt-5 focus:outline-none focus:border-gray-600"
-        id="password"
-        type="password"
-        value={user.password}
-        onChange={(e) => {
-          setUser({ ...user, password: e.target.value });
-          setIsPasswordCorrect(validatePassword(e.target.value));
-        }}
-        placeholder="password"
-      />
-      {!isPasswordCorrect ? (
-        <span className="text-xs text-red-700">
-          6-8 симолів латинські літери та цифри
-        </span>
-      ) : (
-        <span className="text-xs text-green-800">Пароль коректний</span>
-      )}
+          <input
+            className="w-80 h-12 p-2 border border-gray-300 rounded-lg mb-1 mt-5 focus:outline-none focus:border-gray-600"
+            id="password"
+            type="password"
+            value={user.password}
+            onChange={(e) => {
+              setUser({ ...user, password: e.target.value });
+              setIsPasswordCorrect(validatePassword(e.target.value));
+            }}
+            placeholder="password"
+          />
+          {!isPasswordCorrect ? (
+            <span className="text-xs text-red-700">
+              6-8 симолів латинські літери та цифри
+            </span>
+          ) : (
+            <span className="text-xs text-green-800">Пароль коректний</span>
+          )}
 
-      <button
-        disabled={buttonDisabled}
-        onClick={onSignup}
-        className={
-          buttonDisabled
-            ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
-            : "border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
-        }
-      >
-        Зареєструватися
-      </button>
-      <Link className="text-lg text-slate-700 underline" href="/login">
-        Увійти
-      </Link>
+          <button
+            disabled={buttonDisabled}
+            onClick={onSignup}
+            className={
+              buttonDisabled
+                ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
+                : "border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+            }
+          >
+            Зареєструватися
+          </button>
+          <Link className="text-lg text-slate-700 underline" href="/login">
+            Увійти
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

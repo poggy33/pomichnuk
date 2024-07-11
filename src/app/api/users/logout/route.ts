@@ -8,7 +8,6 @@ try {
         message: "Logout successfull",
         success: true,
     });
-    console.log(response.cookies)
     response.cookies.set("token", "", {httpOnly: true, expires: new Date(0)});
     response.headers.set('Cache-Control', 'no-store');
   
