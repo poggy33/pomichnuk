@@ -174,10 +174,6 @@ export default function Main() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-       
-      <div className="absolute top-20 left-2 mt-1">
-       <SideMenuItem />
-      </div>
       <div className="">
         <Select onData={handleDataFromSelect} />
       </div>
@@ -217,6 +213,14 @@ export default function Main() {
           </p>
         </button>
         <div className="flex flex-col justify-center items-center">
+          {isShowedLikedPosts && !userEmail && (
+            <div>
+              <h1 className="text-lg text-gray-600">
+                Увійдіть, щоб побачити обрані...
+              </h1>
+            </div>
+          )}
+
           {posts && isShowedSearchedPosts && (
             <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">
               {posts.map((item: any) => {

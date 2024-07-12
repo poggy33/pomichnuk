@@ -1,8 +1,7 @@
 "use client";
-import Link from 'next/link';
-import React, { useState } from 'react';
+import Link from "next/link";
+import React, { useState } from "react";
 import { CgMenuLeftAlt } from "react-icons/cg";
-
 
 function SideMenuItem() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,9 +18,21 @@ function SideMenuItem() {
         type="button"
         onClick={toggleDropdown}
       >
-        <CgMenuLeftAlt/>
-        <svg className="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
+        <CgMenuLeftAlt />
+        <svg
+          className="w-2.5 h-2.5 ms-3 rtl:rotate-180"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="m1 9 4-4-4-4"
+          />
         </svg>
       </button>
 
@@ -30,15 +41,24 @@ function SideMenuItem() {
           id="dropdownRightEnd"
           className="z-10 absolute mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-500"
         >
-          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRightEndButton">
-            <li>
-              <Link href="/userposts" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+          <ul
+            className="py-2 text-sm text-gray-700 dark:text-gray-200"
+            aria-labelledby="dropdownRightEndButton"
+          >
+            <li onClick={toggleDropdown}>
+              <Link
+                href="/userposts"
+                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
                 Мої оголошення
               </Link>
             </li>
-            <li>
-              <Link href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                Empty at the moment
+            <li onClick={toggleDropdown}>
+              <Link
+                href="/about"
+                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                Про нас
               </Link>
             </li>
           </ul>

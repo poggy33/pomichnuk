@@ -83,11 +83,8 @@ export default function ProfilePage() {
   }, [post]);
 
   return (
-    <>
+    <div className="">
       <div className="flex">
-        <div className="max-sm:hidden flex flex-col text-center justify-items-center w-1/6  p-4">
-          <h1>hello</h1>
-        </div>
         <div className="flex flex-grow flex-col items-center  py-4">
           <Select onData={handleDataFromSelect} />
           <label
@@ -123,6 +120,6 @@ export default function ProfilePage() {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

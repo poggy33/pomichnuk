@@ -6,11 +6,13 @@ import axios from "axios";
 import { MdDeleteOutline } from "react-icons/md";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
+import Spinner from "@/components/Spinner";
 
 function UserPosts() {
   const [userEmail, setUserEmail] = useState("");
   const [isDelete, setIsDelete] = useState(false);
   const [myPosts, setMyPosts] = useState<any>();
+  const [loading, setLoading] = useState(false);
 
   //get users details
   const getUserDetails = async () => {
@@ -39,6 +41,7 @@ function UserPosts() {
 
   const deletePost = async (postId: any) => {
     try {
+      setLoading(true);
       if (postId && userEmail) {
         const responseUpdateOrCreate = await axios.post(
           "/api/users/deletePost",
@@ -52,6 +55,7 @@ function UserPosts() {
       toast.error(error.message);
     } finally {
       setIsDelete(!isDelete);
+      setLoading(false);
     }
   };
 
@@ -64,12 +68,13 @@ function UserPosts() {
   }, [userEmail, isDelete]);
 
   return (
-    <div className="mt-6 flex flex-col items-center" >
-        <div className="flex">
-          <FaArrowLeft className="relative mr-3 mt-1"/><Link className="" href="/">Назад</Link>  
-        </div>
-        
-
+    <div className="mt-6 flex flex-col items-center">
+      <div className="flex">
+        <FaArrowLeft className="relative mr-3 mt-1" />
+        <Link className="" href="/">
+          Назад
+        </Link>
+      </div>
       <div className="flex items-center justify-center mt-4">
         {myPosts && (
           <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">

@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import SideMenuItem from "./SideMenu";
 
 export default function Navbar() {
   const router = useRouter();
@@ -42,6 +43,14 @@ export default function Navbar() {
 
   return (
     <>
+      {/* {isLoggedIn && (
+        <div className="absolute top-20 left-2 mt-0 max-sm:mt-1">
+          <SideMenuItem />
+        </div>
+      )} */}
+      <div className="absolute top-20 left-2 mt-0 max-sm:mt-1">
+        <SideMenuItem />
+      </div>
       <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-16 justify-between items-center pl-4">
         <div>
           <Link href={"/"}>
