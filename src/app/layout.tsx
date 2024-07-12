@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import { Montserrat } from "next/font/google";
+import FooterPage from "@/components/Footer";
 
 const montserrat = Montserrat({
   weight: "500",
@@ -21,9 +22,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 ${montserrat.className}`}>
-        <Navbar />
-        {children}
+      <body
+        className={`min-h-screen flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 ${montserrat.className}`}
+      >
+        <div>
+          <Navbar />
+          {children}
+        </div>
+        <FooterPage />
       </body>
     </html>
   );

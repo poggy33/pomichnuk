@@ -48,7 +48,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="absolute top-20 left-3 mt-0 max-sm:mt-1">
+      <div className="absolute top-20 left-4 mt-0 max-sm:mt-1">
         <SideMenuItem />
       </div>
       <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-16 justify-between items-center pl-4">
