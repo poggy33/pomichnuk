@@ -5,7 +5,7 @@ function AboutPage() {
   return (
     <div className="flex flex-col items-center justify-center py-6 max-sm:px-6 px-20">
       <div>
-        <p className="text-gray-600 text-lg">
+        <p className="text-gray-600 text-lg max-sm:text-base">
           ЄПомічник - це сервіс, який легко допомагає користувачу знайти
           послугу, яку він потребує. Це можуть бути різні послуги по дому,
           переміщенню вантажів, ремонту помешкання, обслуговуванню побутової

@@ -9,6 +9,7 @@ import SideMenuItem from "./SideMenu";
 export default function Navbar() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState("me");
 
   const logout = async () => {
     try {
@@ -26,6 +27,10 @@ export default function Navbar() {
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/currentuser");
     if (res.data.message === "User found") {
+      const parts = res.data.data.email.split('@');  
+      if (parts.length > 1) {
+        setCurrentUser(parts[0]);
+      }
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
@@ -43,12 +48,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* {isLoggedIn && (
-        <div className="absolute top-20 left-2 mt-0 max-sm:mt-1">
-          <SideMenuItem />
-        </div>
-      )} */}
-      <div className="absolute top-20 left-2 mt-0 max-sm:mt-1">
+      <div className="absolute top-20 left-3 mt-0 max-sm:mt-1">
         <SideMenuItem />
       </div>
       <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-16 justify-between items-center pl-4">
@@ -68,6 +68,9 @@ export default function Navbar() {
 
           {isLoggedIn ? (
             <button className="" onClick={logout}>
+              <span className="absolute mt-7 ml-7 text-slate-400 text-xs">
+                {currentUser}
+              </span>
               <span className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2 ml-4">
                 Вийти
               </span>
