@@ -26,6 +26,7 @@ function UserPosts() {
   const getMyPosts = async () => {
     try {
       if (userEmail) {
+        setLoading(true);
         const response = await axios.post("/api/users/getmyposts", {
           userId: userEmail,
         });
@@ -36,12 +37,12 @@ function UserPosts() {
       console.log("myPosts failed", error.message);
       toast.error(error.message);
     } finally {
+      setLoading(false);
     }
   };
 
   const deletePost = async (postId: any) => {
     try {
-      setLoading(true);
       if (postId && userEmail) {
         const responseUpdateOrCreate = await axios.post(
           "/api/users/deletePost",
@@ -55,7 +56,6 @@ function UserPosts() {
       toast.error(error.message);
     } finally {
       setIsDelete(!isDelete);
-      setLoading(false);
     }
   };
 
@@ -75,7 +75,16 @@ function UserPosts() {
           Назад
         </Link>
       </div>
-      <div className="flex items-center justify-center mt-4">
+      <div className="flex flex-col items-center justify-center mt-4">
+        {loading && (
+          <div className="flex flex-col items-center">
+            <div className="mb-2">
+              <Spinner />
+            </div>
+            <h1 className="text-lg text-slate-600">Зачекайте...</h1>
+          </div>
+        )}
+
         {myPosts && (
           <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">
             {myPosts.map((item: any) => {

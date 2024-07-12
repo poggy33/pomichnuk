@@ -16,9 +16,19 @@ interface PostProps {
   service: string;
 }
 
+interface defProps {
+  region: string | null;
+  city: string | null;
+  category: string | null;
+  service: string | null;
+}
+
 export default function Main() {
   const router = useRouter();
   const [dataFromSelect, setDataFromSelect] = useState<SelectProps | null>(
+    null
+  );
+  const [defDataFromSelect, setDefDataFromSelect] = useState<defProps | null>(
     null
   );
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -33,11 +43,21 @@ export default function Main() {
   const [isShowedLikedPosts, setIsShowedLikedPosts] = useState(false);
   const [isShowedDefaultPosts, setIsShowedDefaultPosts] = useState(true);
   const [isShowedSearchedPosts, setIsShowedSearchedPosts] = useState(false);
+  const [isDefaultData, setIsDefaultData] = useState(true);
   // const [showRate, setShowRate] = useState(false);
   // const [showRateId, setShowRateId] = useState("");
+
   const handleDataFromSelect = (data: SelectProps) => {
     setDataFromSelect(data);
   };
+  useEffect(() => {
+    setDefDataFromSelect({
+      region: localStorage.getItem("region"),
+      city: localStorage.getItem("city"),
+      category: localStorage.getItem("category"),
+      service: localStorage.getItem("serviceType"),
+    });
+  }, []);
 
   useEffect(() => {
     if (dataFromSelect) {
@@ -56,13 +76,11 @@ export default function Main() {
 
   //get likes
   const getLikes = async () => {
-    // console.log(userEmail);
     if (userEmail) {
       const res = await axios.post("/api/users/getlikes", {
         whoIsChecked: userEmail,
       });
       if (res.data.message === "Likes found") {
-        console.log(res.data.data);
         setLikes(res.data.data);
       }
     }
@@ -89,7 +107,6 @@ export default function Main() {
       console.log("Like failed", error.message);
       toast.error(error.message);
     } finally {
-      // setLoading(false);
       setLikesChanged(!likesChanged);
     }
   };
@@ -102,9 +119,24 @@ export default function Main() {
           "/api/users/getposts",
           dataFromSelect
         );
-        // console.log(response.data.data);
         setPosts(response.data.data);
-        // console.log("Post success");
+        setIsDefaultData(false);
+      }
+      if (isDefaultData) {
+        if (defDataFromSelect) {
+          if (
+            defDataFromSelect.region !== null &&
+            defDataFromSelect.city !== null &&
+            defDataFromSelect.category !== null &&
+            defDataFromSelect.service !== null
+          ) {
+            const response = await axios.post(
+              "/api/users/getposts",
+              defDataFromSelect
+            );
+            setPosts(response.data.data);
+          }
+        }
       }
     } catch (error: any) {
       console.log("Post failed", error.message);
@@ -129,10 +161,24 @@ export default function Main() {
     }
   }, [dataFromSelect]);
 
+  useEffect(() => {
+    if (defDataFromSelect) {
+      if (
+        defDataFromSelect.region !== null &&
+        defDataFromSelect.city !== null &&
+        defDataFromSelect.category !== null &&
+        defDataFromSelect.service !== null
+      ) {
+        setButtonDisabled(false);
+      } else {
+        setButtonDisabled(true);
+      }
+    }
+  }, [defDataFromSelect]);
+
   const getAllPosts = async () => {
     const res = await axios.get("/api/users/getallposts");
     if (res.data.message === "Posts found") {
-      console.log(res.data.data);
       setAllPosts(res.data.data);
       const tenPosts = res.data.data.reverse().slice(0, 10);
       setLastTenPosts(tenPosts);
@@ -140,7 +186,6 @@ export default function Main() {
   };
 
   const getLikedPosts = () => {
-    // console.log(likes, allPosts);
     if (likes) {
       let arrLiked: any = [];
       likes.forEach((like: any) => {
@@ -148,9 +193,7 @@ export default function Main() {
           (post: any) => like.whatIsCheckedId === post._id
         );
         arrLiked.push(liked);
-        // console.log(liked);
       });
-      // arrLiked.sort((a:any, b:any) => a.date.slice(0, 10) - b.date.slice(0, 10));
       setLikedPosts(arrLiked);
     }
   };
@@ -160,8 +203,6 @@ export default function Main() {
     getUserDetails();
     getLikedPosts();
   }, []);
-
-  // console.log(likedPosts);
 
   // const getRate = (id: string) => {
   //   if (userEmail) {
