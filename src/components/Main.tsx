@@ -263,7 +263,7 @@ export default function Main() {
           )}
 
           {posts && isShowedSearchedPosts && (
-            <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">
+            <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
               {posts.map((item: any) => {
                 return (
                   <div
@@ -320,7 +320,7 @@ export default function Main() {
           )}
 
           {allPosts && isShowedDefaultPosts && (
-            <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">
+            <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
               {lastTenPosts.map((item: any) => {
                 return (
                   <div
@@ -370,7 +370,7 @@ export default function Main() {
           )}
 
           {likedPosts && isShowedLikedPosts && (
-            <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">
+            <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
               {likedPosts.map((item: any) => {
                 return (
                   <div

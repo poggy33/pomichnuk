@@ -44,8 +44,14 @@ function UserPosts() {
   const deletePost = async (postId: any) => {
     try {
       if (postId && userEmail) {
-        const responseUpdateOrCreate = await axios.post(
-          "/api/users/deletePost",
+        await axios.post(
+          "/api/users/deletepost",
+          {
+            _id: postId,
+          }
+        );
+        await axios.post(
+          "/api/users/deletelike",
           {
             _id: postId,
           }
@@ -86,7 +92,7 @@ function UserPosts() {
         )}
 
         {myPosts && (
-          <div className="flex flex-col max-sm:w-80 sm:max-w-lg lg:max-w-3xl">
+          <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
             {myPosts.map((item: any) => {
               return (
                 <div

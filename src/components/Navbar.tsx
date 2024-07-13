@@ -27,7 +27,7 @@ export default function Navbar() {
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/currentuser");
     if (res.data.message === "User found") {
-      const parts = res.data.data.email.split('@');  
+      const parts = res.data.data.email.split("@");
       if (parts.length > 1) {
         setCurrentUser(parts[0]);
       }
@@ -48,11 +48,16 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="absolute top-20 left-4 mt-0 max-sm:mt-1">
+      <div className="absolute top-20 left-4 mt-4 max-sm:mt-5">
         <SideMenuItem />
       </div>
-      <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-16 justify-between items-center pl-4">
+      <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-20 justify-between items-center pl-4">
         <div>
+        {isLoggedIn && (
+              <span className="absolute mt-8 ml-1 px-1 text-white text-xs">
+                {currentUser}
+              </span>
+            )}
           <Link href={"/"}>
             <span className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2">
               Головна
@@ -68,9 +73,6 @@ export default function Navbar() {
 
           {isLoggedIn ? (
             <button className="" onClick={logout}>
-              <span className="absolute mt-7 ml-7 text-slate-400 text-xs">
-                {currentUser}
-              </span>
               <span className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2 ml-4">
                 Вийти
               </span>
