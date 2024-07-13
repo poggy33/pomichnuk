@@ -1,4 +1,5 @@
 const categories : Array<{name:string}>= [
+{name:"Всі оголошення"},
 {name:"Будівництво"},
 {name:"Сад"},
 {name:"Робота по дому"},

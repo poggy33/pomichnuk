@@ -11,6 +11,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const [text, setText] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [isCorrectCategory, setIsCorrectCategory] = useState(false)
   const [post, setPost] = useState({
     region: "",
     city: "",
@@ -54,11 +55,15 @@ export default function ProfilePage() {
 
   const createPost = async () => {
     try {
-      setLoading(true);
-      const response = await axios.post("/api/users/post", post);
-      console.log("Response success", response.data);
-      setText("");
-      router.push("/");
+      if(dataFromSelect?.category === "Всі оголошення") {setIsCorrectCategory(true)}
+      if (dataFromSelect?.category !== "Всі оголошення") {
+        setLoading(true);
+        const response = await axios.post("/api/users/post", post);
+        console.log("Response success", response.data);
+        setText("");
+        setIsCorrectCategory(false)
+        router.push("/");
+      }
     } catch (error: any) {
       console.log(error.message);
       toast.error(error.message);
@@ -87,6 +92,7 @@ export default function ProfilePage() {
       <div className="flex">
         <div className="flex flex-grow flex-col items-center  py-4">
           <Select onData={handleDataFromSelect} />
+          {isCorrectCategory && <p className="absolute mt-44 text-xs text-red-700">Виберіть категорію</p>}
           <label
             htmlFor="w3review"
             className="block mb-2 mt-4 text-sm font-medium text-gray-900"
