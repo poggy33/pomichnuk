@@ -16,6 +16,7 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(false);
   const [isEmailCorrect, setIsEmailCorrect] = useState(false);
+  const [isUniqueEmail, setIsUniqueEmail] = useState(true);
 
   const onSignup = async () => {
     try {
@@ -24,6 +25,7 @@ export default function SignupPage() {
       console.log("Response success", response.data);
       router.push("/login");
     } catch (error: any) {
+      setIsUniqueEmail(false)
       console.log(error.message);
       toast.error(error.message);
     } finally {
@@ -56,7 +58,9 @@ export default function SignupPage() {
             <h1 className="text-xl mt-10">Зачекайте будь-ласка...</h1>
           </div>
         ) : (
-          <h1 className="text-xl">Вхід</h1>
+          <div>
+            <h1 className="text-xl">Реєстрація</h1>
+          </div>
         )}
       </div>
       <hr></hr>
@@ -112,6 +116,11 @@ export default function SignupPage() {
           <Link className="text-lg text-slate-700 underline" href="/login">
             Увійти
           </Link>
+          {!isUniqueEmail && (
+              <span className="text-md text-red-700 mt-10">
+                Користувач з такою поштою вже існує.
+              </span>
+            )}
         </div>
       )}
     </div>

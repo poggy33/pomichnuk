@@ -126,6 +126,7 @@ function UserPosts() {
             })}
           </div>
         )}
+        {myPosts && myPosts.length === 0 && !loading && <p>У Вас немає активних оголошень</p>}
       </div>
     </div>
   );

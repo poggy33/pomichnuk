@@ -11,7 +11,9 @@ export default function ProfilePage() {
   const router = useRouter();
   const [text, setText] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [isCorrectCategory, setIsCorrectCategory] = useState(false)
+  const [isVerified, setIsVerified] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCorrectCategory, setIsCorrectCategory] = useState(false);
   const [post, setPost] = useState({
     region: "",
     city: "",
@@ -27,6 +29,9 @@ export default function ProfilePage() {
     if (res.data.message === "User found") {
       console.log(res.data.data.email);
       setUserEmail(res.data.data.email);
+      setIsVerified(res.data.data.isVerified);
+      setIsLoading(true);
+      console.log(res.data.data.isVerified);
     }
   };
 
@@ -55,13 +60,15 @@ export default function ProfilePage() {
 
   const createPost = async () => {
     try {
-      if(dataFromSelect?.category === "Всі оголошення") {setIsCorrectCategory(true)}
+      if (dataFromSelect?.category === "Всі оголошення") {
+        setIsCorrectCategory(true);
+      }
       if (dataFromSelect?.category !== "Всі оголошення") {
         setLoading(true);
         const response = await axios.post("/api/users/post", post);
         console.log("Response success", response.data);
         setText("");
-        setIsCorrectCategory(false)
+        setIsCorrectCategory(false);
         router.push("/");
       }
     } catch (error: any) {
@@ -89,43 +96,54 @@ export default function ProfilePage() {
 
   return (
     <div className="">
-      <div className="flex">
-        <div className="flex flex-grow flex-col items-center  py-4">
-          <Select onData={handleDataFromSelect} />
-          {isCorrectCategory && <p className="absolute mt-44 text-xs text-red-700">Виберіть категорію</p>}
-          <label
-            htmlFor="w3review"
-            className="block mb-2 mt-4 text-sm font-medium text-gray-900"
-          >
-            Ваше оголошення:
-          </label>
-          <textarea
-            onChange={(e) => {
-              setText(e.target.value);
-            }}
-            value={text}
-            id="areaId"
-            name="area"
-            rows={8}
-            className="resize-none block p-2.5 w-1/2 min-w-80 text-m text-gray-900 bg-white rounded-lg border border-gray-300 f"
-            placeholder="Опишіть коротко Вашу послугу (20-300 символів) та залиште контакти для зв'язку..."
-          ></textarea>
-          <span className="text-gray-500 mt-1">
-            Залишилося {300 - text.length} символів
-          </span>
-          <button
-            onClick={createPost}
-            disabled={buttonDisabled}
-            className={
-              buttonDisabled
-                ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
-                : "border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
-            }
-          >
-            Опублікувати
-          </button>
+      {isVerified && (
+        <div className="flex">
+          <div className="flex flex-grow flex-col items-center  py-4">
+            <Select onData={handleDataFromSelect} />
+            {isCorrectCategory && (
+              <p className="absolute mt-44 text-xs text-red-700">
+                Виберіть категорію
+              </p>
+            )}
+            <label
+              htmlFor="w3review"
+              className="block mb-2 mt-4 text-sm font-medium text-gray-900"
+            >
+              Ваше оголошення:
+            </label>
+            <textarea
+              onChange={(e) => {
+                setText(e.target.value);
+              }}
+              value={text}
+              id="areaId"
+              name="area"
+              rows={8}
+              className="resize-none block p-2.5 w-1/2 min-w-80 text-m text-gray-900 bg-white rounded-lg border border-gray-300 f"
+              placeholder="Опишіть коротко Вашу послугу (20-300 символів) та залиште контакти для зв'язку..."
+            ></textarea>
+            <span className="text-gray-500 mt-1">
+              Залишилося {300 - text.length} символів
+            </span>
+            <button
+              onClick={createPost}
+              disabled={buttonDisabled}
+              className={
+                buttonDisabled
+                  ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
+                  : "border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+              }
+            >
+              Опублікувати
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+      {!isVerified && isLoading && (
+        <div className="flex flex-col items-center text-slate-700 text-center mt-6">
+          <h1>Пройдіть спочатку верифікацію пошти</h1>
+        </div>
+      )}
     </div>
   );
 }
