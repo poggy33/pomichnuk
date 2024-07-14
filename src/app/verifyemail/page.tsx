@@ -37,7 +37,7 @@ export default function VerifyEmailPage() {
           <h1 className="text-center">Вітаємо! Верифікація пройдена успішно.</h1>
         </div>
       )}
-      {!error && (
+      {error && (
         <div>
           <h1 className="text-center">Верифікація не пройдена. Повторіть будь-ласка спробу.</h1>
         </div>
