@@ -36,7 +36,7 @@ try {
         subject: emailType === "VERIFY" ? "Verify your email" : "Reset your password", // Subject line
         text: "Привіт", // plain text body
         html: `<p>Перейдіть за <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">посиланням</a> 
-        щоб ${emailType === "VERIFY" ? "Пройти верифікацію" : "Відновити пароль"}</p>`
+        щоб ${emailType === "VERIFY" ? "пройти верифікацію" : "Відновити пароль"}</p>`
     }
 
     const mailResponse = await transporter.sendMail(mailOptions);
