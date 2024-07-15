@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Spinner from "@/components/Spinner";
+import LoginButtonGoogle from "@/components/LoginButtonGoogle";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -116,6 +117,7 @@ export default function SignupPage() {
           <Link className="text-lg text-slate-700 underline" href="/login">
             Увійти
           </Link>
+          <LoginButtonGoogle />
           {!isUniqueEmail && (
               <span className="text-md text-red-700 mt-10">
                 Користувач з такою поштою вже існує.

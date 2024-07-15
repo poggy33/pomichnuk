@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Spinner from "@/components/Spinner";
+import LoginButtonGoogle from "@/components/LoginButtonGoogle";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -95,6 +96,7 @@ export default function LoginPage() {
           <Link className="text-lg text-slate-700 underline" href="/signup">
             Реєстрація
           </Link>
+          <LoginButtonGoogle/>
         </div>
       )}
     </div>

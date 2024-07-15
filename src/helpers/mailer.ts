@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import User from "@/models/userModel";
-import bcryptjs from "bcryptjs"
+import bcryptjs from "bcryptjs";
 
 export const sendEmail = async ({email, emailType, userId}: any) => {
 try {
@@ -30,21 +30,24 @@ try {
         }
     })
 
-    const mailOptions = {
-        from: process.env.EMAIL_NODEMAILER,
-        to: email,
-        subject: emailType === "VERIFY" ? "Verify your email" : "Reset your password", // Subject line
-        text: "Привіт", // plain text body
-        html: `<p>Перейдіть за <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">посиланням</a> 
-        щоб ${emailType === "VERIFY" ? "пройти верифікацію" : "Відновити пароль"}</p>`
-    }
+    // const mailOptions = {
+    //     from: process.env.EMAIL_NODEMAILER,
+    //     to: email,
+    //     subject: emailType === "VERIFY" ? "Verify your email" : "Reset your password", // Subject line
+    //     text: "Привіт", // plain text body
+    //     html: `<p>Перейдіть за <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">посиланням</a> 
+    //     щоб ${emailType === "VERIFY" ? "пройти верифікацію" : "Відновити пароль"}</p>`
+    // }
 
-    const mailResponse = await transporter.sendMail(mailOptions);
-    return mailResponse;
+    // const mailResponse = await transporter.sendMail(mailOptions);
 
+    // return mailResponse;
 
 } catch (error: any) {
     throw new Error(error.message)
 }
 
 }
+
+
+

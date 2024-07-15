@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import { Montserrat } from "next/font/google";
 import FooterPage from "@/components/Footer";
+import NextAuthProvider from "./Providers";
 
 const montserrat = Montserrat({
   weight: "500",
@@ -25,10 +26,12 @@ export default function RootLayout({
       <body
         className={`min-h-screen flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 ${montserrat.className}`}
       >
-        <div>
-          <Navbar />
-          {children}
-        </div>
+        <NextAuthProvider>
+          <div>
+            <Navbar />
+            {children}
+          </div>
+        </NextAuthProvider>
         <FooterPage />
       </body>
     </html>

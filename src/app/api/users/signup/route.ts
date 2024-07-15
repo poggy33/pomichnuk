@@ -14,6 +14,7 @@ console.log(reqBody);
 const user = await User.findOne({email});
 
 if(user) {
+    console.log(user)
     return NextResponse.json({error: "User already exists"}, {status:400})
 }
         // hash password
@@ -24,13 +25,15 @@ if(user) {
         const newUser = new User({
             email,
             password: hashedPassword,
+            //without verify
+            isVerified: true,
         });
 
         const savedUser = await newUser.save();
         console.log(savedUser);
 
         //send verification email
-        await sendEmail({email, emailType: "VERIFY", userId: savedUser._id})
+        // await sendEmail({email, emailType: "VERIFY", userId: savedUser._id})
 
         return NextResponse.json({
             message: "User created successfully",
