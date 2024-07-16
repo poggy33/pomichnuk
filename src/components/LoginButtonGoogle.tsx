@@ -6,9 +6,12 @@ import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
 function LoginButtonGoogle() {
-    const {status, data: session} = useSession();
+  const { status, data: session } = useSession();
+
+  if (status && session?.user?.email) {
     console.log(status);
     console.log(session?.user?.email);
+  }
 
   return (
     <div className="flex flex-col mt-20">
