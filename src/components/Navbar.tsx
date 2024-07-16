@@ -5,15 +5,22 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import SideMenuItem from "./SideMenu";
+import { signOut} from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("me");
+  const { status } = useSession();
 
   const logout = async () => {
     try {
-      await axios.get("/api/users/logout");
+      if(status === "authenticated") {
+        signOut()
+      } else {
+        await axios.get("/api/users/logout");
+      }    
       toast.success("Logout success");
       console.log("logout success");
       router.push("/login");

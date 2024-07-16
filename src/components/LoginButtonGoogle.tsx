@@ -25,33 +25,20 @@ function LoginButtonGoogle() {
 
   const onGoogleSignup = async (latestUserEmail:any) => {
     try {
-        console.log(status, userEmail)
       await axios.post("/api/users/logingoogle", {userEmail: latestUserEmail, status: status});
       router.push("/");
-    router.refresh();
+      router.refresh();
     } catch (error: any) {
       console.log(error.message);
       toast.error(error.message);
     }
   };
-// const testingSingIn = async () => {
-//     try {
-        
-//       await axios.post("/api/users/logingoogle", {userEmail: "ggy33@gmail.com", status: "authenticated"});
-//       router.push("/");
-//       router.refresh();
-//     } catch (error: any) {
-//       console.log(error.message);
-//       toast.error(error.message);
-//     }
-// }
 
   return (
     <div className="flex flex-col mt-20">
       <p className="text-md mb-1">Увійти за допомогою Google</p>
       <div className="flex justify-center">
         <div
-        // onClick={testingSingIn}
           onClick={() => signIn("google")}
           className="flex justify-between w-40 items-center p-2 pr-4 bg-slate-400 border-2 hover:border-white hover:cursor-pointer rounded-lg text-white"
         >
