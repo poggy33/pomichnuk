@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import SideMenuItem from "./SideMenu";
-import { signOut} from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
 export default function Navbar() {
@@ -16,11 +16,10 @@ export default function Navbar() {
 
   const logout = async () => {
     try {
-      if(status === "authenticated") {
-        signOut()
-      } else {
-        await axios.get("/api/users/logout");
-      }    
+      if (status === "authenticated") {
+        signOut();
+      }
+      await axios.get("/api/users/logout");
       toast.success("Logout success");
       console.log("logout success");
       router.push("/login");
@@ -60,11 +59,11 @@ export default function Navbar() {
       </div>
       <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-20 justify-between items-center pl-4">
         <div>
-        {isLoggedIn && (
-              <span className="absolute mt-8 ml-1 px-1 text-white text-xs">
-                {currentUser}
-              </span>
-            )}
+          {isLoggedIn && (
+            <span className="absolute mt-8 ml-1 px-1 text-white text-xs">
+              {currentUser}
+            </span>
+          )}
           <Link href={"/"}>
             <span className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2">
               Головна

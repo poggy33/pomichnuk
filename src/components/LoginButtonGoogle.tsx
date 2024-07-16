@@ -36,7 +36,7 @@ function LoginButtonGoogle() {
 
   return (
     <div className="flex flex-col mt-20">
-      <p className="text-md mb-1">Увійти за допомогою Google</p>
+      <p className="text-md mb-4">Увійти за допомогою Google</p>
       <div className="flex justify-center">
         <div
           onClick={() => signIn("google")}
