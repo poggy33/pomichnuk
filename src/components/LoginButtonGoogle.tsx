@@ -17,16 +17,16 @@ function LoginButtonGoogle() {
     if (status && session?.user?.email) {
         if(status === "authenticated"){
             setUserEmail(session?.user?.email)
-            onGoogleSignup()
+            onGoogleSignup(session?.user?.email)
         }
       }
 
   }, [status, userEmail])
 
-  const onGoogleSignup = async () => {
+  const onGoogleSignup = async (latestUserEmail:any) => {
     try {
         console.log(status, userEmail)
-      await axios.post("/api/users/logingoogle", {userEmail: userEmail, status: status});
+      await axios.post("/api/users/logingoogle", {userEmail: latestUserEmail, status: status});
       router.push("/");
     } catch (error: any) {
       console.log(error.message);
