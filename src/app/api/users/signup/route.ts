@@ -12,6 +12,7 @@ const reqBody = await request.json();
 const {email, password} = reqBody;
 console.log(reqBody);
 const user = await User.findOne({email});
+console.log(user)
 
 if(user) {
     console.log(user)

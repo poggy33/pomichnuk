@@ -9,10 +9,10 @@ connect();
 export async function POST(request: NextRequest) {
     try {
 const reqBody = await request.json();
-const password = "V123456"
+const password = "Z123456"
 const {userEmail, status} = reqBody;
-console.log(reqBody);
-const user = await User.findOne({userEmail});
+const user = await User.findOne({email:userEmail});
+console.log(user, userEmail)
 
 if(user) {
         //create token data
@@ -39,7 +39,7 @@ if(user) {
 
         // create new user
         const newUser = new User({
-            userEmail,
+            email: userEmail,
             password: hashedPassword,
             isVerified: true,
             verifiedBy: "google",
