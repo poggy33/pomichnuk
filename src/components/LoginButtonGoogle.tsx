@@ -25,6 +25,7 @@ function LoginButtonGoogle() {
 
   const onGoogleSignup = async () => {
     try {
+        console.log(status, userEmail)
       await axios.post("/api/users/logingoogle", {userEmail: userEmail, status: status});
       router.push("/");
     } catch (error: any) {
