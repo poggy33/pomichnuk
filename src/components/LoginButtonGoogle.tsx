@@ -1,17 +1,37 @@
 "use client";
-
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 function LoginButtonGoogle() {
   const { status, data: session } = useSession();
+  const [userEmail, setUserEmail] = useState<undefined | string>()
+  const router = useRouter()
 
-  if (status && session?.user?.email) {
-    console.log(status);
-    console.log(session?.user?.email);
-  }
+  useEffect(()=>{
+    if (status && session?.user?.email) {
+        if(status === "authenticated"){
+            setUserEmail(session?.user?.email)
+            onGoogleSignup()
+        }
+      }
+
+  }, [status, userEmail])
+
+  const onGoogleSignup = async () => {
+    try {
+      await axios.post("/api/users/logingoogle", {userEmail: userEmail, status: status});
+      router.push("/");
+    } catch (error: any) {
+      console.log(error.message);
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className="flex flex-col mt-20">
