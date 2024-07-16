@@ -15,7 +15,7 @@ function LoginButtonGoogle() {
 
   useEffect(()=>{
     if (status && session?.user?.email) {
-        if(status === "authenticated"){
+        if(status === "authenticated" && session.user.email.length >0){
             setUserEmail(session?.user?.email)
             onGoogleSignup(session?.user?.email)
         }
