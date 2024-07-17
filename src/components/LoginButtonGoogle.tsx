@@ -20,7 +20,6 @@ function LoginButtonGoogle() {
             onGoogleSignup(session?.user?.email)
         }
       }
-      setUserEmail("")
 
   }, [status, userEmail])
 
