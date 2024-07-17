@@ -18,6 +18,7 @@ export default function Navbar() {
     try {
       if (status === "authenticated") {
         signOut();
+        console.log(status)
       }
       await axios.get("/api/users/logout");
       toast.success("Logout success");
