@@ -16,7 +16,7 @@ const authOptions = {
        
             try {
                 await axios.post("/api/users/logingoogle", {userEmail: user.email})
-                return true;
+                return user;
             } catch (error) {
                 console.error("Error in sign-in callback:", error);
                 return false;
