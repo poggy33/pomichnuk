@@ -16,14 +16,17 @@ const authOptions = {
             if(account.provider === "google") {
                 const { email } = user;
             try {
+                if(email) {
                 await axios.post(`${process.env.DOMAIN}/api/users/logingoogle`, {userEmail: email})
-                return user;
+                return user 
+                }
 
             } catch (error) {
                 console.error("Error in sign-in callback:", error);
                 return false;
             }
             }
+
 
         }
 
