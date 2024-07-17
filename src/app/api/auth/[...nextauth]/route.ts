@@ -13,14 +13,15 @@ const authOptions = {
     callbacks: {
 
         async signIn({ user, account }: {user: any; account: any;}) {
-
+       
             try {
-                await axios.post("/api/users/logingoogle", {userEmail: user})
+                await axios.post("/api/users/logingoogle", {userEmail: user.email})
                 return true;
             } catch (error) {
                 console.error("Error in sign-in callback:", error);
                 return false;
             }
+
         }
 
     }
