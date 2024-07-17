@@ -24,10 +24,11 @@ function LoginButtonGoogle() {
         }
       }
 
-  }, [userEmail])
+  }, [status, userEmail])
 
   const onGoogleSignup = async (latestUserEmail:any) => {
     try {
+        console.log(latestUserEmail, "latest")
       await axios.post("/api/users/logingoogle", {userEmail: latestUserEmail});
       router.push("/");
       router.refresh();
