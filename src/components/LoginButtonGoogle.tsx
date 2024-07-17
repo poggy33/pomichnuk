@@ -14,11 +14,8 @@ function LoginButtonGoogle() {
   const router = useRouter()
 
   useEffect(()=>{
-    console.log(status, userEmail);
     if (status && session?.user?.email) {
-        console.log(status, userEmail);
         if(status === "authenticated" && session.user.email.length >0){
-            console.log(status, userEmail);
             setUserEmail(session?.user?.email)
             onGoogleSignup(session?.user?.email)
         }
@@ -28,7 +25,6 @@ function LoginButtonGoogle() {
 
   const onGoogleSignup = async (latestUserEmail:any) => {
     try {
-        console.log(latestUserEmail, "latest")
       await axios.post("/api/users/logingoogle", {userEmail: latestUserEmail});
       router.push("/");
       router.refresh();
