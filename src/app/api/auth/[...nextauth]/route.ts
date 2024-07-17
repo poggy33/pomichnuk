@@ -1,5 +1,6 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from  "next-auth/providers/google";
+import axios from "axios";
 
 const authOptions = {
     providers: [
@@ -8,7 +9,21 @@ const authOptions = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
         }),
     ],
-    secret: process.env.NEXT_AUTH_SECRET
+    secret: process.env.NEXT_AUTH_SECRET,
+    callbacks: {
+
+        async signIn({ user, account }: {user: any; account: any;}) {
+
+            try {
+                await axios.post("/api/users/logingoogle", {userEmail: user})
+                return true;
+            } catch (error) {
+                console.error("Error in sign-in callback:", error);
+                return false;
+            }
+        }
+
+    }
 };
 
 const handler = NextAuth(authOptions);
