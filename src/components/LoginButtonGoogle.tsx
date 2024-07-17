@@ -24,7 +24,7 @@ function LoginButtonGoogle() {
         }
       }
 
-  }, [status, userEmail])
+  }, [userEmail])
 
   const onGoogleSignup = async (latestUserEmail:any) => {
     try {
