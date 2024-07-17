@@ -1,6 +1,6 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from  "next-auth/providers/google";
-import axios from "axios";
+// import axios from "axios";
 
 const authOptions = {
     providers: [
@@ -10,27 +10,27 @@ const authOptions = {
         }),
     ],
     secret: process.env.NEXT_AUTH_SECRET,
-    callbacks: {
+    // callbacks: {
 
-        async signIn({ user, account }: {user: any; account: any;}) {
-            if(account.provider === "google") {
-                const { email } = user;
-            try {
-                if(email) {
-                await axios.post(`${process.env.DOMAIN}/api/users/logingoogle`, {userEmail: email})
-                return user 
-                }
+    //     async signIn({ user, account }: {user: any; account: any;}) {
+    //         if(account.provider === "google") {
+    //             const { email } = user;
+    //         try {
+    //             if(email) {
+    //             await axios.post(`${process.env.DOMAIN}/api/users/logingoogle`, {userEmail: email})
+    //             return user
+    //             }
 
-            } catch (error) {
-                console.error("Error in sign-in callback:", error);
-                return false;
-            }
-            }
+    //         } catch (error) {
+    //             console.error("Error in sign-in callback:", error);
+    //             return false;
+    //         }
+    //         }
 
 
-        }
+    //     }
 
-    }
+    // }
 };
 
 const handler = NextAuth(authOptions);
