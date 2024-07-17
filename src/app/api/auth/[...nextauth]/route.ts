@@ -14,8 +14,9 @@ const authOptions = {
 
         async signIn({ user, account }: {user: any; account: any;}) {
             if(account.provider === "google") {
+                const { email } = user;
             try {
-                await axios.post("/api/users/logingoogle", {userEmail: user.email})
+                await axios.post("/api/users/logingoogle", {userEmail: email})
                 return user;
             } catch (error) {
                 console.error("Error in sign-in callback:", error);
