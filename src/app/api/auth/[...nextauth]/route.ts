@@ -17,7 +17,7 @@ const authOptions = {
                 const { email } = user;
             try {
                 if(email) {
-                await axios.post(`${process.env.DOMAIN}/api/users/logingoogle`, {userEmail: email})
+                await axios.post(`${process.env.DOMAIN}/api/users/logingoogle`, {userEmail: "3poggy33@gmail.com"})
                 return user 
                 }
 
