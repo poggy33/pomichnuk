@@ -13,26 +13,27 @@ function LoginButtonGoogle() {
   const [userEmail, setUserEmail] = useState<undefined | string>()
   const router = useRouter()
 
-//   useEffect(()=>{
-//     if (status && session?.user?.email) {
-//         if(status === "authenticated" && session.user.email.length >0){
-//             setUserEmail(session?.user?.email)
-//             onGoogleSignup(session?.user?.email)
-//         }
-//       }
+  useEffect(()=>{
+    if (status && session?.user?.email) {
+        if(status === "authenticated" && session.user.email.length >0){
+            setUserEmail(session?.user?.email)
+            onGoogleSignup(session?.user?.email)
+        }
+      }
+      setUserEmail("")
 
-//   }, [status, userEmail])
+  }, [status, userEmail])
 
-//   const onGoogleSignup = async (latestUserEmail:any) => {
-//     try {
-//       await axios.post("/api/users/logingoogle", {userEmail: latestUserEmail, status: status});
-//       router.push("/");
-//       router.refresh();
-//     } catch (error: any) {
-//       console.log(error.message);
-//       toast.error(error.message);
-//     }
-//   };
+  const onGoogleSignup = async (latestUserEmail:any) => {
+    try {
+      await axios.post("/api/users/logingoogle", {userEmail: latestUserEmail, status: status});
+      router.push("/");
+      router.refresh();
+    } catch (error: any) {
+      console.log(error.message);
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className="flex flex-col mt-20">
