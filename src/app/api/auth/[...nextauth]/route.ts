@@ -16,8 +16,21 @@ const authOptions = {
             if(account.provider === "google" && user.email.length > 0) {
                 const { email } = user;
             try {
-                await axios.post(`${process.env.DOMAIN}/api/users/logingoogle`, {userEmail: email})
+                // await axios.post(`${process.env.DOMAIN}/api/users/logingoogle`, {userEmail: email})
+                // return user;
+
+                const res = await fetch(`${process.env.DOMAIN}/api/users/logingoogle`, {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      email,
+                    })
+            })
+            if (res.ok) {
                 return user;
+              }
             } catch (error) {
                 console.error("Error in sign-in callback:", error);
                 return false;
