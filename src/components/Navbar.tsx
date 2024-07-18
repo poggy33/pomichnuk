@@ -12,7 +12,7 @@ export default function Navbar() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("me");
-  const { status } = useSession();
+  // const { status } = useSession();
 
   const logout = async () => {
     try {
