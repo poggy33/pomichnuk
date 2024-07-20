@@ -9,6 +9,7 @@ import axios from "axios";
 import { FcLike } from "react-icons/fc";
 import { FcLikePlaceholder } from "react-icons/fc";
 import SideMenuItem from "./SideMenu";
+import Spinner from "./Spinner";
 
 interface PostProps {
   city: string;
@@ -111,7 +112,7 @@ export default function Main() {
     }
   };
 
-  const postData = async () => {
+  const getPosts = async () => {
     try {
       setLoading(true);
       if (dataFromSelect) {
@@ -204,6 +205,14 @@ export default function Main() {
     getLikedPosts();
   }, []);
 
+  useEffect(() => {
+    getPosts();
+    getLikes();
+    setIsShowedDefaultPosts(false);
+    setIsShowedLikedPosts(false);
+    setIsShowedSearchedPosts(true);
+  }, [dataFromSelect]);
+
   // const getRate = (id: string) => {
   //   if (userEmail) {
   //     console.log(id);
@@ -222,8 +231,8 @@ export default function Main() {
         <button
           disabled={buttonDisabled}
           onClick={() => {
-            postData();
-            getLikes();
+            // getPosts();
+            // getLikes();
             setIsShowedDefaultPosts(false);
             setIsShowedLikedPosts(false);
             setIsShowedSearchedPosts(true);
@@ -261,6 +270,7 @@ export default function Main() {
               </h1>
             </div>
           )}
+          {loading && <Spinner/>}
 
           {posts && isShowedSearchedPosts && (
             <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
