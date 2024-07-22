@@ -116,7 +116,6 @@ export default function Main() {
     try {
       setLoading(true);
       if (dataFromSelect?.region) {
-        console.log(dataFromSelect)
         const response = await axios.post(
           "/api/users/getposts",
           dataFromSelect
@@ -192,7 +191,6 @@ export default function Main() {
     if (likes) {
       let arrLiked: any = [];
       likes.forEach((like: any) => {
-        console.log(allPosts)
         let liked = allPosts.find(
           (post: any) => like.whatIsCheckedId === post._id
         );
