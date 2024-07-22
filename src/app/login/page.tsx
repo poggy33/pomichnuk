@@ -64,7 +64,7 @@ export default function LoginPage() {
             type="text"
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e.target.value })}
-            placeholder="email"
+            placeholder="Електронна пошта"
           />
           <input
             className="p-2 w-80 h-12 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:border-gray-600"
@@ -72,7 +72,7 @@ export default function LoginPage() {
             type="password"
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
-            placeholder="password"
+            placeholder="Пароль"
           />
           {isCorrectPassword ? (
             <p className="text-xs text-red-700">

@@ -39,10 +39,10 @@ export default function Main() {
   const [likes, setLikes] = useState<any>();
   const [likesChanged, setLikesChanged] = useState(false);
   const [allPosts, setAllPosts] = useState<any>();
-  const [lastTenPosts, setLastTenPosts] = useState<any>();
+  // const [lastTenPosts, setLastTenPosts] = useState<any>();
   const [likedPosts, setLikedPosts] = useState<any>();
   const [isShowedLikedPosts, setIsShowedLikedPosts] = useState(false);
-  const [isShowedDefaultPosts, setIsShowedDefaultPosts] = useState(true);
+  // const [isShowedDefaultPosts, setIsShowedDefaultPosts] = useState(true);
   const [isShowedSearchedPosts, setIsShowedSearchedPosts] = useState(false);
   const [isDefaultData, setIsDefaultData] = useState(true);
   // const [showRate, setShowRate] = useState(false);
@@ -65,7 +65,7 @@ export default function Main() {
       handleDataFromSelect(dataFromSelect);
     }
   }, [dataFromSelect]);
-  // console.log(posts);
+ 
 
   //get users details
   const getUserDetails = async () => {
@@ -115,7 +115,7 @@ export default function Main() {
   const getPosts = async () => {
     try {
       setLoading(true);
-      if (dataFromSelect) {
+      if (dataFromSelect?.region) {
         const response = await axios.post(
           "/api/users/getposts",
           dataFromSelect
@@ -181,8 +181,8 @@ export default function Main() {
     const res = await axios.get("/api/users/getallposts");
     if (res.data.message === "Posts found") {
       setAllPosts(res.data.data);
-      const tenPosts = res.data.data.reverse().slice(0, 10);
-      setLastTenPosts(tenPosts);
+      // const tenPosts = res.data.data.reverse().slice(0, 10);
+      // setLastTenPosts(tenPosts);
     }
   };
 
@@ -190,6 +190,7 @@ export default function Main() {
     if (likes) {
       let arrLiked: any = [];
       likes.forEach((like: any) => {
+        console.log(allPosts)
         let liked = allPosts.find(
           (post: any) => like.whatIsCheckedId === post._id
         );
@@ -208,10 +209,11 @@ export default function Main() {
   useEffect(() => {
     getPosts();
     getLikes();
-    setIsShowedDefaultPosts(false);
+    // setIsShowedDefaultPosts(false);
     setIsShowedLikedPosts(false);
     setIsShowedSearchedPosts(true);
   }, [dataFromSelect]);
+  console.log(dataFromSelect)
 
   // const getRate = (id: string) => {
   //   if (userEmail) {
@@ -231,9 +233,7 @@ export default function Main() {
         <button
           disabled={buttonDisabled}
           onClick={() => {
-            // getPosts();
-            // getLikes();
-            setIsShowedDefaultPosts(false);
+            // setIsShowedDefaultPosts(false);
             setIsShowedLikedPosts(false);
             setIsShowedSearchedPosts(true);
           }}
@@ -249,7 +249,7 @@ export default function Main() {
           onClick={() => {
             getLikes();
             getLikedPosts();
-            setIsShowedDefaultPosts(false);
+            // setIsShowedDefaultPosts(false);
             setIsShowedLikedPosts(true);
             setIsShowedSearchedPosts(false);
           }}
@@ -270,7 +270,12 @@ export default function Main() {
               </h1>
             </div>
           )}
-          {loading && <Spinner/>}
+          {loading && (
+            <div className="flex flex-col items-center mt-4">
+              <p className="mb-4 text-lg">Зачекайте будь-ласка</p>
+              <Spinner />
+            </div>
+          )}
 
           {posts && isShowedSearchedPosts && (
             <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
@@ -329,7 +334,7 @@ export default function Main() {
             </div>
           )}
 
-          {allPosts && isShowedDefaultPosts && (
+          {/* {allPosts && isShowedDefaultPosts && (
             <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
               {lastTenPosts.map((item: any) => {
                 return (
@@ -377,7 +382,7 @@ export default function Main() {
                 );
               })}
             </div>
-          )}
+          )} */}
 
           {likedPosts && isShowedLikedPosts && (
             <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">

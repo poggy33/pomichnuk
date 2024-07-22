@@ -92,7 +92,7 @@ export default function Navbar() {
       </div>
       <div className="flex justify-center mt-4">
         <h1 className="py-2 px-4 rounded-full text-xl bg-gradient-to-r from-blue-300 via-green-300 to-blue-200 border-2 border-white">
-          ЄПомічник
+          <span className="text-teal-100">Є</span><span className="text-gray-700">Помічник</span>
         </h1>
       </div>
     </>

@@ -14,6 +14,7 @@ export default function ProfilePage() {
   const [isVerified, setIsVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isCorrectCategory, setIsCorrectCategory] = useState(false);
+  const [isCorrectCity, setIsCorrectCity] = useState(false);
   const [post, setPost] = useState({
     region: "",
     city: "",
@@ -51,7 +52,20 @@ export default function ProfilePage() {
     if (dataFromSelect) {
       setPost({ ...dataFromSelect, text: text, userId: userEmail });
     }
-  }, [text]);
+  }, [text, dataFromSelect]);
+
+  useEffect(() => {
+    if (dataFromSelect?.category === "Всі оголошення") {
+      setIsCorrectCategory(true);
+    } else {
+      setIsCorrectCategory(false);
+    }
+    if (dataFromSelect?.city === "Всі міста") {
+      setIsCorrectCity(true);
+    } else {
+      setIsCorrectCity(false);
+    }
+  }, [dataFromSelect]);
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -60,15 +74,19 @@ export default function ProfilePage() {
 
   const createPost = async () => {
     try {
-      if (dataFromSelect?.category === "Всі оголошення") {
-        setIsCorrectCategory(true);
-      }
-      if (dataFromSelect?.category !== "Всі оголошення") {
+      // if (dataFromSelect?.category === "Всі оголошення") {
+      //   setIsCorrectCategory(true);
+      // }
+      // if (dataFromSelect?.city === "Всі міста") {
+      //   setIsCorrectCity(true);
+      // }
+      if (dataFromSelect?.category !== "Всі оголошення" && dataFromSelect?.city !== "Всі міста") {
         setLoading(true);
         const response = await axios.post("/api/users/post", post);
         console.log("Response success", response.data);
         setText("");
         setIsCorrectCategory(false);
+        setIsCorrectCity(false)
         router.push("/");
       }
     } catch (error: any) {
@@ -83,7 +101,9 @@ export default function ProfilePage() {
     if (
       post.region.length > 0 &&
       post.city.length > 0 &&
+      // post.city !== "Всі міста" &&
       post.category.length > 0 &&
+      // post.category !== "Всі оголошення" &&
       post.service.length > 0 &&
       post.text.length > 20 &&
       post.text.length < 301
@@ -100,6 +120,11 @@ export default function ProfilePage() {
         <div className="flex">
           <div className="flex flex-grow flex-col items-center  py-4">
             <Select onData={handleDataFromSelect} />
+            {isCorrectCity && (
+              <p className="absolute mt-28 text-xs text-red-700">
+                Виберіть місто
+              </p>
+            )}
             {isCorrectCategory && (
               <p className="absolute mt-44 text-xs text-red-700">
                 Виберіть категорію

@@ -76,7 +76,7 @@ export default function SignupPage() {
               setIsEmailCorrect(validateEmail(e.target.value));
               setUser({ ...user, email: e.target.value });
             }}
-            placeholder="email"
+            placeholder="Електронна пошта"
           />
           {!isEmailCorrect ? (
             <span className="text-xs text-red-700">Введіть коректну пошту</span>
@@ -93,7 +93,7 @@ export default function SignupPage() {
               setUser({ ...user, password: e.target.value });
               setIsPasswordCorrect(validatePassword(e.target.value));
             }}
-            placeholder="password"
+            placeholder="Пароль"
           />
           {!isPasswordCorrect ? (
             <span className="text-xs text-red-700">
