@@ -116,12 +116,14 @@ export default function Main() {
     try {
       setLoading(true);
       if (dataFromSelect?.region) {
+        console.log(dataFromSelect)
         const response = await axios.post(
           "/api/users/getposts",
           dataFromSelect
         );
         setPosts(response.data.data);
         setIsDefaultData(false);
+        return
       }
       if (isDefaultData) {
         if (defDataFromSelect) {
@@ -160,7 +162,7 @@ export default function Main() {
         setButtonDisabled(true);
       }
     }
-  }, [dataFromSelect]);
+  }, [dataFromSelect?.region, dataFromSelect?.city, dataFromSelect?.category, dataFromSelect?.service ]);
 
   useEffect(() => {
     if (defDataFromSelect) {
@@ -175,7 +177,7 @@ export default function Main() {
         setButtonDisabled(true);
       }
     }
-  }, [defDataFromSelect]);
+  }, [defDataFromSelect?.region, defDataFromSelect?.city, defDataFromSelect?.category, defDataFromSelect?.service,]);
 
   const getAllPosts = async () => {
     const res = await axios.get("/api/users/getallposts");
@@ -212,8 +214,8 @@ export default function Main() {
     // setIsShowedDefaultPosts(false);
     setIsShowedLikedPosts(false);
     setIsShowedSearchedPosts(true);
-  }, [dataFromSelect]);
-  console.log(dataFromSelect)
+  }, [dataFromSelect?.region, dataFromSelect?.city, dataFromSelect?.category, dataFromSelect?.service ]);
+  // console.log(dataFromSelect)
 
   // const getRate = (id: string) => {
   //   if (userEmail) {
