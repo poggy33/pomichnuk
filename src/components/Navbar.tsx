@@ -17,15 +17,20 @@ export default function Navbar() {
 
   const logout = async () => {
     try {
-      console.log(verifiedBy)
+      console.log(verifiedBy);
       if (verifiedBy === "google") {
         signOut();
+        await axios.get("/api/users/logout");
+        toast.success("Logout google success");
+        console.log("logout google success");
+        setIsLoggedIn(false);
+      } else {
+        await axios.get("/api/users/logout");
+        toast.success("Logout success");
+        console.log("logout success");
+        router.push("/login");
+        setIsLoggedIn(false);
       }
-      await axios.get("/api/users/logout");
-      toast.success("Logout success");
-      console.log("logout success");
-      router.push("/login");
-      setIsLoggedIn(false);
     } catch (error: any) {
       console.log(error.message);
       toast.error(error.message);

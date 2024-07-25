@@ -12,6 +12,8 @@ function LoginButtonGoogle() {
   const { status, data: session } = useSession();
   const [userEmail, setUserEmail] = useState<undefined | string>()
   const router = useRouter()
+ 
+  console.log("status"+  status, "email"+  session?.user?.email)
 
   useEffect(()=>{
     if (status && session?.user?.email) {
@@ -28,7 +30,7 @@ function LoginButtonGoogle() {
     try {
       await axios.post("/api/users/logingoogle", {userEmail: latestUserEmail});
       router.push("/");
-      router.refresh();
+      // router.refresh();
     } catch (error: any) {
       console.log(error.message);
       toast.error(error.message);
