@@ -20,11 +20,16 @@ interface ChildComponentProps {
 }
 export default function Select({ onData }: ChildComponentProps) {
   const [cities, setCities] = useState<Cities>();
-  const [region, setRegion] = useState<any>(localStorage.getItem("region") || "");
-  const [city, setCity] = useState<any>(localStorage.getItem("city") || "Всі міста");
-  const [category, setCategory] = useState<any>(localStorage.getItem("category") || "Всі оголошення");
-  const [serviceType, setServiceType] = useState<any>(localStorage.getItem("serviceType") || "Надаю послугу");
+  // const [region, setRegion] = useState<any>(localStorage.getItem("region") || "");
+  // const [city, setCity] = useState<any>(localStorage.getItem("city") || "Всі міста");
+  // const [category, setCategory] = useState<any>(localStorage.getItem("category") || "Всі оголошення");
+  // const [serviceType, setServiceType] = useState<any>(localStorage.getItem("serviceType") || "Надаю послугу");
 
+  const [region, setRegion] = useState<any>("");
+  const [city, setCity] = useState<any>("Всі міста");
+  const [category, setCategory] = useState<any>("Всі оголошення");
+  const [serviceType, setServiceType] = useState<any>("Надаю послугу");
+  
   useEffect(() => {
     if (localStorage.getItem("region")) {
       setRegion(localStorage.getItem("region"));
