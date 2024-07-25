@@ -90,6 +90,7 @@ export default function Main() {
   useEffect(() => {
     getLikes();
   }, [likesChanged, userEmail]);
+  
 
   const createOrUpdateLike = async (postId: any) => {
     try {
