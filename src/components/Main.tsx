@@ -65,7 +65,6 @@ export default function Main() {
       handleDataFromSelect(dataFromSelect);
     }
   }, [dataFromSelect]);
- 
 
   //get users details
   const getUserDetails = async () => {
@@ -90,7 +89,6 @@ export default function Main() {
   useEffect(() => {
     getLikes();
   }, [likesChanged, userEmail]);
-  
 
   const createOrUpdateLike = async (postId: any) => {
     try {
@@ -123,7 +121,7 @@ export default function Main() {
         );
         setPosts(response.data.data);
         setIsDefaultData(false);
-        return
+        return;
       }
       if (isDefaultData) {
         if (defDataFromSelect) {
@@ -162,7 +160,12 @@ export default function Main() {
         setButtonDisabled(true);
       }
     }
-  }, [dataFromSelect?.region, dataFromSelect?.city, dataFromSelect?.category, dataFromSelect?.service ]);
+  }, [
+    dataFromSelect?.region,
+    dataFromSelect?.city,
+    dataFromSelect?.category,
+    dataFromSelect?.service,
+  ]);
 
   useEffect(() => {
     if (defDataFromSelect) {
@@ -177,7 +180,12 @@ export default function Main() {
         setButtonDisabled(true);
       }
     }
-  }, [defDataFromSelect?.region, defDataFromSelect?.city, defDataFromSelect?.category, defDataFromSelect?.service,]);
+  }, [
+    defDataFromSelect?.region,
+    defDataFromSelect?.city,
+    defDataFromSelect?.category,
+    defDataFromSelect?.service,
+  ]);
 
   const getAllPosts = async () => {
     const res = await axios.get("/api/users/getallposts");
@@ -213,7 +221,12 @@ export default function Main() {
     // setIsShowedDefaultPosts(false);
     setIsShowedLikedPosts(false);
     setIsShowedSearchedPosts(true);
-  }, [dataFromSelect?.region, dataFromSelect?.city, dataFromSelect?.category, dataFromSelect?.service ]);
+  }, [
+    dataFromSelect?.region,
+    dataFromSelect?.city,
+    dataFromSelect?.category,
+    dataFromSelect?.service,
+  ]);
   // console.log(dataFromSelect)
 
   // const getRate = (id: string) => {
@@ -316,12 +329,8 @@ export default function Main() {
                         </div>
                       </div>
                       <div className="flex justify-between text-gray-800">
-                        <span>
-                          <span className="text-xs text-gray-700">
-                            {item.userId}
-                          </span>
-
-                          <span className="ml-2"></span>
+                        <span className="text-xs text-gray-700">
+                          {item.userId}
                         </span>
                         <span className="text-xs">
                           {item.date.slice(0, 10)}
@@ -428,7 +437,7 @@ export default function Main() {
                         </span>
                       </div>
                     </div>
-                    <div className="mt-2 mb-6 text-sm  px-3">{item.text}</div>
+                    <div className="mt-2 mb-6 text-sm px-3">{item.text}</div>
                   </div>
                 );
               })}
