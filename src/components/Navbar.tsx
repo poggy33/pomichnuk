@@ -12,11 +12,15 @@ export default function Navbar() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("me");
+  const [verifiedBy, setVerifiedBy] = useState("");
   // const { status } = useSession();
 
   const logout = async () => {
     try {
-      await signOut();
+      console.log(verifiedBy)
+      if (verifiedBy === "google") {
+        signOut();
+      }
       await axios.get("/api/users/logout");
       toast.success("Logout success");
       console.log("logout success");
@@ -34,6 +38,7 @@ export default function Navbar() {
       const parts = res.data.data.email.split("@");
       if (parts.length > 1) {
         setCurrentUser(parts[0]);
+        setVerifiedBy(res.data.data.verifiedBy);
       }
       setIsLoggedIn(true);
     } else {
@@ -92,7 +97,8 @@ export default function Navbar() {
       </div>
       <div className="flex justify-center mt-4">
         <h1 className="py-2 px-4 rounded-full text-xl bg-gradient-to-r from-blue-300 via-green-300 to-blue-200 border-2 border-white">
-          <span className="text-teal-100">Є</span><span className="text-gray-700">Помічник</span>
+          <span className="text-teal-100">Є</span>
+          <span className="text-gray-700">Помічник</span>
         </h1>
       </div>
     </>
