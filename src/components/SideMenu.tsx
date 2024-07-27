@@ -15,27 +15,11 @@ function SideMenuItem() {
     <div className="relative">
       <button
         id="dropdownRightEndButton"
-        className="text-white focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-xl px-3 py-2.5 text-center inline-flex items-center border-2 bg-slate-300 hover:border-white"
+        className="text-white focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-2xl px-3 py-2.5 text-center inline-flex items-center border-2 bg-slate-300 hover:border-white"
         type="button"
         onClick={toggleDropdown}
       >
-        {/* <CgMenuLeftAlt /> */}
         <TfiMenu />
-        {/* <svg
-          className="w-2.5 h-2.5 ms-3 rtl:rotate-180"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 6 10"
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="m1 9 4-4-4-4"
-          />
-        </svg> */}
       </button>
 
       {isOpen && (

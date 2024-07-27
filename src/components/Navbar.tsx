@@ -63,7 +63,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="absolute top-20 left-4 mt-4 max-sm:mt-5">
+      <div className="absolute top-20 left-4 mt-5 max-sm:mt-6">
         <SideMenuItem />
       </div>
       <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-16 justify-between items-center pl-4">
@@ -96,7 +96,7 @@ export default function Navbar() {
           )}
         </div>
       </div>
-      <div className="flex flex-col py-1 bg-gradient-to-b from-gray-100 to-gray-200 items-center">
+      <div className="flex flex-col py-0.5 bg-gradient-to-b from-slate-100 to-gray-200 items-center">
         {!isLoggedIn && (
           <div className="flex">
             <p className="text-sm text-slate-400  mr-2">Увійдіть...</p>
@@ -109,8 +109,7 @@ export default function Navbar() {
             <p className="text-sm text-slate-500 underline">{currentUser}</p>
           </div>
         )}
-      </div>
-
+      </div>        
       <div className="flex justify-center mt-4">
         <h1 className="py-2 px-4 rounded-full text-xl bg-gradient-to-r from-blue-300 via-green-300 to-blue-200 border-2 border-white">
           <span className="text-teal-100">Є</span>
