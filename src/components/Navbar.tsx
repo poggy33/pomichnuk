@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import SideMenuItem from "./SideMenu";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { RiUserForbidLine } from "react-icons/ri";
 
 export default function Navbar() {
   const router = useRouter();
@@ -65,13 +66,8 @@ export default function Navbar() {
       <div className="absolute top-20 left-4 mt-4 max-sm:mt-5">
         <SideMenuItem />
       </div>
-      <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-20 justify-between items-center pl-4">
+      <div className="bg-gradient-to-t from-yellow-300 to-blue-400 flex h-16 justify-between items-center pl-4">
         <div>
-          {isLoggedIn && (
-            <span className="absolute mt-8 ml-1 px-1 text-white text-xs">
-              {currentUser}
-            </span>
-          )}
           <Link href={"/"}>
             <span className="bg-gradient-to-t from-yellow-300 to-blue-400 hover:to-blue-500 border-2 hover:border-white h-8 max-sm:text-xs rounded-lg px-2 py-2">
               Головна
@@ -100,10 +96,25 @@ export default function Navbar() {
           )}
         </div>
       </div>
+      <div className="flex flex-col py-1 bg-gradient-to-b from-gray-100 to-gray-200 items-center">
+        {!isLoggedIn && (
+          <div className="flex">
+            <p className="text-sm text-slate-400  mr-2">Увійдіть...</p>
+            <RiUserForbidLine className="text-slate-500" />
+          </div>
+        )}
+        {isLoggedIn && (
+          <div className="flex">
+            <p className="text-sm text-slate-400 mr-2">Ви увійшли як</p>
+            <p className="text-sm text-slate-500 underline">{currentUser}</p>
+          </div>
+        )}
+      </div>
+
       <div className="flex justify-center mt-4">
         <h1 className="py-2 px-4 rounded-full text-xl bg-gradient-to-r from-blue-300 via-green-300 to-blue-200 border-2 border-white">
           <span className="text-teal-100">Є</span>
-          <span className="text-gray-700">Помічник</span>
+          <span className="text-slate-600">Помічник</span>
         </h1>
       </div>
     </>
