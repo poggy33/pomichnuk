@@ -8,8 +8,9 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { FcLike } from "react-icons/fc";
 import { FcLikePlaceholder } from "react-icons/fc";
-import SideMenuItem from "./SideMenu";
+import { IoClose } from "react-icons/io5";
 import Spinner from "./Spinner";
+import { Rating } from "react-simple-star-rating";
 
 interface PostProps {
   city: string;
@@ -17,7 +18,7 @@ interface PostProps {
   service: string;
 }
 
-interface defProps {
+interface DefProps {
   region: string | null;
   city: string | null;
   category: string | null;
@@ -29,7 +30,7 @@ export default function Main() {
   const [dataFromSelect, setDataFromSelect] = useState<SelectProps | null>(
     null
   );
-  const [defDataFromSelect, setDefDataFromSelect] = useState<defProps | null>(
+  const [defDataFromSelect, setDefDataFromSelect] = useState<DefProps | null>(
     null
   );
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -46,7 +47,13 @@ export default function Main() {
   const [isShowedSearchedPosts, setIsShowedSearchedPosts] = useState(false);
   const [isDefaultData, setIsDefaultData] = useState(true);
   // const [showRate, setShowRate] = useState(false);
-  // const [showRateId, setShowRateId] = useState("");
+  const [showRateId, setShowRateId] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [ratingValue, setRatingValue] = useState(0);
+
+  const handleRating = (rate: number) => {
+    setRatingValue(rate);
+  };
 
   const handleDataFromSelect = (data: SelectProps) => {
     setDataFromSelect(data);
@@ -305,27 +312,66 @@ export default function Main() {
                     <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
                       <div className="flex justify-between mb-1">
                         <p className="text-gray-700">{item.city}</p>
-                        <div
-                          onClick={() => createOrUpdateLike(item._id)}
-                          className="mt-1"
-                        >
-                          {likes && (
-                            <div>
-                              {likes.map((like: any) => {
-                                const isLike =
-                                  like.whatIsCheckedId === item._id &&
-                                  like.isChecked;
-                                return (
-                                  <div key={like._id}>
-                                    {isLike && (
-                                      <FcLike className="absolute text-lg" />
-                                    )}
+                        <div className="flex">
+{/* rating */}
+                          <div className="relative inline-block">
+                            <button
+                              onClick={() => {
+                                setShowRateId(item._id);
+                                setVisible(!visible);
+                              }}
+                              className="mr-4"
+                            >
+                              Rate
+                            </button>
+                            {visible &&
+                              userEmail &&
+                              item._id === showRateId &&
+                              userEmail !== item.userId && (
+                                <div className="absolute z-10 -ml-40 -mt-32 flex flex-col items-center px-3 py-2 text-xs text-slate-500 bg-white border border-gray-200 rounded-lg shadow-sm opacity-100 min-w-60">
+                                  <div onClick={()=>setVisible(false)} className="flex w-full justify-end text-lg hover:cursor-pointer">
+                                    <IoClose />
                                   </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                          <FcLikePlaceholder className="text-lg" />
+                                  <p className="text-center mb-1">
+                                    Ви можете поставити лише одну оцінку
+                                    протягом місяця
+                                  </p>
+                                  <div>
+                                    <Rating
+                                      SVGstyle={{ display: "inline" }}
+                                      className="inline-flex"
+                                      size={20}
+                                      onClick={handleRating}
+                                      initialValue={ratingValue}
+                                    />
+                                  </div>
+                                  <button className="mt-2 bg-black p-1 px-2 rounded-md text-white">Поставити оцінку</button>
+                                </div>
+                              )}
+                          </div>
+
+                          <div
+                            className="hover:cursor-pointer"
+                            onClick={() => createOrUpdateLike(item._id)}
+                          >
+                            {likes && (
+                              <div>
+                                {likes.map((like: any) => {
+                                  const isLike =
+                                    like.whatIsCheckedId === item._id &&
+                                    like.isChecked;
+                                  return (
+                                    <div key={like._id}>
+                                      {isLike && (
+                                        <FcLike className="absolute text-lg" />
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                            <FcLikePlaceholder className="text-lg" />
+                          </div>
                         </div>
                       </div>
                       <div className="flex justify-between text-gray-800">
@@ -406,8 +452,8 @@ export default function Main() {
                       <div className="flex justify-between mb-1">
                         <p className="text-gray-700">{item.city}</p>
                         <div
+                          className="hover:cursor-pointer"
                           onClick={() => createOrUpdateLike(item._id)}
-                          className="mt-1"
                         >
                           {likes && (
                             <div>
