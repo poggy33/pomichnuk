@@ -310,7 +310,7 @@ export default function Main() {
                         <div className="flex">
                           {/* rating */}
                           <div className="relative inline-block">
-                            <div className="flex justify-start w-14">
+                            <div className="flex justify-start w-14 mt-0.5">
                               <button
                                 onClick={() => {
                                   setShowRateId(item._id);
@@ -319,10 +319,10 @@ export default function Main() {
                                 className="flex items-center pl-1"
                               >
                                 <div className="mr-1">
-                                  <FaRegStar className="text-xs text-yellow-600" />
+                                  <FaRegStar className="text-sm text-yellow-600" />
                                 </div>
                                 <div>
-                                  <p className="text-sm text-teal-700 font-mono font-semibold">
+                                  <p className={`text-xs ${Number(item.rate) <= 3 ? "text-red-700" : "text-teal-700"}  font-mono font-semibold`}>
                                     {item.rate.length > 1 ? item.rate.substr(0, 3) : item.rate + ".0" }
                                   </p>
                                 </div>
