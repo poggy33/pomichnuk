@@ -20,24 +20,26 @@ try {
         const post = await Post.findOne({_id : postId});
         // console.log(myRates)
         if(!rate) {
-            const newRate = new Rate({
-                whoIsChecked : userEmail,
-                whatIsCheckedEmail: choosenEmail,
-                rate: ratingValue,
-                whatIsCheckedId: postId,
-            
-            });     
-            const savedRate = await newRate.save();
-      
-           if(post && user) {
-            const postRate = (Number(post.rate) + Number(ratingValue))/(Number(post.countRate) + 1)
-            const userRate = (Number(user.rate) + Number(ratingValue))/(Number(user.countRate) + 1)   
-            const postRateCount = (Number(post.countRate) + 1)
-            const userRateCount = (Number(user.countRate) + 1)
- 
-            await Post.findOneAndUpdate({_id: postId}, {rate: postRate, countRate: postRateCount})
-            await User.findOneAndUpdate({email : choosenEmail}, {rate: userRate, countRate: userRateCount})
-        }
+            if(!myRates || myRates?.length < 10 ) {
+                const newRate = new Rate({
+                    whoIsChecked : userEmail,
+                    whatIsCheckedEmail: choosenEmail,
+                    rate: ratingValue,
+                    whatIsCheckedId: postId,
+                
+                });     
+                const savedRate = await newRate.save();
+        
+                if(post && user) {
+                    const postRate = (Number(post.rate)*Number(post.countRate) + Number(ratingValue))/(Number(post.countRate) + 1)
+                    const userRate = (Number(user.rate)*Number(user.countRate) + Number(ratingValue))/(Number(user.countRate) + 1)   
+                    const postRateCount = (Number(post.countRate) + 1)
+                    const userRateCount = (Number(user.countRate) + 1)
+        
+                    await Post.findOneAndUpdate({_id: postId}, {rate: postRate, countRate: postRateCount})
+                    await User.findOneAndUpdate({email : choosenEmail}, {rate: userRate, countRate: userRateCount})
+                }
+            }    
         }
 
         return NextResponse.json({

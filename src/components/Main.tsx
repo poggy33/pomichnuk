@@ -11,6 +11,7 @@ import { FcLikePlaceholder } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
 import Spinner from "./Spinner";
 import { Rating } from "react-simple-star-rating";
+import { FaRegStar } from "react-icons/fa";
 
 // interface PostProps {
 //   city: string;
@@ -233,14 +234,15 @@ export default function Main() {
   ]);
 
   const getRate = async (post: any) => {
-    if(userEmail) {
-      await axios.post(
-        "/api/users/getrate",
-        {choosenEmail: post.userId, userEmail: userEmail, ratingValue: ratingValue, postId: post._id}
-      );
+    if (userEmail) {
+      await axios.post("/api/users/getrate", {
+        choosenEmail: post.userId,
+        userEmail: userEmail,
+        ratingValue: ratingValue,
+        postId: post._id,
+      });
     }
     // console.log(email)
-
   };
 
   return (
@@ -308,15 +310,24 @@ export default function Main() {
                         <div className="flex">
                           {/* rating */}
                           <div className="relative inline-block">
-                            <button
-                              onClick={() => {
-                                setShowRateId(item._id);
-                                setVisible(!visible);
-                              }}
-                              className="mr-4"
-                            >
-                              {item.rate}
-                            </button>
+                            <div className="flex justify-start w-14">
+                              <button
+                                onClick={() => {
+                                  setShowRateId(item._id);
+                                  setVisible(!visible);
+                                }}
+                                className="flex items-center pl-1"
+                              >
+                                <div className="mr-1">
+                                  <FaRegStar className="text-xs text-yellow-600" />
+                                </div>
+                                <div>
+                                  <p className="text-sm text-teal-700 font-mono font-semibold">
+                                    {item.rate.length > 1 ? item.rate.substr(0, 3) : item.rate + ".0" }
+                                  </p>
+                                </div>
+                              </button>
+                            </div>
                             {visible &&
                               userEmail &&
                               item._id === showRateId &&
@@ -328,8 +339,8 @@ export default function Main() {
                                   >
                                     <IoClose />
                                   </div>
-                                  <p className="text-center mb-1">
-                                    Ви можете поставити лише одну оцінку одному
+                                  <p className="text-center mb-2">
+                                    Ви можете поставити лише одну оцінку кожному
                                     користувачу
                                   </p>
                                   <div>
@@ -341,13 +352,19 @@ export default function Main() {
                                       initialValue={ratingValue}
                                     />
                                   </div>
-                                  <button onClick={()=>getRate(item)} className="mt-2 bg-black p-1 px-2 rounded-md text-white">
+                                  <button
+                                    onClick={() => {
+                                      getRate(item);
+                                      setVisible(false);
+                                    }}
+                                    className="mt-3 bg-black p-2 rounded-md text-white"
+                                  >
                                     Поставити оцінку
                                   </button>
                                 </div>
                               )}
                           </div>
-
+                          {/* rating end */}
                           <div
                             className="hover:cursor-pointer"
                             onClick={() => createOrUpdateLike(item._id)}
