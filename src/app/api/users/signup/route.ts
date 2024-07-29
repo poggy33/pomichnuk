@@ -10,12 +10,9 @@ export async function POST(request: NextRequest) {
     try {
 const reqBody = await request.json();
 const {email, password} = reqBody;
-console.log(reqBody);
 const user = await User.findOne({email});
-console.log(user)
 
 if(user) {
-    console.log(user)
     return NextResponse.json({error: "User already exists"}, {status:400})
 }
         // hash password
@@ -31,7 +28,6 @@ if(user) {
         });
 
         const savedUser = await newUser.save();
-        console.log(savedUser);
 
         //send verification email
         // await sendEmail({email, emailType: "VERIFY", userId: savedUser._id})

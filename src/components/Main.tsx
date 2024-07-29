@@ -12,11 +12,11 @@ import { IoClose } from "react-icons/io5";
 import Spinner from "./Spinner";
 import { Rating } from "react-simple-star-rating";
 
-interface PostProps {
-  city: string;
-  category: string;
-  service: string;
-}
+// interface PostProps {
+//   city: string;
+//   category: string;
+//   service: string;
+// }
 
 interface DefProps {
   region: string | null;
@@ -40,16 +40,15 @@ export default function Main() {
   const [likes, setLikes] = useState<any>();
   const [likesChanged, setLikesChanged] = useState(false);
   const [allPosts, setAllPosts] = useState<any>();
-  // const [lastTenPosts, setLastTenPosts] = useState<any>();
   const [likedPosts, setLikedPosts] = useState<any>();
   const [isShowedLikedPosts, setIsShowedLikedPosts] = useState(false);
-  // const [isShowedDefaultPosts, setIsShowedDefaultPosts] = useState(true);
   const [isShowedSearchedPosts, setIsShowedSearchedPosts] = useState(false);
   const [isDefaultData, setIsDefaultData] = useState(true);
   // const [showRate, setShowRate] = useState(false);
   const [showRateId, setShowRateId] = useState("");
   const [visible, setVisible] = useState(false);
   const [ratingValue, setRatingValue] = useState(0);
+  const [postId, setPostId] = useState("");
 
   const handleRating = (rate: number) => {
     setRatingValue(rate);
@@ -58,6 +57,7 @@ export default function Main() {
   const handleDataFromSelect = (data: SelectProps) => {
     setDataFromSelect(data);
   };
+
   useEffect(() => {
     setDefDataFromSelect({
       region: localStorage.getItem("region"),
@@ -198,8 +198,6 @@ export default function Main() {
     const res = await axios.get("/api/users/getallposts");
     if (res.data.message === "Posts found") {
       setAllPosts(res.data.data);
-      // const tenPosts = res.data.data.reverse().slice(0, 10);
-      // setLastTenPosts(tenPosts);
     }
   };
 
@@ -225,7 +223,6 @@ export default function Main() {
   useEffect(() => {
     getPosts();
     getLikes();
-    // setIsShowedDefaultPosts(false);
     setIsShowedLikedPosts(false);
     setIsShowedSearchedPosts(true);
   }, [
@@ -234,16 +231,17 @@ export default function Main() {
     dataFromSelect?.category,
     dataFromSelect?.service,
   ]);
-  // console.log(dataFromSelect)
 
-  // const getRate = (id: string) => {
-  //   if (userEmail) {
-  //     console.log(id);
-  //     setShowRate(!showRate);
-  //     console.log(showRate);
-  //     setShowRateId(id);
-  //   }
-  // };
+  const getRate = async (post: any) => {
+    if(userEmail) {
+      await axios.post(
+        "/api/users/getrate",
+        {choosenEmail: post.userId, userEmail: userEmail, ratingValue: ratingValue, postId: post._id}
+      );
+    }
+    // console.log(email)
+
+  };
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -254,7 +252,6 @@ export default function Main() {
         <button
           disabled={buttonDisabled}
           onClick={() => {
-            // setIsShowedDefaultPosts(false);
             setIsShowedLikedPosts(false);
             setIsShowedSearchedPosts(true);
           }}
@@ -270,7 +267,6 @@ export default function Main() {
           onClick={() => {
             getLikes();
             getLikedPosts();
-            // setIsShowedDefaultPosts(false);
             setIsShowedLikedPosts(true);
             setIsShowedSearchedPosts(false);
           }}
@@ -303,9 +299,6 @@ export default function Main() {
               {posts.map((item: any) => {
                 return (
                   <div
-                    // onClick={() => {
-                    //   getRate(item._id);
-                    // }}
                     key={item._id}
                     className=" border-2 hover:border-white rounded-md"
                   >
@@ -313,7 +306,7 @@ export default function Main() {
                       <div className="flex justify-between mb-1">
                         <p className="text-gray-700">{item.city}</p>
                         <div className="flex">
-{/* rating */}
+                          {/* rating */}
                           <div className="relative inline-block">
                             <button
                               onClick={() => {
@@ -322,19 +315,22 @@ export default function Main() {
                               }}
                               className="mr-4"
                             >
-                              Rate
+                              {item.rate}
                             </button>
                             {visible &&
                               userEmail &&
                               item._id === showRateId &&
                               userEmail !== item.userId && (
                                 <div className="absolute z-10 -ml-40 -mt-32 flex flex-col items-center px-3 py-2 text-xs text-slate-500 bg-white border border-gray-200 rounded-lg shadow-sm opacity-100 min-w-60">
-                                  <div onClick={()=>setVisible(false)} className="flex w-full justify-end text-lg hover:cursor-pointer">
+                                  <div
+                                    onClick={() => setVisible(false)}
+                                    className="flex w-full justify-end text-xl hover:cursor-pointer"
+                                  >
                                     <IoClose />
                                   </div>
                                   <p className="text-center mb-1">
-                                    Ви можете поставити лише одну оцінку
-                                    протягом місяця
+                                    Ви можете поставити лише одну оцінку одному
+                                    користувачу
                                   </p>
                                   <div>
                                     <Rating
@@ -345,7 +341,9 @@ export default function Main() {
                                       initialValue={ratingValue}
                                     />
                                   </div>
-                                  <button className="mt-2 bg-black p-1 px-2 rounded-md text-white">Поставити оцінку</button>
+                                  <button onClick={()=>getRate(item)} className="mt-2 bg-black p-1 px-2 rounded-md text-white">
+                                    Поставити оцінку
+                                  </button>
                                 </div>
                               )}
                           </div>
@@ -389,56 +387,6 @@ export default function Main() {
               })}
             </div>
           )}
-
-          {/* {allPosts && isShowedDefaultPosts && (
-            <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
-              {lastTenPosts.map((item: any) => {
-                return (
-                  <div
-                    key={item._id}
-                    className="border-2 hover:border-white rounded-md"
-                  >
-                    <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
-                      <div className="flex justify-between mb-1">
-                        <p className="text-gray-700">{item.city}</p>
-                        <div
-                          onClick={() => createOrUpdateLike(item._id)}
-                          className="mt-1"
-                        >
-                          {likes && (
-                            <div>
-                              {likes.map((like: any) => {
-                                const isLike =
-                                  like.whatIsCheckedId === item._id &&
-                                  like.isChecked;
-                                return (
-                                  <div key={like._id}>
-                                    {isLike && (
-                                      <FcLike className="absolute text-lg" />
-                                    )}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                          <FcLikePlaceholder className="text-lg" />
-                        </div>
-                      </div>
-                      <div className="flex justify-between text-gray-800">
-                        <span className="text-xs text-gray-700">
-                          {item.userId}
-                        </span>
-                        <span className="text-xs">
-                          {item.date.slice(0, 10)}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="mt-2 mb-6 text-sm  px-3">{item.text}</div>
-                  </div>
-                );
-              })}
-            </div>
-          )} */}
 
           {likedPosts && isShowedLikedPosts && (
             <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
