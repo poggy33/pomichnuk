@@ -25,6 +25,10 @@ const rateSchema = new mongoose.Schema({
     type: String,
     default: "0",
   },
+  comment: {
+    type: String,
+    default: "",
+  },
 });
 
 const Rate = mongoose.models.rates || mongoose.model("rates", rateSchema);

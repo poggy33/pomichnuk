@@ -10,7 +10,7 @@ connect();
 export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
-    const {choosenEmail, userEmail, ratingValue, postId} = reqBody;
+    const {choosenEmail, userEmail, ratingValue, postId, text} = reqBody;
     console.log(choosenEmail, userEmail, ratingValue, postId)
 
     if(choosenEmail && userEmail && ratingValue) {
@@ -26,6 +26,7 @@ try {
                     whatIsCheckedEmail: choosenEmail,
                     rate: ratingValue,
                     whatIsCheckedId: postId,
+                    comment: text,
                 
                 });     
                 const savedRate = await newRate.save();

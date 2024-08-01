@@ -13,12 +13,6 @@ import Spinner from "./Spinner";
 import { Rating } from "react-simple-star-rating";
 import { FaRegStar } from "react-icons/fa";
 
-// interface PostProps {
-//   city: string;
-//   category: string;
-//   service: string;
-// }
-
 interface DefProps {
   region: string | null;
   city: string | null;
@@ -49,7 +43,7 @@ export default function Main() {
   const [showRateId, setShowRateId] = useState("");
   const [visible, setVisible] = useState(false);
   const [ratingValue, setRatingValue] = useState(0);
-  const [postId, setPostId] = useState("");
+  const [text, setText] = useState("");
 
   const handleRating = (rate: number) => {
     setRatingValue(rate);
@@ -240,9 +234,24 @@ export default function Main() {
         userEmail: userEmail,
         ratingValue: ratingValue,
         postId: post._id,
+        text: text,
       });
+      setText("");
     }
-    // console.log(email)
+  };
+
+  const isRatePossible = async (post: any) => {
+    const postId = post._id;
+    if (userEmail) {
+      const res = await axios.post("/api/users/isratepossible", {
+        choosenEmail: post.userId,
+        userEmail: userEmail,
+      });
+      if (res.data.message === "Rate possible") {
+        setShowRateId(postId);
+        setVisible(!visible);
+      }
+    }
   };
 
   return (
@@ -308,22 +317,27 @@ export default function Main() {
                       <div className="flex justify-between mb-1">
                         <p className="text-gray-700">{item.city}</p>
                         <div className="flex">
-                          {/* rating */}
+                          {/* rating start*/}
                           <div className="relative inline-block">
                             <div className="flex justify-start w-14 mt-0.5">
                               <button
-                                onClick={() => {
-                                  setShowRateId(item._id);
-                                  setVisible(!visible);
-                                }}
+                                onClick={() => isRatePossible(item)}
                                 className="flex items-center pl-1"
                               >
                                 <div className="mr-1">
                                   <FaRegStar className="text-sm text-yellow-600" />
                                 </div>
                                 <div>
-                                  <p className={`text-xs ${Number(item.rate) <= 3 ? "text-red-700" : "text-teal-700"}  font-mono font-semibold`}>
-                                    {item.rate.length > 1 ? item.rate.substr(0, 3) : item.rate + ".0" }
+                                  <p
+                                    className={`text-xs ${
+                                      Number(item.rate) <= 3.5
+                                        ? "text-red-700"
+                                        : "text-teal-700"
+                                    }  font-mono font-semibold`}
+                                  >
+                                    {item.rate.length > 1
+                                      ? item.rate.substr(0, 3)
+                                      : item.rate + ".0"}
                                   </p>
                                 </div>
                               </button>
@@ -332,7 +346,7 @@ export default function Main() {
                               userEmail &&
                               item._id === showRateId &&
                               userEmail !== item.userId && (
-                                <div className="absolute z-10 -ml-40 -mt-32 flex flex-col items-center px-3 py-2 text-xs text-slate-500 bg-white border border-gray-200 rounded-lg shadow-sm opacity-100 min-w-60">
+                                <div className="absolute z-10 -ml-44 -mt-32 flex flex-col items-center px-3 py-2 text-xs text-slate-500 bg-white border border-gray-200 rounded-lg shadow-sm opacity-100 min-w-60">
                                   <div
                                     onClick={() => setVisible(false)}
                                     className="flex w-full justify-end text-xl hover:cursor-pointer"
@@ -340,8 +354,8 @@ export default function Main() {
                                     <IoClose />
                                   </div>
                                   <p className="text-center mb-2">
-                                    Ви можете поставити лише одну оцінку кожному
-                                    користувачу
+                                    Ви можете поставити оцінку тільки одному
+                                    оголошенню кожного користувача
                                   </p>
                                   <div>
                                     <Rating
@@ -350,16 +364,44 @@ export default function Main() {
                                       size={20}
                                       onClick={handleRating}
                                       initialValue={ratingValue}
+                                      allowHover={false}
                                     />
                                   </div>
+                                  {/* textarea start */}
+                                  <label
+                                    htmlFor="w3review"
+                                    className="block mb-1 mt-1 text-xs font-medium text-gray-900"
+                                  >
+                                    Коментар:
+                                  </label>
+                                  <textarea
+                                    onChange={(e) => {
+                                      setText(e.target.value);
+                                    }}
+                                    value={text}
+                                    id="areaId"
+                                    name="area"
+                                    rows={4}
+                                    className="resize-none block p-2.5 w-60 text-m text-gray-900 bg-white rounded-lg border border-gray-300 f"
+                                    placeholder="Напишіть короткий коментар автору оголошення."
+                                  ></textarea>
+                                  <span className="text-gray-500 mt-1">
+                                    Залишилося {120 - text.length} символів
+                                  </span>
+                                  {/* textarea end */}
                                   <button
                                     onClick={() => {
                                       getRate(item);
                                       setVisible(false);
                                     }}
-                                    className="mt-3 bg-black p-2 rounded-md text-white"
+                                    disabled={ratingValue === 0}
+                                    className={`mt-3 mb-1 ${
+                                      ratingValue === 0
+                                        ? "bg-slate-500"
+                                        : "bg-black"
+                                    }  p-2 rounded-md text-white`}
                                   >
-                                    Поставити оцінку
+                                    Відправити
                                   </button>
                                 </div>
                               )}
@@ -390,9 +432,12 @@ export default function Main() {
                         </div>
                       </div>
                       <div className="flex justify-between text-gray-800">
-                        <span className="text-xs text-gray-700">
+                        <Link
+                          href={`/user/${item.userId}`}
+                          className="text-xs text-gray-700 underline hover:text-blue-900"
+                        >
                           {item.userId}
-                        </span>
+                        </Link>
                         <span className="text-xs">
                           {item.date.slice(0, 10)}
                         </span>
@@ -416,33 +461,128 @@ export default function Main() {
                     <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
                       <div className="flex justify-between mb-1">
                         <p className="text-gray-700">{item.city}</p>
-                        <div
-                          className="hover:cursor-pointer"
-                          onClick={() => createOrUpdateLike(item._id)}
-                        >
-                          {likes && (
-                            <div>
-                              {likes.map((like: any) => {
-                                const isLike =
-                                  like.whatIsCheckedId === item._id &&
-                                  like.isChecked;
-                                return (
-                                  <div key={like._id}>
-                                    {isLike && (
-                                      <FcLike className="absolute text-lg" />
-                                    )}
-                                  </div>
-                                );
-                              })}
+                        {/* rating start*/}
+                        <div className="flex">
+                          <div className="relative inline-block">
+                            <div className="flex justify-start w-14 mt-0.5">
+                              <button
+                                onClick={() => isRatePossible(item)}
+                                className="flex items-center pl-1"
+                              >
+                                <div className="mr-1">
+                                  <FaRegStar className="text-sm text-yellow-600" />
+                                </div>
+                                <div>
+                                  <p
+                                    className={`text-xs ${
+                                      Number(item.rate) <= 3.5
+                                        ? "text-red-700"
+                                        : "text-teal-700"
+                                    }  font-mono font-semibold`}
+                                  >
+                                    {item.rate.length > 1
+                                      ? item.rate.substr(0, 3)
+                                      : item.rate + ".0"}
+                                  </p>
+                                </div>
+                              </button>
                             </div>
-                          )}
-                          <FcLikePlaceholder className="text-lg" />
+                            {visible &&
+                              userEmail &&
+                              item._id === showRateId &&
+                              userEmail !== item.userId && (
+                                <div className="absolute z-10 -ml-44 -mt-32 flex flex-col items-center px-3 py-2 text-xs text-slate-500 bg-white border border-gray-200 rounded-lg shadow-sm opacity-100 min-w-60">
+                                  <div
+                                    onClick={() => setVisible(false)}
+                                    className="flex w-full justify-end text-xl hover:cursor-pointer"
+                                  >
+                                    <IoClose />
+                                  </div>
+                                  <p className="text-center mb-2">
+                                    Ви можете поставити оцінку тільки одному
+                                    оголошенню кожного користувача
+                                  </p>
+                                  <div>
+                                    <Rating
+                                      SVGstyle={{ display: "inline" }}
+                                      className="inline-flex"
+                                      size={20}
+                                      onClick={handleRating}
+                                      initialValue={ratingValue}
+                                      allowHover={false}
+                                    />
+                                  </div>
+                                  {/* textarea start */}
+                                  <label
+                                    htmlFor="w3review"
+                                    className="block mb-1 mt-1 text-xs font-medium text-gray-900"
+                                  >
+                                    Коментар:
+                                  </label>
+                                  <textarea
+                                    onChange={(e) => {
+                                      setText(e.target.value);
+                                    }}
+                                    value={text}
+                                    id="areaId"
+                                    name="area"
+                                    rows={4}
+                                    className="resize-none block p-2.5 w-60 text-m text-gray-900 bg-white rounded-lg border border-gray-300 f"
+                                    placeholder="Напишіть короткий коментар автору оголошення."
+                                  ></textarea>
+                                  <span className="text-gray-500 mt-1">
+                                    Залишилося {120 - text.length} символів
+                                  </span>
+                                  {/* textarea end */}
+                                  <button
+                                    onClick={() => {
+                                      getRate(item);
+                                      setVisible(false);
+                                    }}
+                                    disabled={ratingValue === 0}
+                                    className={`mt-3 mb-1 ${
+                                      ratingValue === 0
+                                        ? "bg-slate-500"
+                                        : "bg-black"
+                                    }  p-2 rounded-md text-white`}
+                                  >
+                                    Відправити
+                                  </button>
+                                </div>
+                              )}
+                          </div>
+                          {/* rating end */}
+                          <div
+                            className="hover:cursor-pointer"
+                            onClick={() => createOrUpdateLike(item._id)}
+                          >
+                            {likes && (
+                              <div>
+                                {likes.map((like: any) => {
+                                  const isLike =
+                                    like.whatIsCheckedId === item._id &&
+                                    like.isChecked;
+                                  return (
+                                    <div key={like._id}>
+                                      {isLike && (
+                                        <FcLike className="absolute text-lg" />
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                            <FcLikePlaceholder className="text-lg" />
+                          </div>
                         </div>
                       </div>
                       <div className="flex justify-between text-gray-800">
-                        <span className="text-xs text-gray-700">
+                        <Link
+                          href={`/user/${item.userId}`}
+                          className="text-xs text-gray-700 underline hover:text-blue-900"
+                        >
                           {item.userId}
-                        </span>
+                        </Link>
                         <span className="text-xs">
                           {item.date.slice(0, 10)}
                         </span>

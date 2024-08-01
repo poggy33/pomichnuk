@@ -30,11 +30,10 @@ function UserPosts() {
         const response = await axios.post("/api/users/getmyposts", {
           userId: userEmail,
         });
-        console.log(response.data.data);
         setMyPosts(response.data.data);
       }
     } catch (error: any) {
-      console.log("myPosts failed", error.message);
+      // console.log("myPosts failed", error.message);
       toast.error(error.message);
     } finally {
       setLoading(false);
