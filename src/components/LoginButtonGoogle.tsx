@@ -16,19 +16,19 @@ function LoginButtonGoogle() {
  
   // console.log("status"+  status, "email"+  session?.user?.email)
 
-  useEffect(()=>{
-    if (status && session?.user?.email) {
-      console.log("status"+status, "email"+session.user.email)
-      console.log(session.user)
-      console.log(session)
-        if(status === "authenticated" && session.user.email.length >0){
-            setUserEmail(session?.user?.email);
-            setUserName(session?.user?.name);
-            onGoogleSignup(session?.user?.email);
-        }
-      }
+  // useEffect(()=>{
+  //   if (status && session?.user?.email) {
+  //     console.log("status"+status, "email"+session.user.email)
+  //     console.log(session.user)
+  //     console.log(session)
+  //       if(status === "authenticated" && session.user.email.length >0){
+  //           setUserEmail(session?.user?.email);
+  //           setUserName(session?.user?.name);
+  //           onGoogleSignup(session?.user?.email);
+  //       }
+  //     }
 
-  }, [status, userEmail, userName])
+  // }, [status, userEmail, userName])
 
   const onGoogleSignup = async (latestUserEmail:any) => {
     try {
