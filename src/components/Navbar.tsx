@@ -13,6 +13,7 @@ export default function Navbar() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("me");
+  const [currentEmail, setCurrentEmail] = useState("");
   const [verifiedBy, setVerifiedBy] = useState("");
   // const { status } = useSession();
 
@@ -41,10 +42,16 @@ export default function Navbar() {
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/currentuser");
     if (res.data.message === "User found") {
-      const parts = res.data.data.email.split("@");
-      if (parts.length > 1) {
-        setCurrentUser(parts[0]);
+      // const parts = res.data.data.email.split("@");
+      // if (parts.length > 1) {
+      //   setCurrentUser(parts[0]);
+      //   setVerifiedBy(res.data.data.verifiedBy);
+      // }
+      const user = res.data.data.userName;
+      if (user) {
+        setCurrentUser(user);
         setVerifiedBy(res.data.data.verifiedBy);
+        setCurrentEmail(res.data.data.email)
       }
       setIsLoggedIn(true);
     } else {
@@ -105,8 +112,8 @@ export default function Navbar() {
         )}
         {isLoggedIn && (
           <div className="flex">
-            <p className="text-sm text-slate-400 mr-2">Ви увійшли як</p>
-            <p className="text-sm text-slate-500 underline">{currentUser}</p>
+            <p className="text-sm text-slate-400 mr-2">Вітаємо, <span className="underline">{currentUser}.</span></p>
+            <p className="text-sm text-slate-400">Ви увійшли як <span className="underline">{currentEmail}</span></p>
           </div>
         )}
       </div>        

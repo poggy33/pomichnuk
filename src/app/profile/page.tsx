@@ -11,6 +11,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const [text, setText] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isCorrectCategory, setIsCorrectCategory] = useState(false);
@@ -22,14 +23,16 @@ export default function ProfilePage() {
     service: "",
     text: "",
     userId: "",
+    userName: "",
   });
 
   //get users details
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/currentuser");
     if (res.data.message === "User found") {
-      console.log(res.data.data.email);
+      // console.log(res.data.data.email);
       setUserEmail(res.data.data.email);
+      setUserName(res.data.data.userName)
       setIsVerified(res.data.data.isVerified);
       setIsLoading(true);
       console.log(res.data.data.isVerified);
@@ -50,7 +53,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (dataFromSelect) {
-      setPost({ ...dataFromSelect, text: text, userId: userEmail });
+      setPost({ ...dataFromSelect, text: text, userId: userEmail, userName: userName });
     }
   }, [text, dataFromSelect]);
 

@@ -12,11 +12,13 @@ export default function SignupPage() {
   const [user, setUser] = useState({
     email: "",
     password: "",
+    userName: "",
   });
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(false);
   const [isEmailCorrect, setIsEmailCorrect] = useState(false);
+  const [isUsernameCorrect, setIsUsernameCorrect] = useState(false);
   const [isUniqueEmail, setIsUniqueEmail] = useState(true);
 
   const onSignup = async () => {
@@ -26,7 +28,7 @@ export default function SignupPage() {
       // console.log("Response success", response.data);
       router.push("/login");
     } catch (error: any) {
-      setIsUniqueEmail(false)
+      setIsUniqueEmail(false);
       console.log(error.message);
       toast.error(error.message);
     } finally {
@@ -35,12 +37,20 @@ export default function SignupPage() {
   };
 
   useEffect(() => {
-    if (user.email.length > 5 && isPasswordCorrect) {
+    if (user.email.length > 5 && isPasswordCorrect && isUsernameCorrect) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
     }
   }, [user]);
+
+  function validateUsername(input: any) {
+    if (input.length >= 2 && input.length <= 12) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   function validatePassword(input: any) {
     return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,8}$/.test(input);
@@ -68,7 +78,24 @@ export default function SignupPage() {
       {!loading && (
         <div className="flex flex-col items-center">
           <input
-            className="w-80 h-12 p-2 border border-gray-300 rounded-lg mb-1 focus:outline-none focus:border-gray-600"
+            className="w-80 h-12 mt-5 p-2 border border-gray-300 rounded-lg mb-1 focus:outline-none focus:border-gray-600"
+            id="username"
+            // type="email"
+            value={user.userName}
+            onChange={(e) => {
+              setIsUsernameCorrect(validateUsername(e.target.value));
+              setUser({ ...user, userName: e.target.value });
+            }}
+            placeholder="Ім'я користувача"
+          />
+          {!isUsernameCorrect ? (
+            <span className="text-xs text-red-700">2-12 символів</span>
+          ) : (
+            <span className="text-xs text-green-800">Ім'я користувача коректне</span>
+          )}
+
+          <input
+            className="w-80 h-12 p-2 border border-gray-300 rounded-lg mb-1 mt-4 focus:outline-none focus:border-gray-600"
             id="email"
             type="email"
             value={user.email}
@@ -119,10 +146,10 @@ export default function SignupPage() {
           </Link>
           <LoginButtonGoogle />
           {!isUniqueEmail && (
-              <span className="text-md text-red-700 mt-10">
-                Користувач з такою поштою вже існує.
-              </span>
-            )}
+            <span className="text-md text-red-700 mt-10">
+              Користувач з такою поштою вже існує.
+            </span>
+          )}
         </div>
       )}
     </div>

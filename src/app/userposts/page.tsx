@@ -94,7 +94,7 @@ function UserPosts() {
                 >
                   <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
                     <div className="flex justify-between mb-1 items-center">
-                      <p className="text-gray-700">{item.userId}</p>
+                      <p className="text-gray-700">{item.userName}</p>
                       <div
                         onClick={() => deletePost(item._id)}
                         className="mt-1"

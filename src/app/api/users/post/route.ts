@@ -7,7 +7,7 @@ connect();
 export async function POST(request:NextRequest) {
     try {
 const reqBody = await request.json();
-const {region, city, category, service, text, userId} = reqBody;
+const {region, city, category, service, text, userId, userName} = reqBody;
 console.log(reqBody);
 
     // create new post
@@ -18,6 +18,7 @@ console.log(reqBody);
         service,
         text,
         userId,
+        userName,
     });
 
     const savedPost = await newPost.save();

@@ -9,7 +9,7 @@ connect();
 export async function POST(request: NextRequest) {
     try {
 const reqBody = await request.json();
-const {email, password} = reqBody;
+const {email, password, userName} = reqBody;
 const user = await User.findOne({email});
 
 if(user) {
@@ -21,6 +21,7 @@ if(user) {
 
         // create new user
         const newUser = new User({
+            userName,
             email,
             password: hashedPassword,
             //without verify
