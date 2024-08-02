@@ -18,8 +18,9 @@ function LoginButtonGoogle() {
 
   useEffect(()=>{
     if (status && session?.user?.email) {
-      // console.log("status"+status, "email"+session.user.email)
-      // console.log(session.user)
+      console.log("status"+status, "email"+session.user.email)
+      console.log(session.user)
+      console.log(session)
         if(status === "authenticated" && session.user.email.length >0){
             setUserEmail(session?.user?.email);
             setUserName(session?.user?.name);
