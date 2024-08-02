@@ -39,6 +39,7 @@ if(user) {
 
         // create new user
         const newUser = new User({
+            userName: userEmail,
             email: userEmail,
             password: hashedPassword,
             isVerified: true,
