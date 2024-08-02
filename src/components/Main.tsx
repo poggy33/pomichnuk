@@ -209,6 +209,8 @@ export default function Main() {
     }
   };
 
+  console.log(likedPosts)
+
   useEffect(() => {
     getAllPosts();
     getUserDetails();
@@ -317,7 +319,7 @@ export default function Main() {
                       <div className="flex justify-between mb-1">
                         <Link
                           href={`/user/${item.userId}`}
-                          className="text-sm text-gray-700 underline hover:text-blue-900"
+                          className="text-sm text-gray-700 hover:text-blue-900"
                         >
                           {item.userName}
                         </Link>
@@ -462,7 +464,7 @@ export default function Main() {
                       <div className="flex justify-between mb-1">
                         <Link
                           href={`/user/${item.userId}`}
-                          className="text-sm text-gray-700 underline hover:text-blue-900"
+                          className="text-sm text-gray-700 hover:text-blue-900"
                         >
                           {item.userName}
                         </Link>

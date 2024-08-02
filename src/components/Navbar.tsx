@@ -112,8 +112,8 @@ export default function Navbar() {
         )}
         {isLoggedIn && (
           <div className="flex">
-            <p className="text-sm text-slate-400 mr-2">Вітаємо, <span className="underline">{currentUser}.</span></p>
-            <p className="text-sm text-slate-400">Ви увійшли як <span className="underline">{currentEmail}</span></p>
+            <p className="text-sm text-slate-400 mr-2">Вітаємо, <span>{currentUser}.</span></p>
+            {/* <p className="text-sm text-slate-400">Ви увійшли як <span className="underline">{currentEmail}</span></p> */}
           </div>
         )}
       </div>        
