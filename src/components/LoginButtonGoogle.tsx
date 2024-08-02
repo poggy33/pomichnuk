@@ -11,25 +11,27 @@ import { useState, useEffect } from "react";
 function LoginButtonGoogle() {
   const { status, data: session } = useSession();
   const [userEmail, setUserEmail] = useState<undefined | string>()
+  const [userName, setUserName] = useState<null | string>()
   const router = useRouter()
  
-  console.log("status"+  status, "email"+  session?.user?.email)
+  // console.log("status"+  status, "email"+  session?.user?.email)
 
   useEffect(()=>{
     if (status && session?.user?.email) {
-      console.log("status"+status, "email"+session.user.email)
-      console.log(session.user)
+      // console.log("status"+status, "email"+session.user.email)
+      // console.log(session.user)
         if(status === "authenticated" && session.user.email.length >0){
-            setUserEmail(session?.user?.email)
-            onGoogleSignup(session?.user?.email)
+            setUserEmail(session?.user?.email);
+            setUserName(session?.user?.name);
+            onGoogleSignup(session?.user?.email);
         }
       }
 
-  }, [status, userEmail])
+  }, [status, userEmail, userName])
 
   const onGoogleSignup = async (latestUserEmail:any) => {
     try {
-      await axios.post("/api/users/logingoogle", {userEmail: latestUserEmail});
+      await axios.post("/api/users/logingoogle", {userEmail: latestUserEmail, userName: userName});
       router.push("/");
       // router.refresh();
     } catch (error: any) {
