@@ -15,7 +15,9 @@ function LoginButtonGoogle() {
   const router = useRouter()
  
   // console.log("status"+  status, "email"+  session?.user?.email)
-
+      console.log("status"+status, "email"+session?.user?.email)
+      console.log(session?.user)
+      console.log(session)
   // useEffect(()=>{
   //   if (status && session?.user?.email) {
   //     console.log("status"+status, "email"+session.user.email)
