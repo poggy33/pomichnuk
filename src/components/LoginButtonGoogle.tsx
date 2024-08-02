@@ -14,23 +14,20 @@ function LoginButtonGoogle() {
   const [userName, setUserName] = useState<null | string>()
   const router = useRouter()
  
-  // console.log("status"+  status, "email"+  session?.user?.email)
-      console.log("status"+status, "email"+session?.user?.email)
-      console.log(session?.user)
-      console.log(session)
-  // useEffect(()=>{
-  //   if (status && session?.user?.email) {
-  //     console.log("status"+status, "email"+session.user.email)
-  //     console.log(session.user)
-  //     console.log(session)
-  //       if(status === "authenticated" && session.user.email.length >0){
-  //           setUserEmail(session?.user?.email);
-  //           setUserName(session?.user?.name);
-  //           onGoogleSignup(session?.user?.email);
-  //       }
-  //     }
 
-  // }, [status, userEmail, userName])
+  useEffect(()=>{
+    if (status && session?.user?.email) {
+      console.log("status"+status, "email"+session.user.email)
+      console.log(session.user)
+      console.log(session)
+        if(status === "authenticated" && session.user.email.length >0){
+            setUserEmail(session?.user?.email);
+            setUserName(session?.user?.name);
+            onGoogleSignup(session?.user?.email);
+        }
+      }
+
+  }, [status, userEmail])
 
   const onGoogleSignup = async (latestUserEmail:any) => {
     try {
