@@ -43,18 +43,12 @@ function UserPosts() {
   const deletePost = async (postId: any) => {
     try {
       if (postId && userEmail) {
-        await axios.post(
-          "/api/users/deletepost",
-          {
-            _id: postId,
-          }
-        );
-        await axios.post(
-          "/api/users/deletelike",
-          {
-            _id: postId,
-          }
-        );
+        await axios.post("/api/users/deletepost", {
+          _id: postId,
+        });
+        await axios.post("/api/users/deletelike", {
+          _id: postId,
+        });
       }
     } catch (error: any) {
       console.log("Delete post failed", error.message);
@@ -99,8 +93,8 @@ function UserPosts() {
                   className=" border-2 hover:border-white rounded-md"
                 >
                   <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
-                    <div className="flex justify-between mb-1">
-                      <p className="text-gray-700">{item.city}</p>
+                    <div className="flex justify-between mb-1 items-center">
+                      <p className="text-gray-700">{item.userId}</p>
                       <div
                         onClick={() => deletePost(item._id)}
                         className="mt-1"
@@ -108,13 +102,9 @@ function UserPosts() {
                         <MdDeleteOutline className="text-xl" />
                       </div>
                     </div>
-                    <div className="flex justify-between text-gray-800">
-                      <span>
-                        <span className="text-xs text-gray-700">
-                          {item.userId}
-                        </span>
-
-                        <span className="ml-2"></span>
+                    <div className="flex justify-between items-center text-gray-800">
+                      <span className="text-xs text-gray-700">
+                        {item.city}
                       </span>
                       <span className="text-xs">{item.date.slice(0, 10)}</span>
                     </div>
@@ -125,7 +115,9 @@ function UserPosts() {
             })}
           </div>
         )}
-        {myPosts && myPosts.length === 0 && !loading && <p>У Вас немає активних оголошень</p>}
+        {myPosts && myPosts.length === 0 && !loading && (
+          <p>У Вас немає активних оголошень</p>
+        )}
       </div>
     </div>
   );

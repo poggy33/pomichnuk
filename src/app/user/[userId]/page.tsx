@@ -52,33 +52,54 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
             </div>
             <div className="flex justify-center w-80">
               <div className="flex justify-between w-80 items-center px-1">
-              <p className="text-gray-600 italic">Рейтинг:</p>
-                <Rating
-                  SVGstyle={{ display: "inline" }}
-                  className="inline-flex"
-                  size={25}
-                  readonly
-                  allowFraction={true}
-                  initialValue={Number(userRate.substring(0, 3))}
-                />
+                <p className="text-gray-600 italic">Рейтинг:</p>
+                {/* <div className="absolute">
+                  <Rating
+                    SVGstyle={{ display: "inline" }}
+                    className="inline-flex"
+                    size={22}
+                    readonly
+                    allowFraction={true}
+                    initialValue={Number(userRate.substring(0, 3))}
+                  />
+                </div> */}
               </div>
               <div className="flex items-center ml-1">
-                <span
-                  className={`text-lg mr-1 ${
-                    Number(userRate) <= 3.5 ? "text-red-700" : "text-teal-700"
-                  }  font-mono font-semibold`}
-                >
-                  {userRate.length > 1
-                    ? userRate.substring(0, 3)
-                    : userRate + ".0"}
-                </span>
-                <span className="font-mono font-semibold text-lg text-gray-500">({userRateCount}) </span>
+              <div className="absolute -ml-28 -mt-1">
+                  <Rating
+                    SVGstyle={{ display: "inline" }}
+                    className="inline-flex"
+                    size={22}
+                    fillColor="#D4AF37"
+                    readonly
+                    allowFraction={true}
+                    initialValue={Number(userRate.substring(0, 3))}
+                  />
+                </div>
+                <div>
+                  <span
+                    className={`mr-1 ${
+                      Number(userRate) <= 3.5 ? "text-red-700" : "text-teal-700"
+                    }  font-mono font-semibold`}
+                  >
+                    {userRate.length > 1
+                      ? userRate.substring(0, 3)
+                      : userRate + ".0"}
+                  </span>
+                  <span className="font-mono font-semibold text- text-gray-500">
+                    ({userRateCount}){" "}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
           <div className="mt-6 flex flex-col items-center">
-            {comments && comments.length> 0 ? <p className="mb-2 italic text-gray-600">Останні коментарі:</p> : <p className="mb-2"></p>}
-            {comments && comments.length> 0 ? (
+            {comments && comments.length > 0 ? (
+              <p className="mb-2 italic text-gray-600">Останні коментарі:</p>
+            ) : (
+              <p className="mb-2"></p>
+            )}
+            {comments && comments.length > 0 ? (
               <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
                 {comments.map((comment: any) => {
                   return (
@@ -123,7 +144,7 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
                           <p className="text-xs">{comment.date.slice(0, 10)}</p>
                         </div>
                       </div>
-        
+
                       <div className="mt-1 mb-2 text-sm px-3 flex max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
                         {comment.comment}
                       </div>
@@ -131,9 +152,11 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
                   );
                 })}
               </div>
-            ): <div>
-              <p>У користувача поки немає коментарів</p>
-              </div>}
+            ) : (
+              <div>
+                <p>У користувача поки немає коментарів</p>
+              </div>
+            )}
           </div>
         </div>
       ) : (
