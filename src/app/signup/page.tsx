@@ -86,12 +86,12 @@ export default function SignupPage() {
               setIsUsernameCorrect(validateUsername(e.target.value));
               setUser({ ...user, userName: e.target.value });
             }}
-            placeholder="Ім'я користувача"
+            placeholder="Ім&apos;я користувача"
           />
           {!isUsernameCorrect ? (
             <span className="text-xs text-red-700">2-12 символів</span>
           ) : (
-            <span className="text-xs text-green-800">Ім'я користувача коректне</span>
+            <span className="text-xs text-green-800">Ім&apos;я користувача коректне</span>
           )}
 
           <input
