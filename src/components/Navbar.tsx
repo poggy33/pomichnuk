@@ -19,7 +19,6 @@ export default function Navbar() {
 
   const logout = async () => {
     try {
-      console.log(verifiedBy);
       if (verifiedBy === "google") {
         signOut();
         await axios.get("/api/users/logout");
@@ -29,12 +28,12 @@ export default function Navbar() {
       } else {
         await axios.get("/api/users/logout");
         toast.success("Logout success");
-        console.log("logout success");
+        // console.log("logout success");
         router.push("/login");
         setIsLoggedIn(false);
       }
     } catch (error: any) {
-      console.log(error.message);
+      // console.log(error.message);
       toast.error(error.message);
     }
   };

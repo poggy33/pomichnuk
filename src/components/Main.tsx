@@ -209,8 +209,6 @@ export default function Main() {
     }
   };
 
-  console.log(likedPosts)
-
   useEffect(() => {
     getAllPosts();
     getUserDetails();
