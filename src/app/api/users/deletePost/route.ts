@@ -5,23 +5,17 @@ import { connect } from "@/dbConfig/dbConfig";
 connect();
 
 export async function POST(request: NextRequest) {
-try {
-    const reqBody = await request.json();
-    const {postId} = reqBody;   
-    console.log(postId)
- 
-        const updatedPosts = await Post.findOneAndDelete({_id: postId,})
-        
-        return NextResponse.json({
-        message: "Post deleted",
-        data: updatedPosts,
-    })
-    
-    }
- catch (error: any) {
-        return NextResponse.json({error: error.message},
-        {status:400})
-    }
-};
-
-
+    try {
+        const reqBody = await request.json();
+        const {postId} = reqBody;   
+            const updatedPosts = await Post.findOneAndDelete({_id: postId,})
+            return NextResponse.json({
+            message: "Post deleted",
+            data: updatedPosts,
+        })
+        }
+     catch (error: any) {
+            return NextResponse.json({error: error.message},
+            {status:400})
+        }
+    };

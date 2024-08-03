@@ -43,7 +43,7 @@ function UserPosts() {
   const deletePost = async (postId: any) => {
     try {
       if (postId && userEmail) {
-        await axios.post("/api/users/delpost", {
+        await axios.post("/api/users/deletepost", {
           postId: postId,
         });
       }
