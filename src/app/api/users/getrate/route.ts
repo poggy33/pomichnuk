@@ -10,8 +10,7 @@ connect();
 export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
-    const {choosenEmail, userEmail, ratingValue, postId, text} = reqBody;
-    console.log(choosenEmail, userEmail, ratingValue, postId)
+    const {userName, choosenEmail, userEmail, ratingValue, postId, text} = reqBody;
 
     if(choosenEmail && userEmail && ratingValue) {
         const user = await User.findOne({email : choosenEmail});
@@ -22,13 +21,15 @@ try {
         if(!rate) {
             if(!myRates || myRates?.length < 10 ) {
                 const newRate = new Rate({
-                    whoIsChecked : userEmail,
+                    whoIsCheckedName: userName,
+                    whoIsChecked: userEmail,
                     whatIsCheckedEmail: choosenEmail,
                     rate: ratingValue,
                     whatIsCheckedId: postId,
                     comment: text,
                 
-                });     
+                });    
+                 
                 const savedRate = await newRate.save();
         
                 if(post && user) {

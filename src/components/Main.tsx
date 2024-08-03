@@ -32,6 +32,7 @@ export default function Main() {
   const [posts, setPosts] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [likes, setLikes] = useState<any>();
   const [likesChanged, setLikesChanged] = useState(false);
   const [allPosts, setAllPosts] = useState<any>();
@@ -73,6 +74,7 @@ export default function Main() {
     const res = await axios.get("/api/users/currentuser");
     if (res.data.message === "User found") {
       setUserEmail(res.data.data.email);
+      setUserName(res.data.data.userName)
     }
   };
 
@@ -230,6 +232,7 @@ export default function Main() {
   const getRate = async (post: any) => {
     if (userEmail) {
       await axios.post("/api/users/getrate", {
+        userName: userName,
         choosenEmail: post.userId,
         userEmail: userEmail,
         ratingValue: ratingValue,

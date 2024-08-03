@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const rateSchema = new mongoose.Schema({
+  whoIsCheckedName: {
+    type: String,
+    default: "",
+  },
   whoIsChecked: {
     type: String,
     default: "",

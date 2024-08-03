@@ -102,7 +102,7 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
                       <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
                         <div className="flex justify-between">
                           <p className="text-gray-700">
-                            {comment.whoIsChecked}
+                            {comment.whoIsCheckedName}
                           </p>
                           <div className="flex">
                             <div className="absolute -ml-24 -mt-0.5">
