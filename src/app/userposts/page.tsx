@@ -46,10 +46,10 @@ function UserPosts() {
       if (postId && userEmail) {
         console.log("after")
         await axios.post("/api/users/deletepost", {
-          _id: postId,
+          postId: postId,
         });
         await axios.post("/api/users/deletelike", {
-          _id: postId,
+          postId: postId,
         });
       }
     } catch (error: any) {

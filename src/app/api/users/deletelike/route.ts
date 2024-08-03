@@ -7,8 +7,8 @@ connect();
 export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
-    const {_id} = reqBody;   
-        const updatedLikes = await Like.findOneAndDelete({whatIsCheckedId: _id,})
+    const {postId} = reqBody;   
+        const updatedLikes = await Like.findOneAndDelete({whatIsCheckedId: postId,})
         return NextResponse.json({
         message: "Like deleted",
         data: updatedLikes,
