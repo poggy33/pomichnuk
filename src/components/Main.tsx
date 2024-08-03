@@ -461,7 +461,7 @@ export default function Main() {
                     <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
                       <div className="flex justify-between mb-1">
                         <Link
-                          href={`/user/${item.userId}`}
+                          href={`/user/${item?.userId}`}
                           className="text-sm text-gray-700 hover:text-blue-900"
                         >
                           {item.userName}

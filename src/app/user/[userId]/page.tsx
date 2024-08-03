@@ -14,6 +14,7 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
   const [userRate, setUserRate] = useState("");
   const [userRateCount, setUserRateCount] = useState("");
   const [comments, setComments] = useState<any>();
+  const [userName, setUserName] = useState("");
 
   const getUserInfo = async () => {
     const userInfo = await axios.post("/api/users/getuserinfo", {
@@ -29,6 +30,7 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
     );
     setUserRate(userInfo.data.data.rate);
     setUserRateCount(userInfo.data.data.countRate);
+    setUserName(userInfo.data.data.userName);
   };
 
   useEffect(() => {
@@ -48,21 +50,11 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
           <div className="flex flex-col w-80 items-center mt-4">
             <div className="flex w-80 justify-between items-center mb-2 px-1">
               <p className="text-gray-600 italic">Користувач:</p>
-              <p className="text-gray-600">{user}</p>
+              <p className="text-gray-600">{userName}</p>
             </div>
             <div className="flex justify-center w-80">
               <div className="flex justify-between w-80 items-center px-1">
                 <p className="text-gray-600 italic">Рейтинг:</p>
-                {/* <div className="absolute">
-                  <Rating
-                    SVGstyle={{ display: "inline" }}
-                    className="inline-flex"
-                    size={22}
-                    readonly
-                    allowFraction={true}
-                    initialValue={Number(userRate.substring(0, 3))}
-                  />
-                </div> */}
               </div>
               <div className="flex items-center ml-1">
               <div className="absolute -ml-28 -mt-1">
