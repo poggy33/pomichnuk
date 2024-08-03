@@ -10,10 +10,9 @@ try {
     const reqBody = await request.json();
     const {postId} = reqBody;   
     console.log(postId)
-    const updatedPosts = await Post.find()
-    //     const updatedPosts = await Post.findOneAndDelete({_id: postId,})
-    //     await Rate.deleteMany({whatIsCheckedId: postId})
-    //     console.log(postId)
+ 
+        const updatedPosts = await Post.findOneAndDelete({_id: postId,})
+        await Rate.deleteMany({whatIsCheckedId: postId})
 
         return NextResponse.json({
         message: "Post deleted",
