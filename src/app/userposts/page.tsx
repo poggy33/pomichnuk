@@ -42,13 +42,15 @@ function UserPosts() {
 
   const deletePost = async (postId: any) => {
     try {
+      console.log("before")
       if (postId && userEmail) {
+        console.log("after")
         await axios.post("/api/users/deletepost", {
           _id: postId,
         });
-        // await axios.post("/api/users/deletelike", {
-        //   _id: postId,
-        // });
+        await axios.post("/api/users/deletelike", {
+          _id: postId,
+        });
       }
     } catch (error: any) {
       console.log("Delete post failed", error.message);
