@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import Post from "@/models/postModel";
 import { connect } from "@/dbConfig/dbConfig";
+import Rate from "@/models/rateModel";
 
 connect();
 
@@ -9,12 +9,12 @@ try {
     const reqBody = await request.json();
     const {postId} = reqBody;   
     console.log(postId)
- 
-        const updatedPosts = await Post.findOneAndDelete({_id: postId,})
-        
+
+        const rate = await Rate.deleteMany({whatIsCheckedId: postId})
+
         return NextResponse.json({
-        message: "Post deleted",
-        data: updatedPosts,
+        message: "Rates deleted",
+        data: rate,
     })
     
     }
@@ -23,5 +23,4 @@ try {
         {status:400})
     }
 };
-
 

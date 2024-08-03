@@ -58,6 +58,32 @@ function UserPosts() {
     }
   };
 
+  const deleteLike = async (postId: any) => {
+    try {
+      if (postId && userEmail) {
+        await axios.post("/api/users/deletelike", {
+          postId: postId,
+        });
+      }
+    } catch (error: any) {
+      console.log("Delete like failed", error.message);
+      toast.error(error.message);
+    }
+  };
+
+  const deleteRate = async (postId: any) => {
+    try {
+      if (postId && userEmail) {
+        await axios.post("/api/users/deleterate", {
+          postId: postId,
+        });
+      }
+    } catch (error: any) {
+      console.log("Delete rate failed", error.message);
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getUserDetails();
   }, []);
@@ -96,16 +122,18 @@ function UserPosts() {
                     <div className="flex justify-between mb-1 items-center">
                       <p className="text-gray-700">{item.userName}</p>
                       <div
-                        onClick={() => deletePost(item._id)}
+                        onClick={() => {
+                          deletePost(item._id);
+                          deleteLike(item._id);
+                          deleteRate(item._id);
+                        }}
                         className="mt-1"
                       >
                         <MdDeleteOutline className="text-xl" />
                       </div>
                     </div>
                     <div className="flex justify-between items-center text-gray-800">
-                      <span className="text-xs text-gray-700">
-                        {item.city}
-                      </span>
+                      <span className="text-xs text-gray-700">{item.city}</span>
                       <span className="text-xs">{item.date.slice(0, 10)}</span>
                     </div>
                   </div>
