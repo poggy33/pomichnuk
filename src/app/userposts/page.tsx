@@ -46,9 +46,9 @@ function UserPosts() {
         await axios.post("/api/users/deletepost", {
           _id: postId,
         });
-        await axios.post("/api/users/deletelike", {
-          _id: postId,
-        });
+        // await axios.post("/api/users/deletelike", {
+        //   _id: postId,
+        // });
       }
     } catch (error: any) {
       console.log("Delete post failed", error.message);
