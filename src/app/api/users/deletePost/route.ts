@@ -9,8 +9,10 @@ export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
     const {_id} = reqBody;   
-        const updatedPosts = await Post.findOneAndDelete({_id: _id,})
+        // const updatedPosts = await Post.findOneAndDelete({_id: _id,})
         // await Rate.deleteMany({whatIsCheckedId: _id})
+console.log(_id)
+        const updatedPosts = await Post.find()
         return NextResponse.json({
         message: "Post deleted",
         data: updatedPosts,
