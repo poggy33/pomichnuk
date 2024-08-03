@@ -205,7 +205,7 @@ export default function Main() {
         );
         arrLiked.push(liked);
       });
-      setLikedPosts(arrLiked);
+      setLikedPosts(arrLiked.reverse());
     }
   };
 

@@ -33,7 +33,6 @@ function UserPosts() {
         setMyPosts(response.data.data);
       }
     } catch (error: any) {
-      // console.log("myPosts failed", error.message);
       toast.error(error.message);
     } finally {
       setLoading(false);
