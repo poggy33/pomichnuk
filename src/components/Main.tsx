@@ -458,7 +458,7 @@ export default function Main() {
               {likedPosts.map((item: any) => {
                 return (
                   <div
-                    key={item._id}
+                    key={item?._id}
                     className=" border-2 hover:border-white rounded-md"
                   >
                     <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
@@ -467,7 +467,7 @@ export default function Main() {
                           href={`/user/${item?.userId}`}
                           className="text-sm text-gray-700 hover:text-blue-900"
                         >
-                          {item.userName}
+                          {item?.userName}
                         </Link>
                         {/* rating start*/}
                         <div className="flex">
@@ -483,22 +483,22 @@ export default function Main() {
                                 <div>
                                   <p
                                     className={`text-xs ${
-                                      Number(item.rate) <= 3.5
+                                      Number(item?.rate) <= 3.5
                                         ? "text-red-700"
                                         : "text-teal-700"
                                     }  font-mono font-semibold`}
                                   >
-                                    {item.rate.length > 1
-                                      ? item.rate.substr(0, 3)
-                                      : item.rate + ".0"}
+                                    {item?.rate.length > 1
+                                      ? item?.rate.substr(0, 3)
+                                      : item?.rate + ".0"}
                                   </p>
                                 </div>
                               </button>
                             </div>
                             {visible &&
                               userEmail &&
-                              item._id === showRateId &&
-                              userEmail !== item.userId && (
+                              item?._id === showRateId &&
+                              userEmail !== item?.userId && (
                                 <div className="absolute z-10 -ml-44 -mt-32 flex flex-col items-center px-3 py-2 text-xs text-slate-500 bg-white border border-gray-200 rounded-lg shadow-sm opacity-100 min-w-60">
                                   <div
                                     onClick={() => setVisible(false)}
@@ -562,13 +562,13 @@ export default function Main() {
                           {/* rating end */}
                           <div
                             className="hover:cursor-pointer"
-                            onClick={() => createOrUpdateLike(item._id)}
+                            onClick={() => createOrUpdateLike(item?._id)}
                           >
                             {likes && (
                               <div>
                                 {likes.map((like: any) => {
                                   const isLike =
-                                    like.whatIsCheckedId === item._id &&
+                                    like.whatIsCheckedId === item?._id &&
                                     like.isChecked;
                                   return (
                                     <div key={like._id}>
@@ -585,13 +585,13 @@ export default function Main() {
                         </div>
                       </div>
                       <div className="flex justify-between text-gray-800">
-                        <p className="text-gray-700 text-xs">{item.city}</p>
+                        <p className="text-gray-700 text-xs">{item?.city}</p>
                         <span className="text-xs">
-                          {item.date.slice(0, 10)}
+                          {item?.date.slice(0, 10)}
                         </span>
                       </div>
                     </div>
-                    <div className="mt-2 mb-6 text-sm px-3">{item.text}</div>
+                    <div className="mt-2 mb-6 text-sm px-3">{item?.text}</div>
                   </div>
                 );
               })}
