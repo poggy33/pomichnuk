@@ -13,6 +13,7 @@ export default function ProfilePage() {
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [countUserPosts, setCountUsersPosts] = useState(0);
+  const limitUserPosts = 3;
   const [isVerified, setIsVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isCorrectCategory, setIsCorrectCategory] = useState(false);
@@ -25,7 +26,7 @@ export default function ProfilePage() {
     text: "",
     userId: "",
     userName: "",
-    countPosts: 0
+    countPosts: 0,
   });
 
   //get users details
@@ -89,7 +90,7 @@ export default function ProfilePage() {
       if (
         dataFromSelect?.category !== "Всі оголошення" &&
         dataFromSelect?.city !== "Всі міста" &&
-        countUserPosts <= 3
+        countUserPosts <= limitUserPosts
       ) {
         setLoading(true);
         const response = await axios.post("/api/users/post", post);
@@ -124,7 +125,7 @@ export default function ProfilePage() {
 
   return (
     <div className="">
-      {isVerified && countUserPosts < 3 ? (
+      {isVerified && countUserPosts < limitUserPosts ? (
         <div className="flex">
           <div className="flex flex-grow flex-col items-center py-4">
             <Select onData={handleDataFromSelect} />
@@ -172,13 +173,17 @@ export default function ProfilePage() {
           </div>
         </div>
       ) : (
-        <div className="flex justify-center mt-6">
-          <div className="flex w-80 items-center">
-            <p className="text-gray-700 text-sm text-center">
-              Ви вже опублікували 3 оголошення. Щоб опублікувати нове спочатку
-              видаліть одне з своїх оголошень.
-            </p>
-          </div>
+        <div>
+          {isLoading && (
+            <div className="flex justify-center mt-6">
+              <div className="flex w-80 items-center">
+                <p className="text-gray-700 text-sm text-center">
+                  Ви вже опублікували 3 оголошення. Щоб опублікувати нове
+                  спочатку видаліть одне з своїх оголошень.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       )}
       {!isVerified && isLoading && (
