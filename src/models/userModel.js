@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   userName: {
     type: String,
-    required: [true, "Будь-ласка вкажіть пошту"],
+    required: [true, "Будь-ласка вкажіть імя"],
   },
   email: {
     type: String,
@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
   isVerified: {
     type: Boolean,
     default: false,
+  },
+  countPosts: {
+    type: String,
+    default: "0",
   },
   isAdmin: {
     type: Boolean,

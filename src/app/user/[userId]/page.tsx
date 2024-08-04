@@ -27,6 +27,7 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
       userComments.data.data
         .reverse()
         .filter((item: any) => item.comment !== "")
+        .slice(0,20)
     );
     setUserRate(userInfo.data.data.rate);
     setUserRateCount(userInfo.data.data.countRate);

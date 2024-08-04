@@ -12,6 +12,7 @@ export default function ProfilePage() {
   const [text, setText] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
+  const [countUserPosts, setCountUsersPosts] = useState(0);
   const [isVerified, setIsVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isCorrectCategory, setIsCorrectCategory] = useState(false);
@@ -24,6 +25,7 @@ export default function ProfilePage() {
     text: "",
     userId: "",
     userName: "",
+    countPosts: 0
   });
 
   //get users details
@@ -32,8 +34,9 @@ export default function ProfilePage() {
     if (res.data.message === "User found") {
       // console.log(res.data.data.email);
       setUserEmail(res.data.data.email);
-      setUserName(res.data.data.userName)
+      setUserName(res.data.data.userName);
       setIsVerified(res.data.data.isVerified);
+      setCountUsersPosts(Number(res.data.data.countPosts));
       setIsLoading(true);
       console.log(res.data.data.isVerified);
     }
@@ -53,7 +56,13 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (dataFromSelect) {
-      setPost({ ...dataFromSelect, text: text, userId: userEmail, userName: userName });
+      setPost({
+        ...dataFromSelect,
+        text: text,
+        userId: userEmail,
+        userName: userName,
+        countPosts: countUserPosts + 1,
+      });
     }
   }, [text, dataFromSelect]);
 
@@ -79,7 +88,8 @@ export default function ProfilePage() {
     try {
       if (
         dataFromSelect?.category !== "Всі оголошення" &&
-        dataFromSelect?.city !== "Всі міста"
+        dataFromSelect?.city !== "Всі міста" &&
+        countUserPosts <= 3
       ) {
         setLoading(true);
         const response = await axios.post("/api/users/post", post);
@@ -114,11 +124,11 @@ export default function ProfilePage() {
 
   return (
     <div className="">
-      {isVerified && (
+      {isVerified && countUserPosts < 3 ? (
         <div className="flex">
-          <div className="flex flex-grow flex-col items-center  py-4">
+          <div className="flex flex-grow flex-col items-center py-4">
             <Select onData={handleDataFromSelect} />
-            {(isCorrectCategory || isCorrectCity) &&(
+            {(isCorrectCategory || isCorrectCity) && (
               <p className="flex mt-1 text-xs text-red-700">
                 Спочатку виберіть категорію та місто
               </p>
@@ -154,6 +164,20 @@ export default function ProfilePage() {
             >
               Опублікувати
             </button>
+            <p className="text-gray-700">
+              Вам ще можете опублікувати{" "}
+              <span className="text-red-700">{3 - countUserPosts}</span>{" "}
+              оголошення
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-center mt-6">
+          <div className="flex w-80 items-center">
+            <p className="text-gray-700 text-sm text-center">
+              Ви вже опублікували 3 оголошення. Щоб опублікувати нове спочатку
+              видаліть одне з своїх оголошень.
+            </p>
           </div>
         </div>
       )}

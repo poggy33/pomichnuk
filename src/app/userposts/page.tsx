@@ -13,12 +13,15 @@ function UserPosts() {
   const [isDelete, setIsDelete] = useState(false);
   const [myPosts, setMyPosts] = useState<any>();
   const [loading, setLoading] = useState(false);
+  const [countUserPosts, setCountUsersPosts] = useState(0);
+  
 
   //get users details
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/currentuser");
     if (res.data.message === "User found") {
       setUserEmail(res.data.data.email);
+      setCountUsersPosts(Number(res.data.data.countPosts));
     }
   };
 
@@ -52,6 +55,20 @@ function UserPosts() {
     } finally {
       setIsDelete(!isDelete);
     }
+  };
+
+  const updateUserCountPosts = async () => {
+    try {
+      if (userEmail) {
+        await axios.post("/api/users/updateuser", {
+          email: userEmail,
+          countPosts: (countUserPosts - 1).toString()
+        });
+      }
+    } catch (error: any) {
+      console.log("Update user countPosts failed", error.message);
+      toast.error(error.message);
+    } 
   };
 
   const deleteLike = async (postId: any) => {
@@ -122,6 +139,7 @@ function UserPosts() {
                           deletePost(item._id);
                           deleteLike(item._id);
                           deleteRate(item._id);
+                          updateUserCountPosts()
                         }}
                         className="mt-1"
                       >
