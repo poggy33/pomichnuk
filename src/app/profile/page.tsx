@@ -160,14 +160,14 @@ export default function ProfilePage() {
               className={
                 buttonDisabled
                   ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
-                  : "border-white w-40 mb-8 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+                  : "border-white w-40 mb-4 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
               }
             >
               Опублікувати
             </button>
-            <p className="text-gray-700">
+            <p className="text-gray-500">
               Вам ще можете опублікувати{" "}
-              <span className="text-red-700">{3 - countUserPosts}</span>{" "}
+              <span className="text-red-700">{limitUserPosts - countUserPosts}</span>{" "}
               оголошення
             </p>
           </div>
@@ -175,7 +175,7 @@ export default function ProfilePage() {
       ) : (
         <div>
           {isLoading && (
-            <div className="flex justify-center mt-6">
+            <div className="flex justify-center">
               <div className="flex w-80 items-center">
                 <p className="text-gray-700 text-sm text-center">
                   Ви вже опублікували 3 оголошення. Щоб опублікувати нове
