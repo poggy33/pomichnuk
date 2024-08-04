@@ -28,7 +28,7 @@ function SideMenuItem() {
           className="z-10 absolute mt-2 bg-slate-300 divide-y divide-gray-100 rounded-lg shadow w-44 "
         >
           <ul
-            className="py-3 text-sm text-white"
+            className="py-3 text-sm font-semibold text-white"
             aria-labelledby="dropdownRightEndButton"
           >
             <li onClick={toggleDropdown}>
