@@ -12,6 +12,7 @@ import { IoClose } from "react-icons/io5";
 import Spinner from "./Spinner";
 import { Rating } from "react-simple-star-rating";
 import { FaRegStar } from "react-icons/fa";
+import { FiMapPin } from "react-icons/fi";
 
 interface DefProps {
   region: string | null;
@@ -74,7 +75,7 @@ export default function Main() {
     const res = await axios.get("/api/users/currentuser");
     if (res.data.message === "User found") {
       setUserEmail(res.data.data.email);
-      setUserName(res.data.data.userName)
+      setUserName(res.data.data.userName);
     }
   };
 
@@ -440,7 +441,10 @@ export default function Main() {
                         </div>
                       </div>
                       <div className="flex justify-between text-gray-800">
-                        <p className="text-gray-700 text-xs">{item.city}</p>
+                        <div className="flex">
+                          <FiMapPin className="mr-1 pt-0.5"/>
+                          <p className="text-gray-700 text-xs">{item.city}</p>
+                        </div>
                         <span className="text-xs">
                           {item.date.slice(0, 10)}
                         </span>
@@ -585,7 +589,10 @@ export default function Main() {
                         </div>
                       </div>
                       <div className="flex justify-between text-gray-800">
-                        <p className="text-gray-700 text-xs">{item?.city}</p>
+                      <div className="flex">
+                          <FiMapPin className="mr-1 pt-0.5"/>
+                          <p className="text-gray-700 text-xs">{item?.city}</p>
+                        </div>
                         <span className="text-xs">
                           {item?.date.slice(0, 10)}
                         </span>

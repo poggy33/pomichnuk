@@ -7,6 +7,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
 import Spinner from "@/components/Spinner";
+import { FiMapPin } from "react-icons/fi";
 
 function UserPosts() {
   const [userEmail, setUserEmail] = useState("");
@@ -147,7 +148,11 @@ function UserPosts() {
                       </div>
                     </div>
                     <div className="flex justify-between items-center text-gray-800">
-                      <span className="text-xs text-gray-700">{item.city}</span>
+                    <div className="flex">
+                          <FiMapPin className="mr-1 pt-0.5"/>
+                          <p className="text-gray-700 text-xs">{item.city}</p>
+                        </div>
+                      {/* <span className="text-xs text-gray-700">{item.city}</span> */}
                       <span className="text-xs">{item.date.slice(0, 10)}</span>
                     </div>
                   </div>
