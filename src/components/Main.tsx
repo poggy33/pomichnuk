@@ -13,7 +13,7 @@ import Spinner from "./Spinner";
 import { Rating } from "react-simple-star-rating";
 import { FaRegStar } from "react-icons/fa";
 import { FiMapPin } from "react-icons/fi";
-
+import { encrypt } from "@/helpers/crypto";
 interface DefProps {
   region: string | null;
   city: string | null;
@@ -41,11 +41,12 @@ export default function Main() {
   const [isShowedLikedPosts, setIsShowedLikedPosts] = useState(false);
   const [isShowedSearchedPosts, setIsShowedSearchedPosts] = useState(false);
   const [isDefaultData, setIsDefaultData] = useState(true);
-  // const [showRate, setShowRate] = useState(false);
   const [showRateId, setShowRateId] = useState("");
   const [visible, setVisible] = useState(false);
   const [ratingValue, setRatingValue] = useState(0);
   const [text, setText] = useState("");
+  // const key = process.env.ENCRYPTION_KEY as string;
+  const simpleKey = "qwedsfrd";
 
   const handleRating = (rate: number) => {
     setRatingValue(rate);
@@ -320,7 +321,7 @@ export default function Main() {
                     <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
                       <div className="flex justify-between mb-1">
                         <Link
-                          href={`/user/${item.userId}`}
+                          href={`/user/${encrypt(item?.userId, simpleKey)}`}
                           className="text-sm text-gray-700 hover:text-blue-900"
                         >
                           {item.userName}
@@ -468,7 +469,7 @@ export default function Main() {
                     <div className="flex flex-col justify-between bg-gradient-to-b from-gray-100 to-gray-300 px-3 rounded-md text-sm p-1">
                       <div className="flex justify-between mb-1">
                         <Link
-                          href={`/user/${item?.userId}`}
+                          href={`/user/${encrypt(item?.userId, simpleKey)}`}
                           className="text-sm text-gray-700 hover:text-blue-900"
                         >
                           {item?.userName}

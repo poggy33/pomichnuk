@@ -7,14 +7,22 @@ import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Rating } from "react-simple-star-rating";
+import { decrypt } from "@/helpers/crypto";
 
 const UserPage = ({ params }: { params: { userId: string } }) => {
-  const user = params.userId.replace("%40", "@");
+  // const user = params.userId.replace("%40", "@");
   const [loading, setLoading] = useState(false);
   const [userRate, setUserRate] = useState("");
   const [userRateCount, setUserRateCount] = useState("");
   const [comments, setComments] = useState<any>();
   const [userName, setUserName] = useState("");
+  //decrypted version
+  const simpleKey = "qwedsfrd";
+  const userFromUrl = params.userId. replace("%3A", ":")
+  const user = decrypt(userFromUrl, simpleKey)
+
+
+  // const user = decrypt("2f15164403ac7d702487139dd1f33996:964cfd87af4cc885e343db2949a71409", simpleKey);
 
   const getUserInfo = async () => {
     const userInfo = await axios.post("/api/users/getuserinfo", {
