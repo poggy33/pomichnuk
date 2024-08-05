@@ -39,7 +39,6 @@ export default function ProfilePage() {
       setIsVerified(res.data.data.isVerified);
       setCountUsersPosts(Number(res.data.data.countPosts));
       setIsLoading(true);
-      console.log(res.data.data.isVerified);
     }
   };
 
@@ -94,14 +93,12 @@ export default function ProfilePage() {
       ) {
         setLoading(true);
         const response = await axios.post("/api/users/post", post);
-        console.log("Response success", response.data);
         setText("");
         setIsCorrectCategory(false);
         setIsCorrectCity(false);
         router.push("/");
       }
     } catch (error: any) {
-      console.log(error.message);
       toast.error(error.message);
     } finally {
       setLoading(false);
@@ -151,7 +148,7 @@ export default function ProfilePage() {
               className="resize-none block p-2.5 w-1/2 min-w-80 text-m text-gray-900 bg-white rounded-lg border border-gray-300 f"
               placeholder="Опишіть коротко Вашу послугу (20-300 символів) та залиште контакти для зв'язку..."
             ></textarea>
-            <span className="text-gray-500 mt-1">
+            <span className="text-gray-500 mt-1 text-sm">
               Залишилося {300 - text.length} символів
             </span>
             <button
@@ -159,16 +156,16 @@ export default function ProfilePage() {
               disabled={buttonDisabled}
               className={
                 buttonDisabled
-                  ? "bg-slate-400 border-white w-40 mb-8 rounded-lg p-3 text-white mt-4"
+                  ? "bg-slate-400 border-white w-40 mb-6 rounded-lg p-3 text-white mt-4"
                   : "border-white w-40 mb-4 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
               }
             >
               Опублікувати
             </button>
-            <p className="text-gray-500">
+            <p className="text-gray-500 text-sm">
               Вам ще можете опублікувати{" "}
               <span className="text-red-700">{limitUserPosts - countUserPosts}</span>{" "}
-              оголошення
+              оголошення.
             </p>
           </div>
         </div>
