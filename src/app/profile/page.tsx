@@ -175,9 +175,9 @@ export default function ProfilePage() {
       ) : (
         <div>
           {isLoading && (
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-3">
               <div className="flex w-80 items-center">
-                <p className="text-gray-700 text-sm text-center">
+                <p className="text-gray-500 text-sm text-center">
                   Ви вже опублікували 3 оголошення. Щоб опублікувати нове
                   спочатку видаліть одне з своїх оголошень.
                 </p>

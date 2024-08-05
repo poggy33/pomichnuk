@@ -147,7 +147,7 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
               </div>
             ) : (
               <div>
-                <p>У користувача поки немає коментарів</p>
+                <p className="text-gray-700">У користувача поки немає коментарів.</p>
               </div>
             )}
           </div>
