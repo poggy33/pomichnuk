@@ -50,6 +50,7 @@ export default function Main() {
   const [tenPosts, setTenPosts] = useState<any>();
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [defPageNumber, setDefPageNumber] = useState<any>();
+  const [classForPagination, setClassForPagination] = useState("")
   const handleRating = (rate: number) => {
     setRatingValue(rate);
   };
@@ -651,7 +652,7 @@ export default function Main() {
           {isShowedSearchedPosts && !loading && Number(countPosts) > 10 && (
             <div className="mt-4 flex flex-col w-80 md:w-80 lg:w-96 p-1">
               <div className="flex justify-center">
-                {arr.map((item: any) => {
+                {arr.map((item: any, index: number) => {
                   return (
                     <button
                       disabled={!(Number(countPosts) > (item - 1) * 10)}
@@ -659,11 +660,12 @@ export default function Main() {
                       onClick={() => {
                         getTenPosts(item);
                         sessionStorage.setItem("pageNumber", item.toString());
+                        setClassForPagination("text-red-500")
                       }}
                       className={`${
                         !(Number(countPosts) > (item - 1) * 10)
                           ? "hidden"
-                          : "text-blue-700 p-1 px-2 font-mono text-lg underline"
+                          : `text-blue-700 p-1 px-2 font-mono text-lg ${sessionStorage.getItem("pageNumber") && item === Number(sessionStorage.getItem("pageNumber")) && "underline"}`
                       }`}
                     >
                       {item}
