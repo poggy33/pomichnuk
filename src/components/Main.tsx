@@ -31,6 +31,7 @@ export default function Main() {
   );
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [posts, setPosts] = useState<any>();
+  const [countPosts, setCountPosts] = useState("");
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -41,13 +42,14 @@ export default function Main() {
   const [isShowedLikedPosts, setIsShowedLikedPosts] = useState(false);
   const [isShowedSearchedPosts, setIsShowedSearchedPosts] = useState(false);
   const [isDefaultData, setIsDefaultData] = useState(true);
-  const [showRateId, setShowRateId] = useState("");
+  const [showRateId, setShowRateId] = useState<any>();
   const [visible, setVisible] = useState(false);
   const [ratingValue, setRatingValue] = useState(0);
   const [text, setText] = useState("");
-  // const key = process.env.ENCRYPTION_KEY as string;
   const simpleKey = "qwedsfrd";
-
+  const [tenPosts, setTenPosts] = useState<any>();
+  const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [defPageNumber, setDefPageNumber] = useState<any>();
   const handleRating = (rate: number) => {
     setRatingValue(rate);
   };
@@ -63,6 +65,7 @@ export default function Main() {
       category: localStorage.getItem("category"),
       service: localStorage.getItem("serviceType"),
     });
+    setDefPageNumber(Number(sessionStorage.getItem("pageNumber")));
   }, []);
 
   useEffect(() => {
@@ -96,6 +99,16 @@ export default function Main() {
     getLikes();
   }, [likesChanged, userEmail]);
 
+  //avoid empty tenPosts when changes countPosts equal *10
+  useEffect(() => {
+    if (posts && tenPosts && tenPosts.length === 0 && defPageNumber !== 1) {
+      setTenPosts(
+        posts.slice((defPageNumber - 1) * 10 - 10, (defPageNumber - 1) * 10)
+      );
+      sessionStorage.setItem("pageNumber", (defPageNumber - 1).toString())
+    }
+  }, [tenPosts]);
+
   const createOrUpdateLike = async (postId: any) => {
     try {
       if (postId && userEmail) {
@@ -127,6 +140,18 @@ export default function Main() {
         );
         setPosts(response.data.data);
         setIsDefaultData(false);
+        //ten posts
+        setCountPosts(response.data.data.length);
+        if (defPageNumber) {
+          setTenPosts(
+            response.data.data.slice(
+              defPageNumber * 10 - 10,
+              defPageNumber * 10
+            )
+          );
+        } else {
+          setTenPosts(response.data.data.slice(0, 10));
+        }
         return;
       }
       if (isDefaultData) {
@@ -142,6 +167,18 @@ export default function Main() {
               defDataFromSelect
             );
             setPosts(response.data.data);
+            //ten posts
+            setCountPosts(response.data.data.length);
+            if (defPageNumber) {
+              setTenPosts(
+                response.data.data.slice(
+                  defPageNumber * 10 - 10,
+                  defPageNumber * 10
+                )
+              );
+            } else {
+              setTenPosts(response.data.data.slice(0, 10));
+            }
           }
         }
       }
@@ -259,9 +296,15 @@ export default function Main() {
     }
   };
 
+  const getTenPosts = (pageNumber: any) => {
+    if (posts) {
+      setTenPosts(posts.slice(pageNumber * 10 - 10, pageNumber * 10));
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="">
+      <div>
         <Select onData={handleDataFromSelect} />
       </div>
       <div className="flex flex-col justify-center items-center">
@@ -310,9 +353,9 @@ export default function Main() {
             </div>
           )}
 
-          {posts && isShowedSearchedPosts && (
+          {tenPosts && isShowedSearchedPosts && (
             <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
-              {posts.map((item: any) => {
+              {tenPosts.map((item: any) => {
                 return (
                   <div
                     key={item._id}
@@ -443,7 +486,7 @@ export default function Main() {
                       </div>
                       <div className="flex justify-between text-gray-800">
                         <div className="flex">
-                          <FiMapPin className="mr-1 pt-0.5"/>
+                          <FiMapPin className="mr-1 pt-0.5" />
                           <p className="text-gray-700 text-xs">{item.city}</p>
                         </div>
                         <span className="text-xs">
@@ -590,8 +633,8 @@ export default function Main() {
                         </div>
                       </div>
                       <div className="flex justify-between text-gray-800">
-                      <div className="flex">
-                          <FiMapPin className="mr-1 pt-0.5"/>
+                        <div className="flex">
+                          <FiMapPin className="mr-1 pt-0.5" />
                           <p className="text-gray-700 text-xs">{item?.city}</p>
                         </div>
                         <span className="text-xs">
@@ -603,6 +646,31 @@ export default function Main() {
                   </div>
                 );
               })}
+            </div>
+          )}
+          {isShowedSearchedPosts && !loading && Number(countPosts) > 10 && (
+            <div className="mt-4 flex flex-col w-80 md:w-80 lg:w-96 p-1">
+              <div className="flex justify-center">
+                {arr.map((item: any) => {
+                  return (
+                    <button
+                      disabled={!(Number(countPosts) > (item - 1) * 10)}
+                      key={item}
+                      onClick={() => {
+                        getTenPosts(item);
+                        sessionStorage.setItem("pageNumber", item.toString());
+                      }}
+                      className={`${
+                        !(Number(countPosts) > (item - 1) * 10)
+                          ? "hidden"
+                          : "text-blue-700 p-1 px-2 font-mono text-lg underline"
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
