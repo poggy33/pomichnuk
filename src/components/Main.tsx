@@ -50,7 +50,7 @@ export default function Main() {
   const [tenPosts, setTenPosts] = useState<any>();
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [defPageNumber, setDefPageNumber] = useState<any>();
-  const [classForPagination, setClassForPagination] = useState("")
+
   const handleRating = (rate: number) => {
     setRatingValue(rate);
   };
@@ -101,14 +101,16 @@ export default function Main() {
   }, [likesChanged, userEmail]);
 
   //avoid empty tenPosts when changes countPosts equal *10
-  useEffect(() => {
-    if (posts && tenPosts && tenPosts.length === 0 && defPageNumber !== 1) {
-      setTenPosts(
-        posts.slice((defPageNumber - 1) * 10 - 10, (defPageNumber - 1) * 10)
-      );
-      sessionStorage.setItem("pageNumber", (defPageNumber - 1).toString())
-    }
-  }, [tenPosts]);
+
+  // useEffect(() => {
+  //   if (posts && tenPosts && tenPosts.length === 0 && defPageNumber !== 1) {
+  //     console.log("first")
+  //     setTenPosts(
+  //       posts.slice((defPageNumber - 1) * 10 - 10, (defPageNumber - 1) * 10)
+  //     );
+  //     sessionStorage.setItem("pageNumber", (defPageNumber - 1).toString());
+  //   }
+  // }, [tenPosts]);
 
   const createOrUpdateLike = async (postId: any) => {
     try {
@@ -144,13 +146,27 @@ export default function Main() {
         //ten posts
         setCountPosts(response.data.data.length);
         if (defPageNumber) {
+          const defNumber = Number(sessionStorage.getItem("pageNumber"))
+          console.log("x:", defPageNumber);
           setTenPosts(
+            // response.data.data.slice(
+            //   defPageNumber * 10 - 10,
+            //   defPageNumber * 10
+            // )
+            response.data.data.slice(
+              defNumber * 10 - 10,
+              defNumber * 10
+            )
+          );
+          console.log(
+            "X",
             response.data.data.slice(
               defPageNumber * 10 - 10,
               defPageNumber * 10
             )
           );
         } else {
+          console.log("xx:", defPageNumber);
           setTenPosts(response.data.data.slice(0, 10));
         }
         return;
@@ -171,13 +187,22 @@ export default function Main() {
             //ten posts
             setCountPosts(response.data.data.length);
             if (defPageNumber) {
+              console.log("y:", defPageNumber);
               setTenPosts(
                 response.data.data.slice(
                   defPageNumber * 10 - 10,
                   defPageNumber * 10
                 )
               );
+              console.log(
+                "Y",
+                response.data.data.slice(
+                  defPageNumber * 10 - 10,
+                  defPageNumber * 10
+                )
+              );
             } else {
+              console.log("yy:", defPageNumber);
               setTenPosts(response.data.data.slice(0, 10));
             }
           }
@@ -199,7 +224,9 @@ export default function Main() {
         dataFromSelect.category.length > 0 &&
         dataFromSelect.service.length > 0
       ) {
-        setButtonDisabled(false);
+        setButtonDisabled(false); 
+        //new
+        // sessionStorage.setItem("pageNumber", "1");
       } else {
         setButtonDisabled(true);
       }
@@ -220,8 +247,10 @@ export default function Main() {
         defDataFromSelect.service !== null
       ) {
         setButtonDisabled(false);
+        
       } else {
         setButtonDisabled(true);
+        // sessionStorage.setItem("pageNumber", "1");
       }
     }
   }, [
@@ -660,12 +689,16 @@ export default function Main() {
                       onClick={() => {
                         getTenPosts(item);
                         sessionStorage.setItem("pageNumber", item.toString());
-                        setClassForPagination("text-red-500")
                       }}
                       className={`${
                         !(Number(countPosts) > (item - 1) * 10)
                           ? "hidden"
-                          : `text-blue-700 p-1 px-2 font-mono text-lg ${sessionStorage.getItem("pageNumber") && item === Number(sessionStorage.getItem("pageNumber")) && "underline"}`
+                          : `text-blue-700 p-1 px-2 font-mono text-lg ${
+                              sessionStorage.getItem("pageNumber") &&
+                              item ===
+                                Number(sessionStorage.getItem("pageNumber")) &&
+                              "underline"
+                            }`
                       }`}
                     >
                       {item}

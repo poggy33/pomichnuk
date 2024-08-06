@@ -77,6 +77,8 @@ export default function Select({ onData }: ChildComponentProps) {
           setCity("Всі міста");
           setRegion(e.target.value);
           localStorage.setItem("region", e.target.value);
+                    //new
+                    sessionStorage.setItem("pageNumber", "1");
           regions.map((item) => {
             if (item.name === e.target.value) {
               setCities(item);
@@ -104,6 +106,8 @@ export default function Select({ onData }: ChildComponentProps) {
         onChange={(e) => {
           setCity(e.target.value);
           localStorage.setItem("city", e.target.value);
+                    //new
+                    sessionStorage.setItem("pageNumber", "1");
         }}
       >
         {city === "" && (
@@ -131,6 +135,8 @@ export default function Select({ onData }: ChildComponentProps) {
         onChange={(e) => {
           setCategory(e.target.value);
           localStorage.setItem("category", e.target.value);
+                    //new
+                    sessionStorage.setItem("pageNumber", "1");
         }}
       >
         {categories?.map((item) => (
@@ -145,6 +151,8 @@ export default function Select({ onData }: ChildComponentProps) {
         onChange={(e) => {
           setServiceType(e.target.value);
           localStorage.setItem("serviceType", e.target.value);
+          //new
+          sessionStorage.setItem("pageNumber", "1");
         }}
       >
         <>
