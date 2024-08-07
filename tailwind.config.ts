@@ -16,7 +16,7 @@ const config: Config = {
     },
   },
   plugins: [
-    // require('daisyui'),
+    require('tailwindcss-animated')
   ],
 };
 export default config;

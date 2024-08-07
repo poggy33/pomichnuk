@@ -111,7 +111,7 @@ export default function Navbar() {
           </div>
         )}
       </div>        
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-4 animate-rotate-x animate-once animate-duration-[2000ms]">
         <h1 className="py-2 px-4 rounded-full text-xl bg-gradient-to-r from-blue-300 via-green-300 to-blue-200 border-2 border-white">
           <span className="text-teal-100">Є</span>
           <span className="text-slate-600">Помічник</span>
