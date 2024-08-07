@@ -108,7 +108,7 @@ function UserPosts() {
 
   return (
     <div className="mt-6 flex flex-col items-center">
-      <div className="flex">
+      <div className="flex animate-pulse">
         <FaArrowLeft className="relative mr-3 mt-1" />
         <Link className="" href="/">
           Назад

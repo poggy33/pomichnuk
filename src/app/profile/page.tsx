@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { SelectProps } from "@/components/Select";
+import { FaArrowLeft } from "react-icons/fa6";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -121,7 +122,7 @@ export default function ProfilePage() {
   }, [post]);
 
   return (
-    <div className="">
+    <div className="flex flex-col items-center">
       {isVerified && countUserPosts < limitUserPosts ? (
         <div className="flex">
           <div className="flex flex-grow flex-col items-center py-4">
@@ -164,7 +165,9 @@ export default function ProfilePage() {
             </button>
             <p className="text-gray-500 text-sm">
               Вам ще можете опублікувати{" "}
-              <span className="text-red-700">{limitUserPosts - countUserPosts}</span>{" "}
+              <span className="text-red-700">
+                {limitUserPosts - countUserPosts}
+              </span>{" "}
               оголошення.
             </p>
           </div>
@@ -172,8 +175,14 @@ export default function ProfilePage() {
       ) : (
         <div>
           {isLoading && (
-            <div className="flex justify-center mt-3">
-              <div className="flex w-80 items-center">
+            <div className="flex flex-col justify-center items-center mt-4">
+              <div className="flex animate-pulse">
+                <FaArrowLeft className="relative mr-3 mt-1" />
+                <Link className="" href="/">
+                  Назад
+                </Link>
+              </div>
+              <div className="flex w-80 items-center mt-4">
                 <p className="text-gray-500 text-sm text-center">
                   Ви вже опублікували 3 оголошення. Щоб опублікувати нове
                   спочатку видаліть одне з своїх оголошень.

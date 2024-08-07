@@ -50,7 +50,7 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
     <div>
       {userRate ? (
         <div className="mt-6 flex flex-col items-center min-w-80">
-          <div className="flex">
+          <div className="flex animate-pulse">
             <FaArrowLeft className="relative mr-3 mt-1" />
             <Link className="" href="/">
               Назад
