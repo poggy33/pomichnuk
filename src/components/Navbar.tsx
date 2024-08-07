@@ -41,11 +41,6 @@ export default function Navbar() {
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/currentuser");
     if (res.data.message === "User found") {
-      // const parts = res.data.data.email.split("@");
-      // if (parts.length > 1) {
-      //   setCurrentUser(parts[0]);
-      //   setVerifiedBy(res.data.data.verifiedBy);
-      // }
       const user = res.data.data.userName;
       if (user) {
         setCurrentUser(user);

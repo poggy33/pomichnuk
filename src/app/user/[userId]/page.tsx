@@ -162,7 +162,7 @@ const UserPage = ({ params }: { params: { userId: string } }) => {
         </div>
       ) : (
         <div className="flex flex-col items-center mt-6">
-          <p className="mb-4 text-lg">Зачекайте будь-ласка</p>
+          <p className="mb-4 text-lg">Зачекайте будь ласка...</p>
           <Spinner />
         </div>
       )}

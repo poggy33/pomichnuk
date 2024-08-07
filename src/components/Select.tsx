@@ -77,8 +77,8 @@ export default function Select({ onData }: ChildComponentProps) {
           setCity("Всі міста");
           setRegion(e.target.value);
           localStorage.setItem("region", e.target.value);
-                    //new
-                    sessionStorage.setItem("pageNumber", "1");
+          //new
+          sessionStorage.setItem("pageNumber", "1");
           regions.map((item) => {
             if (item.name === e.target.value) {
               setCities(item);
@@ -106,8 +106,8 @@ export default function Select({ onData }: ChildComponentProps) {
         onChange={(e) => {
           setCity(e.target.value);
           localStorage.setItem("city", e.target.value);
-                    //new
-                    sessionStorage.setItem("pageNumber", "1");
+          //new
+          sessionStorage.setItem("pageNumber", "1");
         }}
       >
         {city === "" && (
@@ -119,9 +119,9 @@ export default function Select({ onData }: ChildComponentProps) {
           </option>
         )}
         {city && (
-            <option key={city + 1} value="Всі міста">
-              Всі міста
-            </option>
+          <option key={city + 1} value="Всі міста">
+            Всі міста
+          </option>
         )}
         {cities?.cities?.map((item) => (
           <option key={item.name} value={item.name}>
@@ -135,8 +135,8 @@ export default function Select({ onData }: ChildComponentProps) {
         onChange={(e) => {
           setCategory(e.target.value);
           localStorage.setItem("category", e.target.value);
-                    //new
-                    sessionStorage.setItem("pageNumber", "1");
+          //new
+          sessionStorage.setItem("pageNumber", "1");
         }}
       >
         {categories?.map((item) => (

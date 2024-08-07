@@ -120,7 +120,7 @@ function UserPosts() {
             <div className="mb-2">
               <Spinner />
             </div>
-            <h1 className="text-lg text-slate-600">Зачекайте...</h1>
+            <h1 className="text-lg text-slate-600">Зачекайте будь ласка...</h1>
           </div>
         )}
 
@@ -163,7 +163,7 @@ function UserPosts() {
           </div>
         )}
         {myPosts && myPosts.length === 0 && !loading && (
-          <p>У Вас немає активних оголошень</p>
+          <p>У Вас немає активних оголошень.</p>
         )}
       </div>
     </div>

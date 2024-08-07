@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-import { CgMenuLeftAlt } from "react-icons/cg";
 import { TfiMenu } from "react-icons/tfi";
 
 function SideMenuItem() {

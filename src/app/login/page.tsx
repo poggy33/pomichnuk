@@ -49,7 +49,7 @@ export default function LoginPage() {
         {loading ? (
           <div className="flex flex-col items-center">
             <Spinner />
-            <h1 className="text-xl mt-10">Зачекайте будь-ласка...</h1>
+            <h1 className="text-xl mt-10">Зачекайте будь ласка...</h1>
           </div>
         ) : (
           <h1 className="text-xl">Вхід</h1>

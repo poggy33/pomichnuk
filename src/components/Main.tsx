@@ -100,17 +100,18 @@ export default function Main() {
     getLikes();
   }, [likesChanged, userEmail]);
 
-  //avoid empty tenPosts when changes countPosts equal *10
-
-  // useEffect(() => {
-  //   if (posts && tenPosts && tenPosts.length === 0 && defPageNumber !== 1) {
-  //     console.log("first")
-  //     setTenPosts(
-  //       posts.slice((defPageNumber - 1) * 10 - 10, (defPageNumber - 1) * 10)
-  //     );
-  //     sessionStorage.setItem("pageNumber", (defPageNumber - 1).toString());
-  //   }
-  // }, [tenPosts]);
+  //avoid empty tenPosts when changes countPosts equal *10 ?????????????????????????
+  useEffect(() => {
+    if (posts && tenPosts && tenPosts.length === 0) {
+      const defNumber = Number(sessionStorage.getItem("pageNumber"));
+      if (defNumber && defNumber !== 1) {
+        setTenPosts(
+          posts.slice((defNumber - 1) * 10 - 10, (defNumber - 1) * 10)
+        );
+        sessionStorage.setItem("pageNumber", (defNumber - 1).toString());
+      }
+    }
+  }, [tenPosts]);
 
   const createOrUpdateLike = async (postId: any) => {
     try {
@@ -146,27 +147,20 @@ export default function Main() {
         //ten posts
         setCountPosts(response.data.data.length);
         if (defPageNumber) {
-          const defNumber = Number(sessionStorage.getItem("pageNumber"))
-          console.log("x:", defPageNumber);
+          const defNumber = Number(sessionStorage.getItem("pageNumber"));
+          // console.log("x:", defPageNumber);
           setTenPosts(
-            // response.data.data.slice(
-            //   defPageNumber * 10 - 10,
-            //   defPageNumber * 10
-            // )
-            response.data.data.slice(
-              defNumber * 10 - 10,
-              defNumber * 10
-            )
+            response.data.data.slice(defNumber * 10 - 10, defNumber * 10)
           );
-          console.log(
-            "X",
-            response.data.data.slice(
-              defPageNumber * 10 - 10,
-              defPageNumber * 10
-            )
-          );
+          // console.log(
+          //   "X",
+          //   response.data.data.slice(
+          //     defPageNumber * 10 - 10,
+          //     defPageNumber * 10
+          //   )
+          // );
         } else {
-          console.log("xx:", defPageNumber);
+          // console.log("xx:", defPageNumber);
           setTenPosts(response.data.data.slice(0, 10));
         }
         return;
@@ -194,15 +188,15 @@ export default function Main() {
                   defPageNumber * 10
                 )
               );
-              console.log(
-                "Y",
-                response.data.data.slice(
-                  defPageNumber * 10 - 10,
-                  defPageNumber * 10
-                )
-              );
+              // console.log(
+              //   "Y",
+              //   response.data.data.slice(
+              //     defPageNumber * 10 - 10,
+              //     defPageNumber * 10
+              //   )
+              // );
             } else {
-              console.log("yy:", defPageNumber);
+              // console.log("yy:", defPageNumber);
               setTenPosts(response.data.data.slice(0, 10));
             }
           }
@@ -224,9 +218,7 @@ export default function Main() {
         dataFromSelect.category.length > 0 &&
         dataFromSelect.service.length > 0
       ) {
-        setButtonDisabled(false); 
-        //new
-        // sessionStorage.setItem("pageNumber", "1");
+        setButtonDisabled(false);
       } else {
         setButtonDisabled(true);
       }
@@ -247,10 +239,8 @@ export default function Main() {
         defDataFromSelect.service !== null
       ) {
         setButtonDisabled(false);
-        
       } else {
         setButtonDisabled(true);
-        // sessionStorage.setItem("pageNumber", "1");
       }
     }
   }, [
@@ -378,7 +368,7 @@ export default function Main() {
           )}
           {loading && (
             <div className="flex flex-col items-center mt-4">
-              <p className="mb-4 text-lg">Зачекайте будь-ласка</p>
+              <p className="mb-4 text-lg">Зачекайте будь ласка...</p>
               <Spinner />
             </div>
           )}
@@ -438,7 +428,7 @@ export default function Main() {
                                   </div>
                                   <p className="text-center mb-2">
                                     Ви можете поставити оцінку тільки одному
-                                    оголошенню кожного користувача
+                                    оголошенню кожного користувача.
                                   </p>
                                   <div>
                                     <Rating
@@ -469,7 +459,7 @@ export default function Main() {
                                     placeholder="Напишіть короткий коментар автору оголошення."
                                   ></textarea>
                                   <span className="text-gray-500 mt-1">
-                                    Залишилося {120 - text.length} символів
+                                    Залишилося {120 - text.length} символів.
                                   </span>
                                   {/* textarea end */}
                                   <button
@@ -586,7 +576,7 @@ export default function Main() {
                                   </div>
                                   <p className="text-center mb-2">
                                     Ви можете поставити оцінку тільки одному
-                                    оголошенню кожного користувача
+                                    оголошенню кожного користувача.
                                   </p>
                                   <div>
                                     <Rating
@@ -617,7 +607,7 @@ export default function Main() {
                                     placeholder="Напишіть короткий коментар автору оголошення."
                                   ></textarea>
                                   <span className="text-gray-500 mt-1">
-                                    Залишилося {120 - text.length} символів
+                                    Залишилося {120 - text.length} символів.
                                   </span>
                                   {/* textarea end */}
                                   <button
@@ -693,7 +683,7 @@ export default function Main() {
                       className={`${
                         !(Number(countPosts) > (item - 1) * 10)
                           ? "hidden"
-                          : `text-blue-700 p-1 px-2 font-mono text-lg ${
+                          : `text-blue-600 p-1 px-2 font-mono text-lg ${
                               sessionStorage.getItem("pageNumber") &&
                               item ===
                                 Number(sessionStorage.getItem("pageNumber")) &&

@@ -9,7 +9,6 @@ export default function VerifyEmailPage() {
 
   const verifyUserEmail = async () => {
     try {
-      console.log(token+"verifyUserEmail")
       await axios.post("/api/users/verifyemail", { token: token });
       setVerified(true);
     } catch (error: any) {
@@ -20,7 +19,6 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     const urlToken = window.location.search.split("=")[1];
-    console.log(urlToken+"useEffect")
     setToken(urlToken || "");
   }, []);
 
@@ -39,7 +37,7 @@ export default function VerifyEmailPage() {
       )}
       {error && (
         <div>
-          <h1 className="text-center">Верифікація не пройдена. Повторіть будь-ласка спробу.</h1>
+          <h1 className="text-center">Верифікація не пройдена. Повторіть будь ласка спробу.</h1>
         </div>
       )}
     </div>

@@ -128,7 +128,7 @@ export default function ProfilePage() {
             <Select onData={handleDataFromSelect} />
             {(isCorrectCategory || isCorrectCity) && (
               <p className="flex mt-1 text-xs text-red-700">
-                Спочатку виберіть категорію та місто
+                Спочатку виберіть категорію та місто.
               </p>
             )}
             <label
@@ -149,7 +149,7 @@ export default function ProfilePage() {
               placeholder="Опишіть коротко Вашу послугу (20-300 символів) та залиште контакти для зв'язку..."
             ></textarea>
             <span className="text-gray-500 mt-1 text-sm">
-              Залишилося {300 - text.length} символів
+              Залишилося {300 - text.length} символів.
             </span>
             <button
               onClick={createPost}
@@ -185,7 +185,7 @@ export default function ProfilePage() {
       )}
       {!isVerified && isLoading && (
         <div className="flex flex-col items-center text-slate-700 text-center mt-6">
-          <h1>Пройдіть спочатку верифікацію пошти</h1>
+          <h1>Пройдіть спочатку верифікацію пошти.</h1>
         </div>
       )}
     </div>

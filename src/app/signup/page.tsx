@@ -66,7 +66,7 @@ export default function SignupPage() {
         {loading ? (
           <div className="flex flex-col items-center">
             <Spinner />
-            <h1 className="text-xl mt-10">Зачекайте будь-ласка...</h1>
+            <h1 className="text-xl mt-10">Зачекайте будь ласка...</h1>
           </div>
         ) : (
           <div>
@@ -89,9 +89,9 @@ export default function SignupPage() {
             placeholder="Ім&apos;я користувача"
           />
           {!isUsernameCorrect ? (
-            <span className="text-xs text-red-700">2-12 символів</span>
+            <span className="text-xs text-red-700">2-12 символів.</span>
           ) : (
-            <span className="text-xs text-green-800">Ім&apos;я користувача коректне</span>
+            <span className="text-xs text-green-800">Ім&apos;я користувача коректне.</span>
           )}
 
           <input
@@ -106,9 +106,9 @@ export default function SignupPage() {
             placeholder="Електронна пошта"
           />
           {!isEmailCorrect ? (
-            <span className="text-xs text-red-700">Введіть коректну пошту</span>
+            <span className="text-xs text-red-700">Введіть коректну пошту.</span>
           ) : (
-            <span className="text-xs text-green-800">Пошта коректна</span>
+            <span className="text-xs text-green-800">Пошта коректна.</span>
           )}
 
           <input
@@ -124,10 +124,10 @@ export default function SignupPage() {
           />
           {!isPasswordCorrect ? (
             <span className="text-xs text-red-700">
-              6-8 симолів латинські літери та цифри
+              6-8 симолів латинські літери та цифри.
             </span>
           ) : (
-            <span className="text-xs text-green-800">Пароль коректний</span>
+            <span className="text-xs text-green-800">Пароль коректний.</span>
           )}
 
           <button
