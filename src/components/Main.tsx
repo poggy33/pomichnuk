@@ -181,7 +181,7 @@ export default function Main() {
             //ten posts
             setCountPosts(response.data.data.length);
             if (defPageNumber) {
-              console.log("y:", defPageNumber);
+              // console.log("y:", defPageNumber);
               setTenPosts(
                 response.data.data.slice(
                   defPageNumber * 10 - 10,
