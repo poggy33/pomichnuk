@@ -286,6 +286,7 @@ export default function Main() {
     dataFromSelect?.city,
     dataFromSelect?.category,
     dataFromSelect?.service,
+    likesChanged,
   ]);
 
   const getRate = async (post: any) => {
@@ -344,7 +345,7 @@ export default function Main() {
         </button>
         <button
           onClick={() => {
-            getLikes();
+            // getLikes();
             getLikedPosts();
             setIsShowedLikedPosts(true);
             setIsShowedSearchedPosts(false);
