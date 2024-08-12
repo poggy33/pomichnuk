@@ -286,8 +286,11 @@ export default function Main() {
     dataFromSelect?.city,
     dataFromSelect?.category,
     dataFromSelect?.service,
-    likesChanged,
   ]);
+
+  useEffect(() => {
+    getLikes();
+  }, [likesChanged]);
 
   const getRate = async (post: any) => {
     if (userEmail) {
@@ -522,7 +525,7 @@ export default function Main() {
             </div>
           )}
 
-          {likedPosts && likedPosts.length>0 && isShowedLikedPosts && (
+          {likedPosts && likedPosts.length > 0 && isShowedLikedPosts && (
             <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
               {likedPosts.map((item: any) => {
                 return (
