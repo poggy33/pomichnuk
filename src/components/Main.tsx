@@ -121,6 +121,8 @@ export default function Main() {
     }
   }, [tenPosts]);
 
+  console.log(likedPosts)
+
   const createOrUpdateLike = async (postId: any) => {
     try {
       if (postId && userEmail) {
