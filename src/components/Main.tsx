@@ -51,7 +51,7 @@ export default function Main() {
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [defPageNumber, setDefPageNumber] = useState<any>();
   const [isRateSubmitted, setIsRateSubmitted] = useState(false);
-  const [isAllPostsFound, setIsAllPostsFound] = useState(false)
+  const [isAllPostsFound, setIsAllPostsFound] = useState(false);
 
   const handleRating = (rate: number) => {
     setRatingValue(rate);
@@ -100,6 +100,7 @@ export default function Main() {
 
   useEffect(() => {
     getLikes();
+    getAllPosts()
   }, [likesChanged, userEmail]);
 
   //avoid empty tenPosts when changes countPosts equal *10 ?????????????????????????
@@ -256,7 +257,7 @@ export default function Main() {
     const res = await axios.get("/api/users/getallposts");
     if (res.data.message === "Posts found") {
       setAllPosts(res.data.data);
-      setIsAllPostsFound(!isAllPostsFound)
+      setIsAllPostsFound(!isAllPostsFound);
     }
   };
 
@@ -280,7 +281,7 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
-    getPosts()
+    getPosts();
     getLikes();
     setIsShowedLikedPosts(false);
     setIsShowedSearchedPosts(true);
@@ -309,20 +310,22 @@ export default function Main() {
   useEffect(() => {
     if (isShowedSearchedPosts) {
       getPosts();
-      getAllPosts()
+      getAllPosts();
       setIsShowedLikedPosts(false);
       setIsShowedSearchedPosts(true);
     }
     if (isShowedLikedPosts) {
-      getAllPosts()
-      getPosts()
+      getAllPosts();
+      getPosts();
     }
   }, [isRateSubmitted]);
 
   useEffect(() => {
+    if (isShowedLikedPosts) {
       getLikedPosts();
       setIsShowedSearchedPosts(false);
       setIsShowedLikedPosts(true);
+    }
   }, [isAllPostsFound]);
 
   const isRatePossible = async (post: any) => {
