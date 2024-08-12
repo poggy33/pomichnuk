@@ -103,6 +103,11 @@ export default function Main() {
     getAllPosts()
   }, [likesChanged, userEmail]);
 
+  useEffect(() => {
+    getLikes();
+    getAllPosts()
+  }, []);
+
   //avoid empty tenPosts when changes countPosts equal *10 ?????????????????????????
   useEffect(() => {
     if (posts && tenPosts && tenPosts.length === 0) {
