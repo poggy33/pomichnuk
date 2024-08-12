@@ -50,6 +50,8 @@ export default function Main() {
   const [tenPosts, setTenPosts] = useState<any>();
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [defPageNumber, setDefPageNumber] = useState<any>();
+  const [isRateSubmitted, setIsRateSubmitted] = useState(false);
+  const [isAllPostsFound, setIsAllPostsFound] = useState(false)
 
   const handleRating = (rate: number) => {
     setRatingValue(rate);
@@ -254,6 +256,7 @@ export default function Main() {
     const res = await axios.get("/api/users/getallposts");
     if (res.data.message === "Posts found") {
       setAllPosts(res.data.data);
+      setIsAllPostsFound(!isAllPostsFound)
     }
   };
 
@@ -277,7 +280,7 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
-    getPosts();
+    getPosts()
     getLikes();
     setIsShowedLikedPosts(false);
     setIsShowedSearchedPosts(true);
@@ -287,10 +290,6 @@ export default function Main() {
     dataFromSelect?.category,
     dataFromSelect?.service,
   ]);
-
-  useEffect(() => {
-    getLikes();
-  }, [likesChanged]);
 
   const getRate = async (post: any) => {
     if (userEmail) {
@@ -303,8 +302,28 @@ export default function Main() {
         text: text,
       });
       setText("");
+      setIsRateSubmitted(!isRateSubmitted);
     }
   };
+
+  useEffect(() => {
+    if (isShowedSearchedPosts) {
+      getPosts();
+      getAllPosts()
+      setIsShowedLikedPosts(false);
+      setIsShowedSearchedPosts(true);
+    }
+    if (isShowedLikedPosts) {
+      getAllPosts()
+      getPosts()
+    }
+  }, [isRateSubmitted]);
+
+  useEffect(() => {
+      getLikedPosts();
+      setIsShowedSearchedPosts(false);
+      setIsShowedLikedPosts(true);
+  }, [isAllPostsFound]);
 
   const isRatePossible = async (post: any) => {
     const postId = post._id;
@@ -348,18 +367,17 @@ export default function Main() {
         </button>
         <button
           onClick={() => {
-            // getLikes();
             getLikedPosts();
             setIsShowedLikedPosts(true);
             setIsShowedSearchedPosts(false);
           }}
           className="w-52 mb-6 rounded-lg p-3 text-white bg-gradient-to-r from-yellow-400 to-blue-500 hover:to-blue-700 border-2 hover:border-white"
         >
-          <p className="flex justify-between">
-            <span>Показати обрані</span>
+          <p className="flex justify-evenly">
             <span className="pt-0.5 text-lg">
               <FcLike className="opacity-70" />
             </span>
+            <span>Показати обрані</span>
           </p>
         </button>
         <div className="flex flex-col justify-center items-center">

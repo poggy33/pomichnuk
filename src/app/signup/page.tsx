@@ -20,6 +20,8 @@ export default function SignupPage() {
   const [isEmailCorrect, setIsEmailCorrect] = useState(false);
   const [isUsernameCorrect, setIsUsernameCorrect] = useState(false);
   const [isUniqueEmail, setIsUniqueEmail] = useState(true);
+  const [isEmailExists, setIsEmailExists] = useState("")
+  console.log(isEmailExists)
 
   const onSignup = async () => {
     try {
@@ -29,6 +31,7 @@ export default function SignupPage() {
       router.push("/login");
     } catch (error: any) {
       setIsUniqueEmail(false);
+      setIsEmailExists(user.email)
       console.log(error.message);
       toast.error(error.message);
     } finally {
@@ -57,6 +60,7 @@ export default function SignupPage() {
   }
 
   function validateEmail(input: any) {
+    setIsUniqueEmail(true)
     return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input);
   }
 
@@ -86,12 +90,14 @@ export default function SignupPage() {
               setIsUsernameCorrect(validateUsername(e.target.value));
               setUser({ ...user, userName: e.target.value });
             }}
-            placeholder="Ім&apos;я користувача"
+            placeholder="Ім'я користувача"
           />
           {!isUsernameCorrect ? (
             <span className="text-xs text-red-700">2-12 символів.</span>
           ) : (
-            <span className="text-xs text-green-800">Ім&apos;я користувача коректне.</span>
+            <span className="text-xs text-green-800">
+              Ім&apos;я користувача коректне.
+            </span>
           )}
 
           <input
@@ -102,13 +108,24 @@ export default function SignupPage() {
             onChange={(e) => {
               setIsEmailCorrect(validateEmail(e.target.value));
               setUser({ ...user, email: e.target.value });
+              if(isEmailExists === e.target.value){setIsUniqueEmail(false)}
             }}
             placeholder="Електронна пошта"
           />
-          {!isEmailCorrect ? (
-            <span className="text-xs text-red-700">Введіть коректну пошту.</span>
+          {!isEmailCorrect  ? (
+            <span className="text-xs text-red-700">
+              Введіть коректну пошту.
+            </span>
           ) : (
-            <span className="text-xs text-green-800">Пошта коректна.</span>
+            <>
+              {isUniqueEmail ? (
+                <span className="text-xs text-green-800">Формат пошти коректний.</span>
+              ) : (
+                <span className="text-xs text-red-700">
+                  Користувач з такою поштою вже існує.
+                </span>
+              )}
+            </>
           )}
 
           <input
@@ -145,11 +162,11 @@ export default function SignupPage() {
             Увійти
           </Link>
           <LoginButtonGoogle />
-          {!isUniqueEmail && (
+          {/* {!isUniqueEmail && (
             <span className="text-md text-red-700 mt-10">
               Користувач з такою поштою вже існує.
             </span>
-          )}
+          )} */}
         </div>
       )}
     </div>
