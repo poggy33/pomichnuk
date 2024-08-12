@@ -35,7 +35,7 @@ export default function Main() {
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
-  const [likes, setLikes] = useState<any>();
+  const [likes, setLikes] = useState<any>([]);
   const [likesChanged, setLikesChanged] = useState(false);
   const [allPosts, setAllPosts] = useState<any>();
   const [likedPosts, setLikedPosts] = useState<any>();
