@@ -52,6 +52,39 @@ export default function Main() {
   const [defPageNumber, setDefPageNumber] = useState<any>();
   const [isRateSubmitted, setIsRateSubmitted] = useState(false);
   const [isAllPostsFound, setIsAllPostsFound] = useState(false);
+  const [allLikedPosts, setAllLikedPosts] = useState<any>()
+
+  //new liked posts
+  const getAllLikedPosts = async () => {
+    if (userEmail) {
+      const res = await axios.post("/api/users/getalllikedposts", {
+        whoIsChecked: userEmail,
+      });
+      if (res.data.message === "Liked posts found") {
+        // console.log(res.data.data.likes);
+        // console.log(res.data.data.posts);
+        const newLikes = res.data.data.likes;
+        const newPosts = res.data.data.posts;
+        if (newLikes) {
+          let arrLiked: any = [];
+          newLikes.forEach((like: any) => {
+            let liked = newPosts.find(
+              (post: any) => like.whatIsCheckedId === post._id
+            );
+            arrLiked.push(liked);
+          });
+          console.log(arrLiked.reverse());
+          setAllLikedPosts(arrLiked.reverse())
+        }
+      }
+    }
+  };
+
+  useEffect(()=> {
+    getAllLikedPosts()
+  },[likesChanged, isRateSubmitted]);
+
+  console.log(allLikedPosts)
 
   const handleRating = (rate: number) => {
     setRatingValue(rate);
@@ -98,15 +131,6 @@ export default function Main() {
     }
   };
 
-  useEffect(() => {
-    getLikes();
-    getAllPosts()
-  }, [likesChanged, userEmail]);
-
-  useEffect(() => {
-    getLikes();
-    getAllPosts()
-  }, []);
 
   //avoid empty tenPosts when changes countPosts equal *10 ?????????????????????????
   useEffect(() => {
@@ -282,6 +306,13 @@ export default function Main() {
   };
 
   useEffect(() => {
+    getLikes();
+    getAllPosts()
+  }, [likesChanged, userEmail]);
+
+
+  useEffect(() => { 
+    getLikes();
     getAllPosts();
     getUserDetails();
     getLikedPosts();
@@ -377,6 +408,7 @@ export default function Main() {
         </button>
         <button
           onClick={() => {
+            getAllLikedPosts()
             getLikedPosts();
             setIsShowedLikedPosts(true);
             setIsShowedSearchedPosts(false);
@@ -553,7 +585,8 @@ export default function Main() {
             </div>
           )}
 
-          {likedPosts && likedPosts.length > 0 && isShowedLikedPosts && (
+          {allLikedPosts && allLikedPosts.length > 0 && isShowedLikedPosts && (
+            // {likedPosts && likedPosts.length > 0 && isShowedLikedPosts && (
             <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
               {likedPosts.map((item: any) => {
                 return (
