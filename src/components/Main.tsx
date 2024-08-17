@@ -61,8 +61,6 @@ export default function Main() {
         whoIsChecked: userEmail,
       });
       if (res.data.message === "Liked posts found") {
-        // console.log(res.data.data.likes);
-        // console.log(res.data.data.posts);
         const newLikes = res.data.data.likes;
         const newPosts = res.data.data.posts;
         if (newLikes) {
@@ -73,7 +71,6 @@ export default function Main() {
             );
             arrLiked.push(liked);
           });
-          console.log(arrLiked.reverse());
           setAllLikedPosts(arrLiked.reverse())
         }
       }
@@ -145,7 +142,7 @@ export default function Main() {
     }
   }, [tenPosts]);
 
-  console.log(likedPosts)
+  // console.log(likedPosts)
 
   const createOrUpdateLike = async (postId: any) => {
     try {
@@ -588,7 +585,7 @@ export default function Main() {
           {allLikedPosts && allLikedPosts.length > 0 && isShowedLikedPosts && (
             // {likedPosts && likedPosts.length > 0 && isShowedLikedPosts && (
             <div className="flex flex-col max-sm:w-80 min-w-80 sm:max-w-lg lg:max-w-3xl">
-              {likedPosts.map((item: any) => {
+              {allLikedPosts.map((item: any) => {
                 return (
                   <div
                     key={item?._id}
