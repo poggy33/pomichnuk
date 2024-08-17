@@ -11,11 +11,8 @@ try {
     const reqBody = await request.json();
     const { whoIsChecked } = reqBody;
     const likes = await Like.find({whoIsChecked: whoIsChecked});
- 
     const posts = await Post.find();
-   
-       
-      
+    
             return NextResponse.json({
             message: "Liked posts found",
             data: {likes: likes, posts: posts},

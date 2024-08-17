@@ -37,8 +37,8 @@ export default function Main() {
   const [userName, setUserName] = useState("");
   const [likes, setLikes] = useState<any>([]);
   const [likesChanged, setLikesChanged] = useState(false);
-  const [allPosts, setAllPosts] = useState<any>();
-  const [likedPosts, setLikedPosts] = useState<any>();
+  // const [allPosts, setAllPosts] = useState<any>();
+  // const [likedPosts, setLikedPosts] = useState<any>();
   const [isShowedLikedPosts, setIsShowedLikedPosts] = useState(false);
   const [isShowedSearchedPosts, setIsShowedSearchedPosts] = useState(false);
   const [isDefaultData, setIsDefaultData] = useState(true);
@@ -63,6 +63,7 @@ export default function Main() {
       if (res.data.message === "Liked posts found") {
         const newLikes = res.data.data.likes;
         const newPosts = res.data.data.posts;
+        console.log("new posts")
         if (newLikes) {
           let arrLiked: any = [];
           newLikes.forEach((like: any) => {
@@ -71,6 +72,7 @@ export default function Main() {
             );
             arrLiked.push(liked);
           });
+          console.log("nennnnnnnw posts")
           setAllLikedPosts(arrLiked.reverse())
         }
       }
@@ -179,19 +181,10 @@ export default function Main() {
         setCountPosts(response.data.data.length);
         if (defPageNumber) {
           const defNumber = Number(sessionStorage.getItem("pageNumber"));
-          // console.log("x:", defPageNumber);
           setTenPosts(
             response.data.data.slice(defNumber * 10 - 10, defNumber * 10)
           );
-          // console.log(
-          //   "X",
-          //   response.data.data.slice(
-          //     defPageNumber * 10 - 10,
-          //     defPageNumber * 10
-          //   )
-          // );
         } else {
-          // console.log("xx:", defPageNumber);
           setTenPosts(response.data.data.slice(0, 10));
         }
         return;
@@ -212,22 +205,13 @@ export default function Main() {
             //ten posts
             setCountPosts(response.data.data.length);
             if (defPageNumber) {
-              // console.log("y:", defPageNumber);
               setTenPosts(
                 response.data.data.slice(
                   defPageNumber * 10 - 10,
                   defPageNumber * 10
                 )
               );
-              // console.log(
-              //   "Y",
-              //   response.data.data.slice(
-              //     defPageNumber * 10 - 10,
-              //     defPageNumber * 10
-              //   )
-              // );
             } else {
-              // console.log("yy:", defPageNumber);
               setTenPosts(response.data.data.slice(0, 10));
             }
           }
@@ -281,38 +265,38 @@ export default function Main() {
     defDataFromSelect?.service,
   ]);
 
-  const getAllPosts = async () => {
-    const res = await axios.get("/api/users/getallposts");
-    if (res.data.message === "Posts found") {
-      setAllPosts(res.data.data);
-      setIsAllPostsFound(!isAllPostsFound);
-    }
-  };
+  // const getAllPosts = async () => {
+  //   const res = await axios.get("/api/users/getallposts");
+  //   if (res.data.message === "Posts found") {
+  //     setAllPosts(res.data.data);
+  //     setIsAllPostsFound(!isAllPostsFound);
+  //   }
+  // };
 
-  const getLikedPosts = () => {
-    if (likes) {
-      let arrLiked: any = [];
-      likes.forEach((like: any) => {
-        let liked = allPosts.find(
-          (post: any) => like.whatIsCheckedId === post._id
-        );
-        arrLiked.push(liked);
-      });
-      setLikedPosts(arrLiked.reverse());
-    }
-  };
+  // const getLikedPosts = () => {
+  //   if (likes) {
+  //     let arrLiked: any = [];
+  //     likes.forEach((like: any) => {
+  //       let liked = allPosts.find(
+  //         (post: any) => like.whatIsCheckedId === post._id
+  //       );
+  //       arrLiked.push(liked);
+  //     });
+  //     setLikedPosts(arrLiked.reverse());
+  //   }
+  // };
 
   useEffect(() => {
     getLikes();
-    getAllPosts()
+    // getAllPosts()
   }, [likesChanged, userEmail]);
 
 
   useEffect(() => { 
     getLikes();
-    getAllPosts();
+    // getAllPosts();
     getUserDetails();
-    getLikedPosts();
+    // getLikedPosts();
   }, []);
 
   useEffect(() => {
@@ -345,19 +329,19 @@ export default function Main() {
   useEffect(() => {
     if (isShowedSearchedPosts) {
       getPosts();
-      getAllPosts();
+      // getAllPosts();
       setIsShowedLikedPosts(false);
       setIsShowedSearchedPosts(true);
     }
     if (isShowedLikedPosts) {
-      getAllPosts();
+      // getAllPosts();
       getPosts();
     }
   }, [isRateSubmitted]);
 
   useEffect(() => {
     if (isShowedLikedPosts) {
-      getLikedPosts();
+      // getLikedPosts();
       setIsShowedSearchedPosts(false);
       setIsShowedLikedPosts(true);
     }
@@ -406,7 +390,7 @@ export default function Main() {
         <button
           onClick={() => {
             getAllLikedPosts()
-            getLikedPosts();
+            // getLikedPosts();
             setIsShowedLikedPosts(true);
             setIsShowedSearchedPosts(false);
           }}
