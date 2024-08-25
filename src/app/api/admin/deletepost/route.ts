@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
         const {postId, email} = reqBody;   
         console.log(postId)
             
-            await Rate.deleteMany({whoIsChecked: email})
+            await Rate.deleteMany({whatIsCheckedId: postId,})
             await Like.deleteMany({whatIsCheckedId: postId,})
             await Post.findOneAndDelete({_id: postId,})
 
@@ -22,7 +22,8 @@ export async function POST(request: NextRequest) {
                 const countDeletedPosts = Number(user.countDeletedPostsByAdmin);
                 if(countDeletedPosts >= 2) {
                     await User.findOneAndUpdate({email: email}, {isUserBlocked: true})
-                    await Like.deleteMany({whoIsChecked: email,})
+                    await Like.deleteMany({whoIsChecked: email,});
+                    await Rate.deleteMany({whoIsChecked: email});
                 } else {
                     await User.findOneAndUpdate({email: email}, {countDeletedPostsByAdmin: (countDeletedPosts + 1).toString()})
                 }
