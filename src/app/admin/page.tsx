@@ -15,7 +15,6 @@ function AdminPage() {
   const [myPosts, setMyPosts] = useState<any>();
   const [allPosts, setAllPosts] = useState<any>();
   const [loading, setLoading] = useState(false);
-  const [countUserPosts, setCountUsersPosts] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
 
   //get users details
@@ -30,13 +29,13 @@ function AdminPage() {
     }
   };
 
-  //get myPosts
+  //get allPosts
   const getAllPosts = async () => {
     try {
       if (userEmail) {
         setLoading(true);
-        const response = await axios.get("/api/users/getallposts");
-        setAllPosts(response.data.data.reverse());
+        const response = await axios.get("/api/admin/getallposts");
+        setAllPosts(response.data.data.reverse().slice(0, 200));
       }
     } catch (error: any) {
       toast.error(error.message);
