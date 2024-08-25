@@ -8,7 +8,7 @@ connect();
 export async function GET(request: NextRequest) {
 try {
         const posts = await Post.find()
-        // console.log(posts)
+        console.log(posts)
         return NextResponse.json({
         message: "Posts found",
         data: posts,

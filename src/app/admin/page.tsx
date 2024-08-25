@@ -34,7 +34,8 @@ function AdminPage() {
     try {
       if (userEmail) {
         setLoading(true);
-        const response = await axios.get("/api/admin/getallposts");
+        const response = await axios.get("/api/admin/getposts");
+        console.log(response.data.data);
         setAllPosts(response.data.data.reverse().slice(0, 200));
       }
     } catch (error: any) {

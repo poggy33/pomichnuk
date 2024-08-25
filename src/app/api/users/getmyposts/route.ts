@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
     const {userId} = reqBody;
-    console.log(reqBody)
+
         const myPosts = await Post.find({userId: userId,})
         const reversedPosts = myPosts.reverse()
         return NextResponse.json({
