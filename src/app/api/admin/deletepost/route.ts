@@ -11,9 +11,11 @@ export async function POST(request: NextRequest) {
     try {
         const reqBody = await request.json();
         const {postId, email} = reqBody;   
-            await Post.findOneAndDelete({_id: postId,})
+            
             await Rate.deleteMany({whatIsCheckedId: postId})
             await Like.deleteMany({whatIsCheckedId: postId,})
+            await Post.findOneAndDelete({_id: postId,})
+            
             const user = await User.findOne({email: email});
             if(user) {
                 const countDeletedPosts = Number(user.countDeletedPostsByAdmin);
