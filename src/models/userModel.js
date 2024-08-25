@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "0",
   },
+  isUserBlocked: {
+    type: Boolean,
+    default: false,
+  },
+  countDeletedPostsByAdmin: {
+    type: String,
+    default: "0",
+  },
   isAdmin: {
     type: Boolean,
     default: false,

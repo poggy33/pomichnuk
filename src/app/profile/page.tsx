@@ -16,6 +16,7 @@ export default function ProfilePage() {
   const [countUserPosts, setCountUsersPosts] = useState(0);
   const limitUserPosts = 3;
   const [isVerified, setIsVerified] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isCorrectCategory, setIsCorrectCategory] = useState(false);
   const [isCorrectCity, setIsCorrectCity] = useState(false);
@@ -40,6 +41,9 @@ export default function ProfilePage() {
       setIsVerified(res.data.data.isVerified);
       setCountUsersPosts(Number(res.data.data.countPosts));
       setIsLoading(true);
+      if(res.data.data.isUserBlocked) {
+        setIsBlocked(res.data.data.isUserBlocked)
+      }
     }
   };
 
@@ -182,12 +186,20 @@ export default function ProfilePage() {
                   Назад
                 </Link>
               </div>
-              <div className="flex w-80 items-center mt-4">
-                <p className="text-gray-500 text-sm text-center">
-                  Ви вже опублікували 3 оголошення. Щоб опублікувати нове
-                  спочатку видаліть одне з своїх оголошень.
-                </p>
-              </div>
+              {!isBlocked ? (
+                <div className="flex w-80 items-center mt-4">
+                  <p className="text-gray-500 text-sm text-center">
+                    Ви вже опублікували 3 оголошення. Щоб опублікувати нове
+                    спочатку видаліть одне з своїх оголошень.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex w-80 items-center mt-4">
+                  <p className="text-gray-500 text-sm text-center">
+                    Ваш аккаунт заблоковано адміністратором сайту.
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>

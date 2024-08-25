@@ -7,9 +7,7 @@ connect();
 export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
-    console.log(reqBody)
     const {email} = reqBody;
-    console.log(email)
 
     if(email) {
         const user = await User.findOne({email: email});

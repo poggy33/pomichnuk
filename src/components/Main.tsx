@@ -35,6 +35,8 @@ export default function Main() {
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
   const [likes, setLikes] = useState<any>([]);
   const [likesChanged, setLikesChanged] = useState(false);
   // const [allPosts, setAllPosts] = useState<any>();
@@ -52,7 +54,7 @@ export default function Main() {
   const [defPageNumber, setDefPageNumber] = useState<any>();
   const [isRateSubmitted, setIsRateSubmitted] = useState(false);
   const [isAllPostsFound, setIsAllPostsFound] = useState(false);
-  const [allLikedPosts, setAllLikedPosts] = useState<any>()
+  const [allLikedPosts, setAllLikedPosts] = useState<any>();
 
   //new liked posts
   const getAllLikedPosts = async () => {
@@ -63,7 +65,6 @@ export default function Main() {
       if (res.data.message === "Liked posts found") {
         const newLikes = res.data.data.likes;
         const newPosts = res.data.data.posts;
-        console.log("new posts")
         if (newLikes) {
           let arrLiked: any = [];
           newLikes.forEach((like: any) => {
@@ -72,18 +73,15 @@ export default function Main() {
             );
             arrLiked.push(liked);
           });
-          console.log("nennnnnnnw posts")
-          setAllLikedPosts(arrLiked.reverse())
+          setAllLikedPosts(arrLiked.reverse());
         }
       }
     }
   };
 
-  useEffect(()=> {
-    getAllLikedPosts()
-  },[likesChanged, isRateSubmitted]);
-
-  console.log(allLikedPosts)
+  useEffect(() => {
+    getAllLikedPosts();
+  }, [likesChanged, isRateSubmitted]);
 
   const handleRating = (rate: number) => {
     setRatingValue(rate);
@@ -115,6 +113,12 @@ export default function Main() {
     if (res.data.message === "User found") {
       setUserEmail(res.data.data.email);
       setUserName(res.data.data.userName);
+      if(res.data.data.isAdmin) {
+        setIsAdmin(res.data.data.isAdmin)
+      }
+      if(res.data.data.isUserBlocked) {
+        setIsBlocked(res.data.data.isUserBlocked)
+      }
     }
   };
 
@@ -130,7 +134,6 @@ export default function Main() {
     }
   };
 
-
   //avoid empty tenPosts when changes countPosts equal *10 ?????????????????????????
   useEffect(() => {
     if (posts && tenPosts && tenPosts.length === 0) {
@@ -144,15 +147,13 @@ export default function Main() {
     }
   }, [tenPosts]);
 
-  // console.log(likedPosts)
-
   const createOrUpdateLike = async (postId: any) => {
     try {
-      if (postId && userEmail) {
+      if (postId && userEmail && !isBlocked) {
         const responseUpdateOrCreate = await axios.post(
           "/api/users/updatelikedpost",
           {
-            whoIsChecked: userEmail,
+            whoIsChecked: userEmail, 
             whatIsCheckedId: postId,
             isChecked: true,
           }
@@ -291,8 +292,7 @@ export default function Main() {
     // getAllPosts()
   }, [likesChanged, userEmail]);
 
-
-  useEffect(() => { 
+  useEffect(() => {
     getLikes();
     // getAllPosts();
     getUserDetails();
@@ -349,7 +349,7 @@ export default function Main() {
 
   const isRatePossible = async (post: any) => {
     const postId = post._id;
-    if (userEmail) {
+    if (userEmail && !isBlocked) {
       const res = await axios.post("/api/users/isratepossible", {
         choosenEmail: post.userId,
         userEmail: userEmail,
@@ -373,6 +373,14 @@ export default function Main() {
         <Select onData={handleDataFromSelect} />
       </div>
       <div className="flex flex-col justify-center items-center">
+      {userEmail && isAdmin && (
+          <button
+            onClick={() => router.push("/admin")}
+            className="border-2 hover:border-white w-52 rounded-lg p-3 text-white bg-black mt-4 hover:bg-slate-700"
+          >
+            Адміністрування
+          </button>
+        )}
         <button
           disabled={buttonDisabled}
           onClick={() => {
@@ -389,7 +397,7 @@ export default function Main() {
         </button>
         <button
           onClick={() => {
-            getAllLikedPosts()
+            getAllLikedPosts();
             // getLikedPosts();
             setIsShowedLikedPosts(true);
             setIsShowedSearchedPosts(false);
@@ -403,6 +411,7 @@ export default function Main() {
             <span>Показати обрані</span>
           </p>
         </button>
+
         <div className="flex flex-col justify-center items-center">
           {isShowedLikedPosts && !userEmail && (
             <div>

@@ -11,11 +11,11 @@ import { FiMapPin } from "react-icons/fi";
 
 function UserPosts() {
   const [userEmail, setUserEmail] = useState("");
+  const [isBlocked, setIsBlocked] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [myPosts, setMyPosts] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [countUserPosts, setCountUsersPosts] = useState(0);
-  
 
   //get users details
   const getUserDetails = async () => {
@@ -23,6 +23,9 @@ function UserPosts() {
     if (res.data.message === "User found") {
       setUserEmail(res.data.data.email);
       setCountUsersPosts(Number(res.data.data.countPosts));
+      if (res.data.data.isUserBlocked) {
+        setIsBlocked(res.data.data.isUserBlocked);
+      }
     }
   };
 
@@ -63,13 +66,13 @@ function UserPosts() {
       if (userEmail) {
         await axios.post("/api/users/updateuser", {
           email: userEmail,
-          countPosts: (countUserPosts - 1).toString()
+          countPosts: (countUserPosts - 1).toString(),
         });
       }
     } catch (error: any) {
       console.log("Update user countPosts failed", error.message);
       toast.error(error.message);
-    } 
+    }
   };
 
   const deleteLike = async (postId: any) => {
@@ -140,7 +143,7 @@ function UserPosts() {
                           deletePost(item._id);
                           deleteLike(item._id);
                           deleteRate(item._id);
-                          updateUserCountPosts()
+                          updateUserCountPosts();
                         }}
                         className="mt-1"
                       >
@@ -148,10 +151,10 @@ function UserPosts() {
                       </div>
                     </div>
                     <div className="flex justify-between items-center text-gray-800">
-                    <div className="flex">
-                          <FiMapPin className="mr-1 pt-0.5"/>
-                          <p className="text-gray-700 text-xs">{item.city}</p>
-                        </div>
+                      <div className="flex">
+                        <FiMapPin className="mr-1 pt-0.5" />
+                        <p className="text-gray-700 text-xs">{item.city}</p>
+                      </div>
                       {/* <span className="text-xs text-gray-700">{item.city}</span> */}
                       <span className="text-xs">{item.date.slice(0, 10)}</span>
                     </div>
@@ -162,8 +165,19 @@ function UserPosts() {
             })}
           </div>
         )}
-        {myPosts && myPosts.length === 0 && !loading && (
-          <p>У Вас немає активних оголошень.</p>
+        {myPosts && myPosts.length === 0 && !loading && !isBlocked && (
+          <div className="flex w-80 items-center mt-2">
+            <p className="text-gray-500 text-center">
+              У Вас немає активних оголошень.
+            </p>
+          </div>
+        )}
+        {myPosts && myPosts.length === 0 && !loading && isBlocked && (
+          <div className="flex w-80 items-center mt-2">
+            <p className="text-gray-500 text-center">
+              Ваш аккаунт заблоковано адміністратором сайту.
+            </p>
+          </div>
         )}
       </div>
     </div>

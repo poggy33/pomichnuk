@@ -11,7 +11,6 @@ try {
 
     if(email) {
         const comments = await Rate.find({whatIsCheckedEmail: email});
-        console.log(comments)
    
         return NextResponse.json({
         message: "Comments found",
