@@ -45,20 +45,20 @@ function AdminPage() {
     }
   };
 
-  const delPost = async (postDetails: any) => {
-    try {
-      const { id, email } = postDetails;
-      if (id && email) {
-        await axios.post("/api/users/delpost", {
-          postId: id,
-        });
-      };
-      setIsDelete(!isDelete);
-    } catch (error: any) {
-      console.log("Delete post by admin failed", error.message);
-      toast.error(error.message);
-    } 
-  };
+//   const delPost = async (postDetails: any) => {
+//     try {
+//       const { id, email } = postDetails;
+//       if (id && email) {
+//         await axios.post("/api/users/delpost", {
+//           postId: id,
+//         });
+//       };
+//       setIsDelete(!isDelete);
+//     } catch (error: any) {
+//       console.log("Delete post by admin failed", error.message);
+//       toast.error(error.message);
+//     } 
+//   };
 
 
   const deletePost = async (postDetails: any) => {
@@ -176,8 +176,8 @@ function AdminPage() {
                           <p className="text-gray-700">{item.userName}</p>
                           <div
                             onClick={() => {
-                            //   deletePost({ id: item._id, email: item.userId });
-                              delPost({id: item._id, email: item.userId});
+                              deletePost({ id: item._id, email: item.userId });
+                            //   delPost({id: item._id, email: item.userId});
                             }}
                             className="mt-1"
                           >

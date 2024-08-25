@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-// import Post from "@/models/postModel";
+import Post from "@/models/postModel";
 import Rate from "@/models/rateModel";
 import Like from "@/models/likeModel";
 import User from "@/models/userModel";
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     try {
         const reqBody = await request.json();
         const {postId, email} = reqBody;   
-            // await Post.findOneAndDelete({_id: postId,})
+            await Post.findOneAndDelete({_id: postId,})
             await Rate.deleteMany({whatIsCheckedId: postId})
             await Like.deleteMany({whatIsCheckedId: postId,})
             const user = await User.findOne({email: email});

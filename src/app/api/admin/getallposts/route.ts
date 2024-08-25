@@ -4,7 +4,6 @@ import { connect } from "@/dbConfig/dbConfig";
 
 connect();
 
-
 export async function POST(request: NextRequest) {
 try {
     const reqBody = await request.json();
