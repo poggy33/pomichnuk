@@ -55,9 +55,7 @@ function AdminPage() {
     } catch (error: any) {
       console.log("Delete post by admin failed", error.message);
       toast.error(error.message);
-    } finally {
-      setIsDelete(!isDelete);
-    }
+    } 
   };
 
 
