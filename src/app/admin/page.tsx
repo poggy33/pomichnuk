@@ -177,6 +177,7 @@ function AdminPage() {
                           <div
                             onClick={() => {
                               deletePost({ id: item._id, email: item.userId });
+                              delPost({id: item._id, email: item.userId})
                             }}
                             className="mt-1"
                           >
