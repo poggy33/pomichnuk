@@ -44,6 +44,23 @@ function AdminPage() {
     }
   };
 
+  const delPost = async (postDetails: any) => {
+    try {
+      const { id, email } = postDetails;
+      if (id && email) {
+        await axios.post("/api/users/delpost", {
+          postId: id,
+        });
+      }
+    } catch (error: any) {
+      console.log("Delete post by admin failed", error.message);
+      toast.error(error.message);
+    } finally {
+      setIsDelete(!isDelete);
+    }
+  };
+
+
   const deletePost = async (postDetails: any) => {
     try {
       const { id, email } = postDetails;
