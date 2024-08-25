@@ -5,8 +5,9 @@ import { connect } from "@/dbConfig/dbConfig";
 connect();
 
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
 try {
+    const reqBody = await request.json();
         const posts = await Post.find()
         console.log(posts)
         return NextResponse.json({
